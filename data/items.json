@@ -1,0 +1,39 @@
+{
+  "_nota": "Precios del Core 1.05. La economía es en ₽ (poké-dólares).",
+
+  "pokeballs": {
+    "Poké Ball":     { "precio": 250, "bonus": 0,   "desc": "Ball estándar. Tasa base." },
+    "Super Ball":    { "precio": 500, "bonus": -10, "desc": "-10 a la tasa de captura. Mejor en niveles altos." },
+    "Ultra Ball":    { "precio": 750, "bonus": -15, "desc": "-15 a la tasa de captura. La más potente no legendaria." },
+    "Master Ball":   { "precio": null, "bonus": -999, "desc": "Captura garantizada. No se compra, se encuentra." },
+    "Piedra Ball":   { "precio": 300, "bonus": 0,   "desc": "Funciona como Poké Ball pero no puede fallar por 100 natural. Falla si el dado da 1-5 natural." }
+  },
+
+  "medicina": {
+    "Poción":        { "precio": 200, "cura": 20,  "desc": "Recupera 20 PG a un Pokémon." },
+    "Super Poción":  { "precio": 700, "cura": 60,  "desc": "Recupera 60 PG a un Pokémon." },
+    "Hiper Poción":  { "precio": 1200,"cura": 120, "desc": "Recupera 120 PG a un Pokémon." },
+    "Restaurar Todo":{ "precio": 1500,"cura": "full", "desc": "Recupera todos los PG y elimina todos los estados persistentes." },
+    "Revivir":       { "precio": 300, "cura": "revive", "desc": "Revive a un Pokémon debilitado con la mitad de sus PG." },
+    "Antídoto":      { "precio": 200, "cura": "poison", "desc": "Cura el estado Envenenado." },
+    "Antiparalizante":{ "precio": 200, "cura": "paralysis", "desc": "Cura el estado Paralizado." },
+    "Despertar":     { "precio": 200, "cura": "sleep", "desc": "Despierta a un Pokémon Dormido." },
+    "Cura Total":    { "precio": 400, "cura": "all-status", "desc": "Cura cualquier estado persistente." }
+  },
+
+  "combate": {
+    "X Ataque":      { "precio": 500, "efecto": "+1 CS Ataque", "desc": "Sube 1 Combat Stage de Ataque en combate." },
+    "X Defensa":     { "precio": 500, "efecto": "+1 CS Defensa", "desc": "Sube 1 Combat Stage de Defensa en combate." },
+    "X Velocidad":   { "precio": 500, "efecto": "+1 CS Velocidad", "desc": "Sube 1 Combat Stage de Velocidad en combate." },
+    "X Precisión":   { "precio": 500, "efecto": "+1 a tiradas", "desc": "+1 a todas las tiradas de ataque durante el combate." },
+    "Repelente":     { "precio": 300, "efecto": "fuera de combate", "desc": "Ahuyenta Pokémon salvajes de nivel bajo durante 30 minutos." }
+  },
+
+  "utilidad": {
+    "Kit de Entrenador": { "precio": 500, "desc": "Contiene 5 Poké Balls, 3 Pociones y 1 Antídoto. Más barato que comprar por separado." },
+    "Cuerda Huida":      { "precio": 200, "desc": "Permite escapar de una cueva o edificio sin tirada." },
+    "Brújula":           { "precio": 150, "desc": "+2 a tiradas de Supervivencia para orientarse." },
+    "Cámara":            { "precio": 400, "desc": "Permite hacer fotos. Útil para misiones de investigación." },
+    "Bicicleta":         { "precio": 1000,"desc": "Duplica tu velocidad de movimiento fuera de combate." }
+  }
+}

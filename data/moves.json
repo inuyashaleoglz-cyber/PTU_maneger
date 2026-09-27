@@ -1,0 +1,1277 @@
+{
+  "_nota": "Movimientos del Indices and Reference 1.05. Los nombres están en español oficial; el campo 'en' guarda el nombre en inglés por si tu grupo usa los manuales originales. Formato: type, freq (At-Will/EOT/Scene x2/Scene/Daily), ac, db, class (Physical/Special/Status), range, effect, keywords[], contest {type, effect}.",
+
+  "movimientos": {
+
+    "Placaje": {
+      "en": "Tackle",
+      "type": "Normal", "freq": "At-Will", "ac": 3, "db": 2,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Arañazo": {
+      "en": "Scratch",
+      "type": "Normal", "freq": "At-Will", "ac": 2, "db": 2,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Gruñido": {
+      "en": "Growl",
+      "type": "Normal", "freq": "At-Will", "ac": 2, "db": 0,
+      "class": "Status", "range": "Burst 1, Sonic, Social",
+      "effect": "Baja 1 Combat Stage de Ataque a todos los objetivos en el estallido.",
+      "keywords": ["Burst 1", "Sonic", "Social"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Látigo": {
+      "en": "Tail Whip",
+      "type": "Normal", "freq": "At-Will", "ac": 2, "db": 0,
+      "class": "Status", "range": "Burst 1, Social",
+      "effect": "Baja 1 Combat Stage de Defensa a todos los objetivos en el estallido.",
+      "keywords": ["Burst 1", "Social"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Malicioso": {
+      "en": "Leer",
+      "type": "Normal", "freq": "At-Will", "ac": 2, "db": 0,
+      "class": "Status", "range": "Burst 1, Social",
+      "effect": "Baja 1 Combat Stage de Defensa a todos los objetivos en el estallido.",
+      "keywords": ["Burst 1", "Social"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Ataque Rápido": {
+      "en": "Quick Attack",
+      "type": "Normal", "freq": "At-Will", "ac": 2, "db": 4,
+      "class": "Physical", "range": "Melee, 1 Target, Priority",
+      "effect": "Puede usarse con prioridad al inicio del turno.",
+      "keywords": ["Melee", "1 Target", "Priority"], "contest": { "type": "Cool", "effect": "Saving Grace" }
+    },
+
+    "Doble Filo": {
+      "en": "Double-Edge",
+      "type": "Normal", "freq": "Scene x2", "ac": 3, "db": 10,
+      "class": "Physical", "range": "Melee, 1 Target, Dash, Recoil 1/3",
+      "effect": "El atacante recibe 1/3 del daño infligido como daño de retroceso.",
+      "keywords": ["Melee", "1 Target", "Dash", "Recoil"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Derribo": {
+      "en": "Take Down",
+      "type": "Normal", "freq": "EOT", "ac": 5, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target, Dash, Recoil 1/4",
+      "effect": "El atacante recibe 1/4 del daño infligido como daño de retroceso.",
+      "keywords": ["Melee", "1 Target", "Dash", "Recoil"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Cuchillada": {
+      "en": "Slash",
+      "type": "Normal", "freq": "EOT", "ac": 3, "db": 7,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Cuchillada acierta con un crítico en 18+.",
+      "crit": "18+",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Golpe Cuerpo": {
+      "en": "Body Slam",
+      "type": "Normal", "freq": "Scene x2", "ac": 2, "db": 9,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Golpe Cuerpo paraliza al objetivo con 15+.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Doble Equipo": {
+      "en": "Double Team",
+      "type": "Normal", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Illusion",
+      "effect": "El usuario gana +1 Combat Stage de Evasión hasta el final del combate.",
+      "keywords": ["Self", "Illusion"], "contest": { "type": "Cool", "effect": "Safe Option" }
+    },
+
+    "Golpes Rápidos": {
+      "en": "Fury Swipes",
+      "type": "Normal", "freq": "EOT", "ac": 4, "db": 2,
+      "class": "Physical", "range": "Melee, 1 Target, Five Strike",
+      "effect": "Golpea cinco veces seguidas. Cada golpe tira daño por separado.",
+      "keywords": ["Melee", "1 Target", "Five Strike"], "contest": { "type": "Tough", "effect": "Reliable" }
+    },
+
+    "Golpe Agarre": {
+      "en": "Crush Claw",
+      "type": "Normal", "freq": "EOT", "ac": 3, "db": 7,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 16+, baja 1 Combat Stage de Defensa al objetivo.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Desperation" }
+    },
+
+    "Don Natural": {
+      "en": "Secret Power",
+      "type": "Normal", "freq": "Scene x2", "ac": 2, "db": 7,
+      "class": "Special", "range": "Burst 1",
+      "effect": "Los efectos varían según el terreno. Consulta la tabla del manual para el efecto específico.",
+      "keywords": ["Burst 1"], "contest": { "type": "Smart", "effect": "Incentives" }
+    },
+
+    "Salvaguarda": {
+      "en": "Safeguard",
+      "type": "Normal", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Blessing",
+      "effect": "El usuario y sus aliados adyacentes son inmunes a estados persistentes y volátiles hasta el final del combate.",
+      "keywords": ["Blessing"], "contest": { "type": "Beauty", "effect": "Safe Option" }
+    },
+
+    "Otra Vez": {
+      "en": "Encore",
+      "type": "Normal", "freq": "Scene", "ac": 2, "db": 0,
+      "class": "Status", "range": "6, 1 Target, Social",
+      "effect": "El objetivo debe repetir el último movimiento que usó durante los próximos 2 turnos, si es posible.",
+      "keywords": ["6", "1 Target", "Social"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Silbato": {
+      "en": "Sing",
+      "type": "Normal", "freq": "Scene x2", "ac": 8, "db": 0,
+      "class": "Status", "range": "Burst 2, Sonic, Social",
+      "effect": "Todos los objetivos en el área quedan Dormidos si fallan su tirada de salvación (mínimo 10 en 1d20).",
+      "keywords": ["Burst 2", "Sonic", "Social"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Última Baza": {
+      "en": "Last Resort",
+      "type": "Normal", "freq": "Scene", "ac": 2, "db": 14,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Solo puede usarse si el usuario ha usado al menos 4 movimientos diferentes previamente en el combate.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cute", "effect": "Big Show" }
+    },
+
+    "Vista Aguda": {
+      "en": "Foresight",
+      "type": "Normal", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "6, 1 Target",
+      "effect": "El objetivo pierde sus bonos de Evasión y pierde cualquier inmunidad temporal. Afecta a Pokémon Fantasma y evasivos.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Copia": {
+      "en": "Copycat",
+      "type": "Normal", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "Copia el último movimiento que usó un Pokémon en el campo. Puedes usarlo inmediatamente, incluso si no es Priority.",
+      "keywords": ["Self"], "contest": { "type": "Smart", "effect": "Catching Up" }
+    },
+
+    "Rastreo": {
+      "en": "Odor Sleuth",
+      "type": "Normal", "freq": "Scene x2", "ac": null, "db": 0,
+      "class": "Status", "range": "6, 1 Target",
+      "effect": "El objetivo pierde sus bonos de Evasión. Además, si el usuario es de tipo Normal o Lucha, sus movimientos ignoran la inmunidad de tipo Fantasma del objetivo.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Recuperación": {
+      "en": "Recover",
+      "type": "Normal", "freq": "Scene x2", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Healing",
+      "effect": "El usuario recupera 1/2 de sus PG máximos.",
+      "keywords": ["Self", "Healing"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Danza Espada": {
+      "en": "Swords Dance",
+      "type": "Normal", "freq": "EOT", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "El usuario gana +2 Combat Stages de Ataque.",
+      "keywords": ["Self"], "contest": { "type": "Cool", "effect": "Get Ready!" }
+    },
+
+    "Defensa Férrea": {
+      "en": "Iron Defense",
+      "type": "Steel", "freq": "EOT", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "El usuario gana +2 Combat Stages de Defensa.",
+      "keywords": ["Self"], "contest": { "type": "Tough", "effect": "Get Ready!" }
+    },
+
+    "Protección": {
+      "en": "Protect",
+      "type": "Normal", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Interrupt",
+      "effect": "El usuario es inmune a todos los movimientos hasta el final del próximo turno. Si se usa dos veces seguidas, falla la segunda vez.",
+      "keywords": ["Self", "Interrupt"], "contest": { "type": "Cool", "effect": "Safe Option" }
+    },
+
+    "Detección": {
+      "en": "Detect",
+      "type": "Fighting", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Interrupt",
+      "effect": "Igual que Protección, pero solo funciona contra un objetivo específico. Gana prioridad.",
+      "keywords": ["Self", "Interrupt", "Priority"], "contest": { "type": "Cool", "effect": "Safe Option" }
+    },
+
+    "Danza Lluvia": {
+      "en": "Rain Dance",
+      "type": "Water", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Field, Weather",
+      "effect": "Cambia el clima a Lluvioso durante 5 rondas. Los movimientos de tipo Agua ganan +2 DB.",
+      "keywords": ["Field", "Weather"], "contest": { "type": "Tough", "effect": "Sabotage" }
+    },
+
+    "Síntesis": {
+      "en": "Synthesis",
+      "type": "Grass", "freq": "Scene x2", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Healing",
+      "effect": "El usuario recupera 1/2 de sus PG máximos. Con sol fuerte recupera 2/3. Con lluvia o arena, solo 1/4.",
+      "keywords": ["Self", "Healing"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Aromaterapia": {
+      "en": "Aromatherapy",
+      "type": "Grass", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Burst 2, Healing",
+      "effect": "Todos los aliados en el área quedan curados de todos los estados persistentes.",
+      "keywords": ["Burst 2", "Healing"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Reflejo": {
+      "en": "Reflect",
+      "type": "Psychic", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Blessing",
+      "effect": "El usuario y sus aliados adyacentes ganan +2 Evasión Física hasta el final del combate.",
+      "keywords": ["Blessing"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Pantalla Luz": {
+      "en": "Light Screen",
+      "type": "Psychic", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Blessing",
+      "effect": "El usuario y sus aliados adyacentes ganan +2 Evasión Especial hasta el final del combate.",
+      "keywords": ["Blessing"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Telequinesis": {
+      "en": "Telekinesis",
+      "type": "Psychic", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "4, 1 Target",
+      "effect": "El objetivo flota en el aire durante 3 rondas. Mientras esté elevado, ignora el terreno pero no puede moverse por sí mismo.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Smart", "effect": "Incentives" }
+    },
+
+    "Teletransporte": {
+      "en": "Teleport",
+      "type": "Psychic", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Interrupt",
+      "effect": "El usuario puede salir del combate o teletransportarse fuera del campo. Fuera de combate, se mueve instantáneamente a cualquier lugar conocido.",
+      "keywords": ["Self", "Interrupt"], "contest": { "type": "Cool", "effect": "Safe Option" }
+    },
+
+    "Rayo Confuso": {
+      "en": "Confuse Ray",
+      "type": "Ghost", "freq": "Scene x2", "ac": 2, "db": 0,
+      "class": "Status", "range": "6, 1 Target",
+      "effect": "El objetivo queda Confuso.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Smart", "effect": "Exhausting Act" }
+    },
+
+    "Hipnosis": {
+      "en": "Hypnosis",
+      "type": "Psychic", "freq": "Scene", "ac": 8, "db": 0,
+      "class": "Status", "range": "4, 1 Target, Social",
+      "effect": "El objetivo queda Dormido si falla su tirada de salvación.",
+      "keywords": ["4", "1 Target", "Social"], "contest": { "type": "Smart", "effect": "Exhausting Act" }
+    },
+
+    "Sueño": {
+      "en": "Dream Eater",
+      "type": "Psychic", "freq": "Scene x2", "ac": 2, "db": 8,
+      "class": "Special", "range": "Melee, 1 Target",
+      "effect": "Solo funciona contra objetivos Dormidos. El usuario recupera PG iguales a la mitad del daño infligido.",
+      "keywords": ["Melee", "1 Target", "Healing"], "contest": { "type": "Smart", "effect": "Big Show" }
+    },
+
+    "Premonición": {
+      "en": "Future Sight",
+      "type": "Psychic", "freq": "Scene", "ac": null, "db": 8,
+      "class": "Special", "range": "10, 1 Target",
+      "effect": "El daño se aplica 2 turnos después de usar el movimiento, no inmediatamente.",
+      "keywords": ["10", "1 Target", "Set-Up"], "contest": { "type": "Smart", "effect": "Slow Set-Up" }
+    },
+
+    "Psicorrayo": {
+      "en": "Psybeam",
+      "type": "Psychic", "freq": "EOT", "ac": 2, "db": 6,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 19+, el objetivo queda Confuso.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Psíquico": {
+      "en": "Psychic",
+      "type": "Psychic", "freq": "Scene x2", "ac": 2, "db": 9,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 17+, baja 1 Combat Stage de Def. Especial al objetivo.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Smart", "effect": "Big Show" }
+    },
+
+    "Bola Sombra": {
+      "en": "Shadow Ball",
+      "type": "Ghost", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Special", "range": "8, 1 Target",
+      "effect": "Con 17+, baja 1 Combat Stage de Def. Especial al objetivo.",
+      "keywords": ["8", "1 Target"], "contest": { "type": "Smart", "effect": "Exhausting Act" }
+    },
+
+    "Mordida": {
+      "en": "Bite",
+      "type": "Dark", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 15+, el objetivo retrocede (pierde el siguiente turno).",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Triturar": {
+      "en": "Crunch",
+      "type": "Dark", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 17+, baja 2 Combat Stages de Defensa al objetivo.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "A Bocajarro": {
+      "en": "Close Combat",
+      "type": "Fighting", "freq": "Scene x2", "ac": 2, "db": 12,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Tras usar este movimiento, el usuario recibe -1 Defensa y -1 Def. Especial.",
+      "keywords": ["Melee", "1 Target", "Recoil"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Doble Patada": {
+      "en": "Double Kick",
+      "type": "Fighting", "freq": "At-Will", "ac": 2, "db": 3,
+      "class": "Physical", "range": "Melee, 1 Target, Double Strike",
+      "effect": "Golpea dos veces. Cada golpe tira daño por separado.",
+      "keywords": ["Melee", "1 Target", "Double Strike"], "contest": { "type": "Cool", "effect": "Reliable" }
+    },
+
+    "Patada Salto Alta": {
+      "en": "High Jump Kick",
+      "type": "Fighting", "freq": "EOT", "ac": 3, "db": 13,
+      "class": "Physical", "range": "Melee, 1 Target, Dash",
+      "effect": "Si falla, el usuario recibe daño igual a 1/3 de sus PG máximos.",
+      "keywords": ["Melee", "1 Target", "Dash"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Puño Certero": {
+      "en": "Focus Punch",
+      "type": "Fighting", "freq": "Scene x2", "ac": 2, "db": 15,
+      "class": "Physical", "range": "Melee, 1 Target, Set-Up",
+      "effect": "El usuario carga durante un turno completo. Si recibe daño antes de atacar, el movimiento se cancela.",
+      "keywords": ["Melee", "1 Target", "Set-Up"], "contest": { "type": "Tough", "effect": "Slow Set-Up" }
+    },
+
+    "Contraataque": {
+      "en": "Counter",
+      "type": "Fighting", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Melee, 1 Target, Reaction",
+      "effect": "Se usa como reacción al recibir daño físico. El usuario devuelve el doble del daño recibido al atacante, si está dentro de rango Melee.",
+      "keywords": ["Melee", "1 Target", "Reaction"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Golpe Fuerza": {
+      "en": "Force Palm",
+      "type": "Fighting", "freq": "EOT", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 18+, el objetivo queda Paralizado.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Reversal": {
+      "en": "Reversal",
+      "type": "Fighting", "freq": "Scene x2", "ac": 2, "db": 4,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "La DB aumenta cuanto menos PG tenga el usuario: 4 base, hasta 13 con menos del 10% de PG. El DJ consulta la tabla.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Desperation" }
+    },
+
+    "Ascuas": {
+      "en": "Ember",
+      "type": "Fire", "freq": "At-Will", "ac": 2, "db": 4,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 18+, el objetivo queda Quemado.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Rueda Fuego": {
+      "en": "Flame Wheel",
+      "type": "Fire", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target, Dash",
+      "effect": "Con 18+, el objetivo queda Quemado. El usuario puede liberar Quemaduras propias al usar este movimiento.",
+      "keywords": ["Melee", "1 Target", "Dash"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Colmillo Ígneo": {
+      "en": "Fire Fang",
+      "type": "Fire", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 18+, el objetivo queda Quemado. Con 19+, además Retrocede.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Pirotecnia": {
+      "en": "Flame Burst",
+      "type": "Fire", "freq": "At-Will", "ac": 2, "db": 7,
+      "class": "Special", "range": "8, 1 Target",
+      "effect": "Los aliados adyacentes al objetivo reciben 5 puntos de daño de Fuego adicionales.",
+      "keywords": ["8", "1 Target"], "contest": { "type": "Beauty", "effect": "Incentives" }
+    },
+
+    "Lanzallamas": {
+      "en": "Flamethrower",
+      "type": "Fire", "freq": "EOT", "ac": 2, "db": 9,
+      "class": "Special", "range": "4, 1 Target",
+      "effect": "Con 19+, el objetivo queda Quemado.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Giro Fuego": {
+      "en": "Fire Spin",
+      "type": "Fire", "freq": "Scene x2", "ac": 3, "db": 4,
+      "class": "Special", "range": "4, 1 Target",
+      "effect": "El objetivo queda atrapado en un vórtice de fuego: al final de cada uno de sus turnos, recibe daño de 1d10 + su nivel. Dura 4 rondas.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Onda Ígnea": {
+      "en": "Heat Wave",
+      "type": "Fire", "freq": "Scene x2", "ac": 2, "db": 9,
+      "class": "Special", "range": "Close Blast 3, Smite",
+      "effect": "Con 18+, todos los objetivos quedan Quemados. Es un ataque de área que golpea a todos en un cono de 3 metros.",
+      "keywords": ["Close Blast 3", "Smite"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Infierno": {
+      "en": "Inferno",
+      "type": "Fire", "freq": "Scene x2", "ac": 4, "db": 13,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "El objetivo queda Quemado automáticamente si el ataque acierta.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Estallido": {
+      "en": "Lava Plume",
+      "type": "Fire", "freq": "Scene x2", "ac": 2, "db": 8,
+      "class": "Special", "range": "Burst 2, Smite",
+      "effect": "Todos los objetivos en el área tienen un 30% de quedar Quemados (18+ en 1d20).",
+      "keywords": ["Burst 2", "Smite"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Burbuja": {
+      "en": "Bubble",
+      "type": "Water", "freq": "At-Will", "ac": 2, "db": 4,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 16+, baja 1 Combat Stage de Velocidad al objetivo.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Pistola Agua": {
+      "en": "Water Gun",
+      "type": "Water", "freq": "At-Will", "ac": 2, "db": 4,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Hidropulso": {
+      "en": "Water Pulse",
+      "type": "Water", "freq": "EOT", "ac": 2, "db": 6,
+      "class": "Special", "range": "8, 1 Target, Sonic",
+      "effect": "Con 17+, el objetivo queda Confuso.",
+      "keywords": ["8", "1 Target", "Sonic"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Acua Cola": {
+      "en": "Aqua Tail",
+      "type": "Water", "freq": "EOT", "ac": 3, "db": 9,
+      "class": "Physical", "range": "Melee, 1 Target, Dash",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["Melee", "1 Target", "Dash"], "contest": { "type": "Cute", "effect": "Big Show" }
+    },
+
+    "Hidrobomba": {
+      "en": "Hydro Pump",
+      "type": "Water", "freq": "Scene x2", "ac": 2, "db": 11,
+      "class": "Special", "range": "8, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["8", "1 Target"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Refugio": {
+      "en": "Withdraw",
+      "type": "Water", "freq": "At-Will", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "El usuario gana +1 Combat Stage de Defensa.",
+      "keywords": ["Self"], "contest": { "type": "Cute", "effect": "Safe Option" }
+    },
+
+    "Bofetón Lodo": {
+      "en": "Mud-Slap",
+      "type": "Ground", "freq": "At-Will", "ac": 3, "db": 4,
+      "class": "Special", "range": "3, 1 Target",
+      "effect": "Baja 1 Combat Stage de Precisión al objetivo.",
+      "keywords": ["3", "1 Target"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Lanza Rocas": {
+      "en": "Rock Throw",
+      "type": "Rock", "freq": "At-Will", "ac": 4, "db": 4,
+      "class": "Physical", "range": "6, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Terremoto": {
+      "en": "Earthquake",
+      "type": "Ground", "freq": "Scene x2", "ac": 2, "db": 10,
+      "class": "Physical", "range": "Burst 3, Groundsource",
+      "effect": "Todos los objetivos en el área. Los que estén enterrados quedan expuestos. Los voladores son inmunes a menos que estén en el suelo.",
+      "keywords": ["Burst 3", "Groundsource"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Toma y Daca": {
+      "en": "Endeavor",
+      "type": "Normal", "freq": "Scene", "ac": 2, "db": 0,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "El objetivo recibe daño igual a la diferencia entre sus PG actuales y los del usuario. Si el usuario tiene más PG que el objetivo, no hay daño.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cute", "effect": "Desperation" }
+    },
+
+    "Fuerza Bruta": {
+      "en": "Superpower",
+      "type": "Fighting", "freq": "Scene x2", "ac": 2, "db": 12,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Tras usar este movimiento, el usuario recibe -1 Ataque y -1 Defensa.",
+      "keywords": ["Melee", "1 Target", "Recoil"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Absorber": {
+      "en": "Absorb",
+      "type": "Grass", "freq": "At-Will", "ac": 2, "db": 2,
+      "class": "Special", "range": "4, 1 Target",
+      "effect": "El usuario recupera PG iguales a la mitad del daño infligido (no funciona en Pokémon sin savia).",
+      "keywords": ["4", "1 Target", "Healing"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Drenadoras": {
+      "en": "Leech Seed",
+      "type": "Grass", "freq": "Scene", "ac": 4, "db": 0,
+      "class": "Status", "range": "6, 1 Target",
+      "effect": "El objetivo queda sembrado. Al final de cada turno, pierde 1/8 de sus PG máximos y el usuario recupera esa cantidad.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Smart", "effect": "Sabotage" }
+    },
+
+    "Látigo Cepa": {
+      "en": "Vine Whip",
+      "type": "Grass", "freq": "At-Will", "ac": 2, "db": 4,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Hoja Afilada": {
+      "en": "Razor Leaf",
+      "type": "Grass", "freq": "At-Will", "ac": 4, "db": 6,
+      "class": "Physical", "range": "6, 1 Target",
+      "effect": "Hoja Afilada acierta con crítico en 18+.",
+      "crit": "18+",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Hoja Mágica": {
+      "en": "Magical Leaf",
+      "type": "Grass", "freq": "EOT", "ac": null, "db": 6,
+      "class": "Special", "range": "8, 1 Target",
+      "effect": "Este movimiento nunca falla (no requiere tirada de ataque).",
+      "keywords": ["8", "1 Target"], "contest": { "type": "Beauty", "effect": "Safe Option" }
+    },
+
+    "Danza Pétalo": {
+      "en": "Petal Dance",
+      "type": "Grass", "freq": "Scene x2", "ac": 2, "db": 12,
+      "class": "Special", "range": "Melee, 1 Target, Five Strike",
+      "effect": "El usuario ataca durante 2-3 turnos seguidos. Tras terminar, queda Confuso.",
+      "keywords": ["Melee", "1 Target", "Five Strike"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Rayo Solar": {
+      "en": "Solar Beam",
+      "type": "Grass", "freq": "Scene x2", "ac": 2, "db": 12,
+      "class": "Special", "range": "10, 1 Target, Set-Up",
+      "effect": "El usuario carga un turno completo antes de atacar. Con sol fuerte, se puede usar en el mismo turno.",
+      "keywords": ["10", "1 Target", "Set-Up"], "contest": { "type": "Cool", "effect": "Slow Set-Up" }
+    },
+
+    "Tormenta Floral": {
+      "en": "Petal Blizzard",
+      "type": "Grass", "freq": "Scene x2", "ac": 2, "db": 10,
+      "class": "Physical", "range": "Burst 2, Smite",
+      "effect": "Ataque de área. Golpea a todos los objetivos en un radio de 2 metros.",
+      "keywords": ["Burst 2", "Smite"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Polvo Veneno": {
+      "en": "Poison Powder",
+      "type": "Poison", "freq": "Scene x2", "ac": 6, "db": 0,
+      "class": "Status", "range": "4, 1 Target, Powder",
+      "effect": "El objetivo queda Envenenado.",
+      "keywords": ["4", "1 Target", "Powder"], "contest": { "type": "Smart", "effect": "Sabotage" }
+    },
+
+    "Somnífero": {
+      "en": "Sleep Powder",
+      "type": "Grass", "freq": "Scene x2", "ac": 6, "db": 0,
+      "class": "Status", "range": "4, 1 Target, Powder",
+      "effect": "El objetivo queda Dormido si falla su tirada de salvación.",
+      "keywords": ["4", "1 Target", "Powder"], "contest": { "type": "Smart", "effect": "Exhausting Act" }
+    },
+
+    "Bomba Ácida": {
+      "en": "Acid Spray",
+      "type": "Poison", "freq": "EOT", "ac": 2, "db": 4,
+      "class": "Special", "range": "4, 1 Target",
+      "effect": "Baja 2 Combat Stages de Def. Especial al objetivo.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Smart", "effect": "Exhausting Act" }
+    },
+
+    "Impactrueno": {
+      "en": "Thunder Shock",
+      "type": "Electric", "freq": "At-Will", "ac": 2, "db": 4,
+      "class": "Special", "range": "4, 1 Target",
+      "effect": "Con 17+, el objetivo queda Paralizado.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Onda Trueno": {
+      "en": "Thunder Wave",
+      "type": "Electric", "freq": "Scene x2", "ac": 2, "db": 0,
+      "class": "Status", "range": "4, 1 Target",
+      "effect": "El objetivo queda Paralizado.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Chispa": {
+      "en": "Spark",
+      "type": "Electric", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 19+, el objetivo queda Paralizado.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Electrobola": {
+      "en": "Electro Ball",
+      "type": "Electric", "freq": "EOT", "ac": 2, "db": 6,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "La DB aumenta según la diferencia de Velocidad entre el usuario y el objetivo. Consulta la tabla: 6 base, hasta 12 si el usuario es mucho más rápido.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Cool", "effect": "Incentives" }
+    },
+
+    "Rayo": {
+      "en": "Thunderbolt",
+      "type": "Electric", "freq": "EOT", "ac": 2, "db": 9,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 19+, el objetivo queda Paralizado.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Trueno": {
+      "en": "Thunder",
+      "type": "Electric", "freq": "Scene x2", "ac": 7, "db": 12,
+      "class": "Special", "range": "12, 1 Target",
+      "effect": "Con 17+, el objetivo queda Paralizado. Con lluvia, la precisión sube a AC 2. Con sol fuerte, baja a AC 10.",
+      "keywords": ["12", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Colmillo Hielo": {
+      "en": "Ice Fang",
+      "type": "Ice", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 18+, el objetivo queda Congelado. Con 19+, además Retrocede.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Rayo Hielo": {
+      "en": "Ice Beam",
+      "type": "Ice", "freq": "EOT", "ac": 2, "db": 9,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 19+, el objetivo queda Congelado.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Ventisca": {
+      "en": "Blizzard",
+      "type": "Ice", "freq": "Scene x2", "ac": 7, "db": 12,
+      "class": "Special", "range": "Close Blast 3, Smite",
+      "effect": "Ataque de área. Con 19+, los objetivos quedan Congelados. Con granizo, AC baja a 4.",
+      "keywords": ["Close Blast 3", "Smite"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Ataque Arena": {
+      "en": "Sand Attack",
+      "type": "Ground", "freq": "At-Will", "ac": 2, "db": 0,
+      "class": "Status", "range": "2, 1 Target",
+      "effect": "Baja 1 Combat Stage de Precisión al objetivo.",
+      "keywords": ["2", "1 Target"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Tornado": {
+      "en": "Gust",
+      "type": "Flying", "freq": "At-Will", "ac": 2, "db": 4,
+      "class": "Special", "range": "4, 1 Target",
+      "effect": "Con 15+, el objetivo Retrocede. Si el objetivo está en el aire, la DB sube a 6.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Ataque Ala": {
+      "en": "Wing Attack",
+      "type": "Flying", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Pico Taladro": {
+      "en": "Drill Peck",
+      "type": "Flying", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Golpe Aéreo": {
+      "en": "Aerial Ace",
+      "type": "Flying", "freq": "EOT", "ac": null, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Este movimiento nunca falla (no requiere tirada de ataque).",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Safe Option" }
+    },
+
+    "Furia Dragón": {
+      "en": "Dragon Rage",
+      "type": "Dragon", "freq": "Scene x2", "ac": 2, "db": 0,
+      "class": "Special", "range": "4, 1 Target",
+      "effect": "Inflige exactamente 15 puntos de daño, ignorando estadísticas y tipo. Solo resistido por inmunidad de tipo Hada.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Danza Dragón": {
+      "en": "Dragon Dance",
+      "type": "Dragon", "freq": "EOT", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "El usuario gana +1 Combat Stage de Ataque y +1 Combat Stage de Velocidad.",
+      "keywords": ["Self"], "contest": { "type": "Cool", "effect": "Get Ready!" }
+    },
+
+    "Cara Susto": {
+      "en": "Scary Face",
+      "type": "Normal", "freq": "EOT", "ac": 2, "db": 0,
+      "class": "Status", "range": "6, 1 Target, Social",
+      "effect": "Baja 2 Combat Stages de Velocidad al objetivo.",
+      "keywords": ["6", "1 Target", "Social"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Pantalla de Humo": {
+      "en": "Smokescreen",
+      "type": "Normal", "freq": "EOT", "ac": 2, "db": 0,
+      "class": "Status", "range": "Burst 1",
+      "effect": "Baja 1 Combat Stage de Precisión a todos los objetivos en el área.",
+      "keywords": ["Burst 1"], "contest": { "type": "Smart", "effect": "Sabotage" }
+    },
+
+    "Confusión": {
+      "en": "Confusion",
+      "type": "Psychic", "freq": "At-Will", "ac": 2, "db": 5,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 19+, el objetivo queda Confuso.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Smart", "effect": "Exhausting Act" }
+    },
+
+    "Orden de Ataque": {
+      "en": "Attack Order",
+      "type": "Bug", "freq": "EOT", "ac": 2, "db": 6,
+      "class": "Physical", "range": "10, 1 Target",
+      "effect": "Acierta con crítico en 18+. Si critica, el objetivo Retrocede.",
+      "crit": "18+",
+      "keywords": ["10", "1 Target"], "contest": { "type": "Smart", "effect": "Incentives" }
+    },
+
+    "Picadura": {
+      "en": "Bug Bite",
+      "type": "Bug", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Si el objetivo tiene una baya u objeto comestible, el usuario lo consume y gana su efecto.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Zumbido": {
+      "en": "Bug Buzz",
+      "type": "Bug", "freq": "EOT", "ac": 2, "db": 9,
+      "class": "Special", "range": "Close Blast 3, Smite, Sonic",
+      "effect": "Con 19+, baja 1 Combat Stage de Def. Especial a los objetivos.",
+      "keywords": ["Close Blast 3", "Smite", "Sonic"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Chupavidas": {
+      "en": "Leech Life",
+      "type": "Bug", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "El usuario recupera PG iguales a la mitad del daño infligido.",
+      "keywords": ["Melee", "1 Target", "Healing"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Megacuerno": {
+      "en": "Megahorn",
+      "type": "Bug", "freq": "Scene x2", "ac": 5, "db": 12,
+      "class": "Physical", "range": "Melee, 1 Target, Dash",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["Melee", "1 Target", "Dash"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Pin Misil": {
+      "en": "Pin Missile",
+      "type": "Bug", "freq": "At-Will", "ac": 3, "db": 3,
+      "class": "Physical", "range": "6, 1 Target, Five Strike",
+      "effect": "Golpea entre 2 y 5 veces. Cada golpe tira daño por separado.",
+      "keywords": ["6", "1 Target", "Five Strike"], "contest": { "type": "Cool", "effect": "Reliable" }
+    },
+
+    "Rayo Señal": {
+      "en": "Signal Beam",
+      "type": "Bug", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Special", "range": "8, 1 Target",
+      "effect": "Con 19+, el objetivo queda Confuso.",
+      "keywords": ["8", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Viento Plata": {
+      "en": "Silver Wind",
+      "type": "Bug", "freq": "At-Will", "ac": 2, "db": 6,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 19+, el usuario gana +1 Combat Stage en Ataque, Defensa, At. Esp., Def. Esp. y Velocidad.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Beauty", "effect": "Incentives" }
+    },
+
+    "Telaraña": {
+      "en": "Spider Web",
+      "type": "Bug", "freq": "Scene", "ac": 3, "db": 0,
+      "class": "Status", "range": "6, 1 Target",
+      "effect": "El objetivo queda Enredado: no puede huir ni cambiar de posición por medios propios hasta que sea liberado (acción estándar del propio objetivo o de un aliado adyacente).",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Smart", "effect": "Sabotage" }
+    },
+
+    "Red Viscosa": {
+      "en": "Sticky Web",
+      "type": "Bug", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "6, Hazard",
+      "effect": "Coloca una trampa en el área. Los enemigos que entren en ella ven su Velocidad reducida en 1 Combat Stage.",
+      "keywords": ["6", "Hazard"], "contest": { "type": "Smart", "effect": "Sabotage" }
+    },
+
+    "Disparo Demora": {
+      "en": "String Shot",
+      "type": "Bug", "freq": "At-Will", "ac": 3, "db": 0,
+      "class": "Status", "range": "4, 1 Target, Social",
+      "effect": "Baja 2 Combat Stages de Velocidad al objetivo.",
+      "keywords": ["4", "1 Target", "Social"], "contest": { "type": "Smart", "effect": "Exhausting Act" }
+    },
+
+    "Estoicismo": {
+      "en": "Struggle Bug",
+      "type": "Bug", "freq": "At-Will", "ac": 2, "db": 5,
+      "class": "Special", "range": "Close Blast 2, Smite",
+      "effect": "Todos los objetivos que fallen su tirada de salvación bajan 1 Combat Stage de At. Esp.",
+      "keywords": ["Close Blast 2", "Smite"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Ráfaga": {
+      "en": "Tail Glow",
+      "type": "Bug", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "El usuario gana +3 Combat Stages de At. Esp.",
+      "keywords": ["Self"], "contest": { "type": "Beauty", "effect": "Get Ready!" }
+    },
+
+    "Doble Aguijón": {
+      "en": "Twineedle",
+      "type": "Bug", "freq": "At-Will", "ac": 3, "db": 4,
+      "class": "Physical", "range": "Melee, 1 Target, Double Strike",
+      "effect": "Golpea dos veces. Cada golpe con 19+ envenena al objetivo.",
+      "keywords": ["Melee", "1 Target", "Double Strike"], "contest": { "type": "Cool", "effect": "Reliable" }
+    },
+
+    "Ida y Vuelta": {
+      "en": "U-Turn",
+      "type": "Bug", "freq": "At-Will", "ac": 2, "db": 7,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Tras atacar, el usuario puede regresar a su Poké Ball e intercambiarse por otro Pokémon del equipo como acción libre.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Catching Up" }
+    },
+
+    "Tijera X": {
+      "en": "X-Scissor",
+      "type": "Bug", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Acierta con crítico en 18+.",
+      "crit": "18+",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Golpe Umbrío": {
+      "en": "Night Slash",
+      "type": "Dark", "freq": "EOT", "ac": 2, "db": 7,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Acierta con crítico en 18+.",
+      "crit": "18+",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Golpe Bajo": {
+      "en": "Sucker Punch",
+      "type": "Dark", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target, Interrupt",
+      "effect": "Se usa como interrupción del turno de otro Pokémon. Falla si el objetivo no está atacando al usuario.",
+      "keywords": ["Melee", "1 Target", "Interrupt"], "contest": { "type": "Smart", "effect": "Incentives" }
+    },
+
+    "Maquinación": {
+      "en": "Nasty Plot",
+      "type": "Dark", "freq": "EOT", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "El usuario gana +2 Combat Stages de At. Esp.",
+      "keywords": ["Self"], "contest": { "type": "Smart", "effect": "Get Ready!" }
+    },
+
+    "Puño Sombra": {
+      "en": "Shadow Punch",
+      "type": "Ghost", "freq": "At-Will", "ac": null, "db": 6,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Este movimiento nunca falla.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Garra Umbría": {
+      "en": "Shadow Claw",
+      "type": "Ghost", "freq": "EOT", "ac": 2, "db": 7,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Acierta con crítico en 18+.",
+      "crit": "18+",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Rencor": {
+      "en": "Grudge",
+      "type": "Ghost", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Reaction",
+      "effect": "Si el usuario es debilitado por un movimiento, el atacante pierde el uso de ese movimiento hasta el final del combate.",
+      "keywords": ["Self", "Reaction"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Golpe Roca": {
+      "en": "Rock Smash",
+      "type": "Fighting", "freq": "At-Will", "ac": 2, "db": 4,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 17+, baja 1 Combat Stage de Defensa al objetivo. Fuera de combate puede romper rocas.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Avalancha": {
+      "en": "Rock Slide",
+      "type": "Rock", "freq": "EOT", "ac": 4, "db": 8,
+      "class": "Physical", "range": "Close Blast 3, Smite",
+      "effect": "Con 17+, los objetivos Retroceden.",
+      "keywords": ["Close Blast 3", "Smite"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Roca Afilada": {
+      "en": "Stone Edge",
+      "type": "Rock", "freq": "Scene x2", "ac": 4, "db": 12,
+      "class": "Physical", "range": "8, 1 Target",
+      "effect": "Acierta con crítico en 18+.",
+      "crit": "18+",
+      "keywords": ["8", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Lanzallamas Oscuro": {
+      "en": "Dark Pulse",
+      "type": "Dark", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Special", "range": "8, 1 Target, Aura",
+      "effect": "Con 17+, el objetivo Retrocede.",
+      "keywords": ["8", "1 Target", "Aura"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Pulso Dragón": {
+      "en": "Dragon Pulse",
+      "type": "Dragon", "freq": "EOT", "ac": 2, "db": 9,
+      "class": "Special", "range": "8, 1 Target, Aura",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["8", "1 Target", "Aura"], "contest": { "type": "Smart", "effect": "Big Show" }
+    },
+
+    "Garra Dragón": {
+      "en": "Dragon Claw",
+      "type": "Dragon", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Sin efecto adicional.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Cometa Draco": {
+      "en": "Draco Meteor",
+      "type": "Dragon", "freq": "Daily", "ac": 5, "db": 15,
+      "class": "Special", "range": "12, 1 Target",
+      "effect": "Tras usar este movimiento, el usuario recibe -2 Combat Stages de At. Esp.",
+      "keywords": ["12", "1 Target"], "contest": { "type": "Smart", "effect": "Big Show" }
+    },
+
+    "Golpe Mente": {
+      "en": "Zen Headbutt",
+      "type": "Psychic", "freq": "EOT", "ac": 4, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 17+, el objetivo Retrocede.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Smart", "effect": "Big Show" }
+    },
+
+    "Cabezazo": {
+      "en": "Headbutt",
+      "type": "Normal", "freq": "At-Will", "ac": 2, "db": 7,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 17+, el objetivo Retrocede.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Exhausting Act" }
+    },
+
+    "Cabezazo Zen": {
+      "en": "Iron Head",
+      "type": "Steel", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 17+, el objetivo Retrocede.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Tough", "effect": "Big Show" }
+    },
+
+    "Cola Férrea": {
+      "en": "Iron Tail",
+      "type": "Steel", "freq": "EOT", "ac": 4, "db": 10,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 18+, baja 1 Combat Stage de Defensa al objetivo.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Puño Meteoro": {
+      "en": "Meteor Mash",
+      "type": "Steel", "freq": "Scene x2", "ac": 4, "db": 10,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 17+, el usuario gana +1 Combat Stage de Ataque.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Beso Drenaje": {
+      "en": "Drain Kiss",
+      "type": "Fairy", "freq": "EOT", "ac": 2, "db": 5,
+      "class": "Special", "range": "Melee, 1 Target",
+      "effect": "El usuario recupera PG iguales a 3/4 del daño infligido.",
+      "keywords": ["Melee", "1 Target", "Healing"], "contest": { "type": "Cute", "effect": "Safe Option" }
+    },
+
+    "Carantoña": {
+      "en": "Play Rough",
+      "type": "Fairy", "freq": "EOT", "ac": 4, "db": 9,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 17+, baja 1 Combat Stage de Ataque al objetivo.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cute", "effect": "Big Show" }
+    },
+
+    "Luz Lunar": {
+      "en": "Moonlight",
+      "type": "Fairy", "freq": "Scene x2", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Healing",
+      "effect": "El usuario recupera PG según el clima: 1/2 con sol, 2/3 con luna (noche), 1/4 con lluvia o tormenta de arena.",
+      "keywords": ["Self", "Healing"], "contest": { "type": "Beauty", "effect": "Safe Option" }
+    },
+
+    "Fuerza Lunar": {
+      "en": "Moonblast",
+      "type": "Fairy", "freq": "Scene x2", "ac": 2, "db": 10,
+      "class": "Special", "range": "8, 1 Target",
+      "effect": "Con 15+, baja 1 Combat Stage de At. Esp. al objetivo.",
+      "keywords": ["8", "1 Target"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Golpe Fantasma": {
+      "en": "Phantom Force",
+      "type": "Ghost", "freq": "Scene x2", "ac": 2, "db": 10,
+      "class": "Physical", "range": "Melee, 1 Target, Set-Up",
+      "effect": "El usuario desaparece durante un turno y luego ataca. Ignora Protección y Detección.",
+      "keywords": ["Melee", "1 Target", "Set-Up"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Rayo Burbuja": {
+      "en": "Bubble Beam",
+      "type": "Water", "freq": "EOT", "ac": 2, "db": 7,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 17+, baja 1 Combat Stage de Velocidad al objetivo.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Descanso": {
+      "en": "Rest",
+      "type": "Psychic", "freq": "Scene", "ac": null, "db": 0,
+      "class": "Status", "range": "Self, Healing",
+      "effect": "El usuario recupera todos sus PG máximos y queda Dormido durante 2 turnos. No puede despertarse antes por efectos externos.",
+      "keywords": ["Self", "Healing"], "contest": { "type": "Cute", "effect": "Safe Option" }
+    },
+
+    "Bostezo": {
+      "en": "Yawn",
+      "type": "Normal", "freq": "Scene x2", "ac": null, "db": 0,
+      "class": "Status", "range": "4, 1 Target",
+      "effect": "Al final del próximo turno del objetivo, este queda Dormido si no cambia de Pokémon o sale del combate.",
+      "keywords": ["4", "1 Target"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Conversión": {
+      "en": "Conversion",
+      "type": "Normal", "freq": "EOT", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "El usuario cambia su tipo al del último movimiento que usó hasta el final del combate.",
+      "keywords": ["Self"], "contest": { "type": "Smart", "effect": "Safe Option" }
+    },
+
+    "Danza Amiga": {
+      "en": "Teeter Dance",
+      "type": "Normal", "freq": "Scene", "ac": 2, "db": 0,
+      "class": "Status", "range": "Burst 1",
+      "effect": "Todos los objetivos en el área (excepto el usuario) quedan Confusos.",
+      "keywords": ["Burst 1"], "contest": { "type": "Cute", "effect": "Exhausting Act" }
+    },
+
+    "Autodestrucción": {
+      "en": "Self-Destruct",
+      "type": "Normal", "freq": "Daily", "ac": 2, "db": 15,
+      "class": "Physical", "range": "Burst 3, Smite",
+      "effect": "El usuario queda debilitado tras usar este movimiento, sin importar el resultado.",
+      "keywords": ["Burst 3", "Smite"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Explosión": {
+      "en": "Explosion",
+      "type": "Normal", "freq": "Daily", "ac": 2, "db": 20,
+      "class": "Physical", "range": "Burst 4, Smite",
+      "effect": "El usuario queda debilitado tras usar este movimiento.",
+      "keywords": ["Burst 4", "Smite"], "contest": { "type": "Beauty", "effect": "Big Show" }
+    },
+
+    "Bloqueo": {
+      "en": "Block",
+      "type": "Normal", "freq": "Scene", "ac": 2, "db": 0,
+      "class": "Status", "range": "Melee, 1 Target, Social",
+      "effect": "El objetivo no puede huir del combate ni ser cambiado por otro Pokémon hasta que el usuario sea debilitado o salga del combate.",
+      "keywords": ["Melee", "1 Target", "Social"], "contest": { "type": "Tough", "effect": "Sabotage" }
+    },
+
+    "Esfuerzo": {
+      "en": "Work Up",
+      "type": "Normal", "freq": "EOT", "ac": null, "db": 0,
+      "class": "Status", "range": "Self",
+      "effect": "El usuario gana +1 Combat Stage de Ataque y +1 Combat Stage de At. Esp.",
+      "keywords": ["Self"], "contest": { "type": "Tough", "effect": "Get Ready!" }
+    },
+
+    "Rugido": {
+      "en": "Roar",
+      "type": "Normal", "freq": "Scene", "ac": 2, "db": 0,
+      "class": "Status", "range": "Burst 1, Sonic, Social",
+      "effect": "Todos los objetivos en el área deben cambiar al Pokémon que tienen en reserva (si están entrenados) o huir (si son salvajes).",
+      "keywords": ["Burst 1", "Sonic", "Social"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Paranormal": {
+      "en": "Extrasensory",
+      "type": "Psychic", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Special", "range": "6, 1 Target",
+      "effect": "Con 19+, el objetivo Retrocede.",
+      "keywords": ["6", "1 Target"], "contest": { "type": "Cool", "effect": "Big Show" }
+    },
+
+    "Golpe Bis": {
+      "en": "Dual Chop",
+      "type": "Dragon", "freq": "EOT", "ac": 3, "db": 5,
+      "class": "Physical", "range": "Melee, 1 Target, Double Strike",
+      "effect": "Golpea dos veces. Cada golpe tira daño por separado.",
+      "keywords": ["Melee", "1 Target", "Double Strike"], "contest": { "type": "Tough", "effect": "Reliable" }
+    },
+
+    "Ala de Acero": {
+      "en": "Steel Wing",
+      "type": "Steel", "freq": "EOT", "ac": 3, "db": 7,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 15+, el usuario gana +1 Combat Stage de Defensa.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Última Baza Oscura": {
+      "en": "Foul Play",
+      "type": "Dark", "freq": "EOT", "ac": 2, "db": 10,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Usa el Ataque del objetivo en vez del Ataque del usuario para calcular el daño.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Smart", "effect": "Big Show" }
+    },
+
+    "Beso Amoroso": {
+      "en": "Lovely Kiss",
+      "type": "Normal", "freq": "Scene x2", "ac": 6, "db": 0,
+      "class": "Status", "range": "Melee, 1 Target, Social",
+      "effect": "El objetivo queda Dormido si falla su tirada de salvación.",
+      "keywords": ["Melee", "1 Target", "Social"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Amago": {
+      "en": "Feint",
+      "type": "Normal", "freq": "EOT", "ac": 2, "db": 4,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Ignora Protección y Detección. Si el objetivo usó uno de esos movimientos este turno, el usuario gana +2 al daño.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Smart", "effect": "Incentives" }
+    },
+
+    "Golpe Trueno": {
+      "en": "Thunder Punch",
+      "type": "Electric", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 19+, el objetivo queda Paralizado.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Cool", "effect": "Exhausting Act" }
+    },
+
+    "Puño Fuego": {
+      "en": "Fire Punch",
+      "type": "Fire", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 19+, el objetivo queda Quemado.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Puño Hielo": {
+      "en": "Ice Punch",
+      "type": "Ice", "freq": "EOT", "ac": 2, "db": 8,
+      "class": "Physical", "range": "Melee, 1 Target",
+      "effect": "Con 19+, el objetivo queda Congelado.",
+      "keywords": ["Melee", "1 Target"], "contest": { "type": "Beauty", "effect": "Exhausting Act" }
+    },
+
+    "Danza Dragón Especial": {
+      "en": "Dragon Pulse",
+      "type": "Dragon", "freq": "EOT", "ac": 2, "db": 9,
+      "class": "Special", "range": "8, 1 Target, Aura",
+      "effect": "Sin efecto adicional. Nota: usa 'Pulso Dragón' en español; este duplicado está por compatibilidad con saves viejos.",
+      "keywords": ["8", "1 Target", "Aura"], "contest": { "type": "Smart", "effect": "Big Show" }
+    }
+  }
+}

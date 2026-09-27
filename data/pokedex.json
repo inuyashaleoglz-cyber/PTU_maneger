@@ -1,0 +1,988 @@
+{
+  "_nota": "Datos transcritos del Pokedex 1.05. Los nombres de movimientos están en español oficial. Añade más entradas siguiendo el mismo formato.",
+
+  "Bulbasaur": {
+    "es": "Bulbasaur",
+    "t": ["Planta", "Veneno"],
+    "hp": 5, "atk": 5, "def": 5, "spa": 7, "spd": 7, "spe": 5,
+    "abilities": {
+      "basic": ["Confianza", "Fotosíntesis"],
+      "advanced": ["Clorofila", "Manto Hoja"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Ivysaur", "at": 15, "final": "Venusaur", "finalAt": 30 },
+    "size": { "h": 0.7, "w": 6.9, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro, Fotótrofo",
+    "habitat": ["Bosque", "Pradera", "Selva"],
+    "skills": { "athl": "3d6+2", "acro": "2d6", "combat": "2d6", "stealth": "2d6", "percep": "2d6", "focus": "2d6+1" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Placaje", "t": "Normal" },
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 7, "name": "Drenadoras", "t": "Planta" },
+        { "lvl": 9, "name": "Látigo Cepa", "t": "Planta" },
+        { "lvl": 13, "name": "Polvo Veneno", "t": "Veneno" },
+        { "lvl": 13, "name": "Somnífero", "t": "Planta" },
+        { "lvl": 15, "name": "Derribo", "t": "Normal" },
+        { "lvl": 19, "name": "Hoja Afilada", "t": "Planta" },
+        { "lvl": 21, "name": "Aromaterapia", "t": "Normal" },
+        { "lvl": 25, "name": "Desarrollo", "t": "Normal" },
+        { "lvl": 27, "name": "Doble Filo", "t": "Normal" },
+        { "lvl": 31, "name": "Abatidoras", "t": "Planta" },
+        { "lvl": 33, "name": "Síntesis", "t": "Planta" },
+        { "lvl": 37, "name": "Bomba Semilla", "t": "Planta" }
+      ]
+    }
+  },
+
+  "Ivysaur": {
+    "es": "Ivysaur",
+    "t": ["Planta", "Veneno"],
+    "hp": 6, "atk": 6, "def": 6, "spa": 8, "spd": 8, "spe": 6,
+    "abilities": {
+      "basic": ["Confianza", "Fotosíntesis"],
+      "advanced": ["Clorofila", "Manto Hoja"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Venusaur", "at": 30 },
+    "size": { "h": 1.0, "w": 13.0, "cat": "Mediano", "wc": 2 },
+    "diet": "Omnívoro, Fotótrofo",
+    "habitat": ["Bosque", "Pradera", "Selva"],
+    "skills": { "athl": "4d6+3", "acro": "2d6", "combat": "3d6", "stealth": "2d6", "percep": "2d6", "focus": "3d6+2" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 7, "name": "Drenadoras", "t": "Planta" },
+        { "lvl": 9, "name": "Látigo Cepa", "t": "Planta" },
+        { "lvl": 13, "name": "Polvo Veneno", "t": "Veneno" },
+        { "lvl": 13, "name": "Somnífero", "t": "Planta" },
+        { "lvl": 15, "name": "Derribo", "t": "Normal" },
+        { "lvl": 20, "name": "Hoja Afilada", "t": "Planta" },
+        { "lvl": 23, "name": "Aromaterapia", "t": "Normal" },
+        { "lvl": 28, "name": "Desarrollo", "t": "Normal" },
+        { "lvl": 31, "name": "Doble Filo", "t": "Normal" },
+        { "lvl": 36, "name": "Abatidoras", "t": "Planta" },
+        { "lvl": 39, "name": "Síntesis", "t": "Planta" },
+        { "lvl": 44, "name": "Rayo Solar", "t": "Planta" }
+      ]
+    }
+  },
+
+  "Venusaur": {
+    "es": "Venusaur",
+    "t": ["Planta", "Veneno"],
+    "hp": 7, "atk": 7, "def": 7, "spa": 9, "spd": 9, "spe": 6,
+    "abilities": {
+      "basic": ["Confianza", "Fotosíntesis"],
+      "advanced": ["Clorofila", "Manto Hoja"],
+      "high": "Coraje"
+    },
+    "size": { "h": 2.0, "w": 100.0, "cat": "Grande", "wc": 5 },
+    "diet": "Omnívoro, Fotótrofo",
+    "habitat": ["Bosque", "Pradera", "Selva"],
+    "skills": { "athl": "5d6+4", "acro": "2d6", "combat": "4d6+2", "stealth": "2d6", "percep": "3d6", "focus": "4d6+2" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 7, "name": "Drenadoras", "t": "Planta" },
+        { "lvl": 9, "name": "Látigo Cepa", "t": "Planta" },
+        { "lvl": 13, "name": "Polvo Veneno", "t": "Veneno" },
+        { "lvl": 13, "name": "Somnífero", "t": "Planta" },
+        { "lvl": 15, "name": "Derribo", "t": "Normal" },
+        { "lvl": 20, "name": "Hoja Afilada", "t": "Planta" },
+        { "lvl": 23, "name": "Aromaterapia", "t": "Normal" },
+        { "lvl": 28, "name": "Desarrollo", "t": "Normal" },
+        { "lvl": 31, "name": "Doble Filo", "t": "Normal" },
+        { "lvl": 32, "name": "Danza Pétalo", "t": "Planta" },
+        { "lvl": 39, "name": "Síntesis", "t": "Planta" },
+        { "lvl": 45, "name": "Rayo Solar", "t": "Planta" },
+        { "lvl": 50, "name": "Tormenta Floral", "t": "Planta" }
+      ]
+    }
+  },
+
+  "Charmander": {
+    "es": "Charmander",
+    "t": ["Fuego"],
+    "hp": 4, "atk": 5, "def": 4, "spa": 6, "spd": 5, "spe": 7,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Alerta"],
+      "advanced": ["Poder Solar", "Llama Blanca"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Charmeleon", "at": 15, "final": "Charizard", "finalAt": 30 },
+    "size": { "h": 0.6, "w": 8.5, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro",
+    "habitat": ["Cueva", "Montaña"],
+    "skills": { "athl": "2d6+2", "acro": "3d6", "combat": "2d6", "stealth": "3d6", "percep": "2d6", "focus": "2d6" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Arañazo", "t": "Normal" },
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Pantalla de Humo", "t": "Normal" },
+        { "lvl": 16, "name": "Furia Dragón", "t": "Dragón" },
+        { "lvl": 19, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 25, "name": "Colmillo Ígneo", "t": "Fuego" },
+        { "lvl": 28, "name": "Pirotecnia", "t": "Fuego" },
+        { "lvl": 34, "name": "Cuchillada", "t": "Normal" },
+        { "lvl": 37, "name": "Lanzallamas", "t": "Fuego" },
+        { "lvl": 43, "name": "Giro Fuego", "t": "Fuego" },
+        { "lvl": 46, "name": "Infierno", "t": "Fuego" }
+      ]
+    }
+  },
+
+  "Charmeleon": {
+    "es": "Charmeleon",
+    "t": ["Fuego"],
+    "hp": 6, "atk": 6, "def": 6, "spa": 8, "spd": 7, "spe": 8,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Intimidación"],
+      "advanced": ["Poder Solar", "Llama Blanca"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Charizard", "at": 30 },
+    "size": { "h": 1.1, "w": 19.0, "cat": "Mediano", "wc": 2 },
+    "diet": "Carnívoro",
+    "habitat": ["Cueva", "Montaña"],
+    "skills": { "athl": "4d6+2", "acro": "3d6", "combat": "3d6+2", "stealth": "3d6", "percep": "2d6", "focus": "3d6" },
+    "moves": {
+      "level": [
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Pantalla de Humo", "t": "Normal" },
+        { "lvl": 17, "name": "Furia Dragón", "t": "Dragón" },
+        { "lvl": 21, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 28, "name": "Colmillo Ígneo", "t": "Fuego" },
+        { "lvl": 32, "name": "Pirotecnia", "t": "Fuego" },
+        { "lvl": 39, "name": "Cuchillada", "t": "Normal" },
+        { "lvl": 43, "name": "Lanzallamas", "t": "Fuego" },
+        { "lvl": 50, "name": "Giro Fuego", "t": "Fuego" },
+        { "lvl": 54, "name": "Infierno", "t": "Fuego" }
+      ]
+    }
+  },
+
+  "Charizard": {
+    "es": "Charizard",
+    "t": ["Fuego", "Volador"],
+    "hp": 8, "atk": 8, "def": 8, "spa": 11, "spd": 9, "spe": 10,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Intimidación"],
+      "advanced": ["Poder Solar", "Llama Blanca"],
+      "high": "Coraje"
+    },
+    "size": { "h": 1.7, "w": 90.5, "cat": "Mediano", "wc": 4 },
+    "diet": "Carnívoro",
+    "habitat": ["Cueva", "Montaña"],
+    "skills": { "athl": "5d6+2", "acro": "3d6", "combat": "4d6+3", "stealth": "1d6", "percep": "2d6", "focus": "4d6" },
+    "moves": {
+      "level": [
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Pantalla de Humo", "t": "Normal" },
+        { "lvl": 17, "name": "Furia Dragón", "t": "Dragón" },
+        { "lvl": 21, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 28, "name": "Colmillo Ígneo", "t": "Fuego" },
+        { "lvl": 32, "name": "Pirotecnia", "t": "Fuego" },
+        { "lvl": 36, "name": "Ataque Ala", "t": "Volador" },
+        { "lvl": 41, "name": "Cuchillada", "t": "Normal" },
+        { "lvl": 47, "name": "Lanzallamas", "t": "Fuego" },
+        { "lvl": 56, "name": "Giro Fuego", "t": "Fuego" },
+        { "lvl": 62, "name": "Infierno", "t": "Fuego" },
+        { "lvl": 71, "name": "Onda Ígnea", "t": "Fuego" }
+      ]
+    }
+  },
+
+  "Squirtle": {
+    "es": "Squirtle",
+    "t": ["Agua"],
+    "hp": 4, "atk": 5, "def": 7, "spa": 5, "spd": 6, "spe": 4,
+    "abilities": {
+      "basic": ["Caparazón", "Abundante"],
+      "advanced": ["Cura Lluvia", "Escudo Caparazón"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Wartortle", "at": 15, "final": "Blastoise", "finalAt": 30 },
+    "size": { "h": 0.5, "w": 9.0, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro",
+    "habitat": ["Playa", "Agua dulce", "Océano"],
+    "skills": { "athl": "2d6+2", "acro": "3d6+2", "combat": "2d6", "stealth": "3d6", "percep": "3d6", "focus": "2d6+3" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Placaje", "t": "Normal" },
+        { "lvl": 4, "name": "Látigo", "t": "Normal" },
+        { "lvl": 7, "name": "Burbuja", "t": "Agua" },
+        { "lvl": 10, "name": "Refugio", "t": "Agua" },
+        { "lvl": 13, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 16, "name": "Mordida", "t": "Siniestro" },
+        { "lvl": 19, "name": "Giro Rápido", "t": "Normal" },
+        { "lvl": 22, "name": "Protección", "t": "Normal" },
+        { "lvl": 25, "name": "Hidropulso", "t": "Agua" },
+        { "lvl": 28, "name": "Acua Cola", "t": "Agua" },
+        { "lvl": 31, "name": "Cabezazo", "t": "Normal" },
+        { "lvl": 34, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 37, "name": "Danza Lluvia", "t": "Agua" },
+        { "lvl": 40, "name": "Hidrobomba", "t": "Agua" }
+      ]
+    }
+  },
+
+  "Wartortle": {
+    "es": "Wartortle",
+    "t": ["Agua"],
+    "hp": 6, "atk": 6, "def": 8, "spa": 7, "spd": 8, "spe": 6,
+    "abilities": {
+      "basic": ["Caparazón", "Abundante"],
+      "advanced": ["Cura Lluvia", "Escudo Caparazón"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Blastoise", "at": 30 },
+    "size": { "h": 1.0, "w": 22.5, "cat": "Mediano", "wc": 2 },
+    "diet": "Omnívoro",
+    "habitat": ["Playa", "Agua dulce", "Océano"],
+    "skills": { "athl": "3d6+2", "acro": "3d6+2", "combat": "3d6+1", "stealth": "3d6+2", "percep": "3d6", "focus": "3d6+3" },
+    "moves": {
+      "level": [
+        { "lvl": 4, "name": "Látigo", "t": "Normal" },
+        { "lvl": 7, "name": "Burbuja", "t": "Agua" },
+        { "lvl": 10, "name": "Refugio", "t": "Agua" },
+        { "lvl": 13, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 16, "name": "Mordida", "t": "Siniestro" },
+        { "lvl": 20, "name": "Giro Rápido", "t": "Normal" },
+        { "lvl": 24, "name": "Protección", "t": "Normal" },
+        { "lvl": 28, "name": "Hidropulso", "t": "Agua" },
+        { "lvl": 32, "name": "Acua Cola", "t": "Agua" },
+        { "lvl": 36, "name": "Cabezazo", "t": "Normal" },
+        { "lvl": 40, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 44, "name": "Danza Lluvia", "t": "Agua" },
+        { "lvl": 48, "name": "Hidrobomba", "t": "Agua" }
+      ]
+    }
+  },
+
+  "Blastoise": {
+    "es": "Blastoise",
+    "t": ["Agua"],
+    "hp": 8, "atk": 8, "def": 10, "spa": 9, "spd": 10, "spe": 6,
+    "abilities": {
+      "basic": ["Caparazón", "Abundante"],
+      "advanced": ["Cura Lluvia", "Escudo Caparazón"],
+      "high": "Coraje"
+    },
+    "size": { "h": 1.6, "w": 85.5, "cat": "Grande", "wc": 4 },
+    "diet": "Omnívoro",
+    "habitat": ["Playa", "Agua dulce", "Océano"],
+    "skills": { "athl": "4d6+3", "acro": "2d6", "combat": "4d6+2", "stealth": "2d6", "percep": "4d6+2", "focus": "5d6+2" },
+    "moves": {
+      "level": [
+        { "lvl": 4, "name": "Látigo", "t": "Normal" },
+        { "lvl": 7, "name": "Burbuja", "t": "Agua" },
+        { "lvl": 10, "name": "Refugio", "t": "Agua" },
+        { "lvl": 13, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 16, "name": "Mordida", "t": "Siniestro" },
+        { "lvl": 20, "name": "Giro Rápido", "t": "Normal" },
+        { "lvl": 24, "name": "Protección", "t": "Normal" },
+        { "lvl": 28, "name": "Hidropulso", "t": "Agua" },
+        { "lvl": 32, "name": "Acua Cola", "t": "Agua" },
+        { "lvl": 39, "name": "Cabezazo", "t": "Normal" },
+        { "lvl": 46, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 53, "name": "Danza Lluvia", "t": "Agua" },
+        { "lvl": 60, "name": "Hidrobomba", "t": "Agua" }
+      ]
+    }
+  },
+
+  "Chikorita": {
+    "es": "Chikorita",
+    "t": ["Planta"],
+    "hp": 5, "atk": 5, "def": 7, "spa": 5, "spd": 7, "spe": 5,
+    "abilities": {
+      "basic": ["Velo Aroma", "Absorbe Savia"],
+      "advanced": ["Manto Hoja", "Sanadora"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Bayleef", "at": 15, "final": "Meganium", "finalAt": 30 },
+    "size": { "h": 0.9, "w": 6.4, "cat": "Pequeño", "wc": 1 },
+    "diet": "Fotótrofo, Herbívoro",
+    "habitat": ["Bosque", "Pradera"],
+    "skills": { "athl": "3d6+2", "acro": "3d6", "combat": "2d6", "stealth": "3d6", "percep": "2d6", "focus": "2d6" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Placaje", "t": "Normal" },
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 6, "name": "Hoja Afilada", "t": "Planta" },
+        { "lvl": 9, "name": "Polvo Veneno", "t": "Veneno" },
+        { "lvl": 12, "name": "Síntesis", "t": "Planta" },
+        { "lvl": 17, "name": "Reflejo", "t": "Psíquico" },
+        { "lvl": 20, "name": "Hoja Mágica", "t": "Planta" },
+        { "lvl": 23, "name": "Don Natural", "t": "Normal" },
+        { "lvl": 28, "name": "Aromaterapia", "t": "Normal" },
+        { "lvl": 31, "name": "Pantalla Luz", "t": "Psíquico" },
+        { "lvl": 34, "name": "Golpe Cuerpo", "t": "Normal" },
+        { "lvl": 39, "name": "Salvaguarda", "t": "Normal" },
+        { "lvl": 42, "name": "Aromaterapia", "t": "Planta" },
+        { "lvl": 45, "name": "Rayo Solar", "t": "Planta" }
+      ]
+    }
+  },
+
+  "Bayleef": {
+    "es": "Bayleef",
+    "t": ["Planta"],
+    "hp": 6, "atk": 6, "def": 8, "spa": 6, "spd": 8, "spe": 6,
+    "abilities": {
+      "basic": ["Confianza", "Absorbe Savia"],
+      "advanced": ["Manto Hoja", "Sanadora"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Meganium", "at": 30 },
+    "size": { "h": 1.2, "w": 15.8, "cat": "Mediano", "wc": 2 },
+    "diet": "Fotótrofo, Herbívoro",
+    "habitat": ["Bosque", "Pradera"],
+    "skills": { "athl": "4d6+4", "acro": "3d6", "combat": "2d6+2", "stealth": "3d6", "percep": "3d6", "focus": "3d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 6, "name": "Hoja Afilada", "t": "Planta" },
+        { "lvl": 9, "name": "Polvo Veneno", "t": "Veneno" },
+        { "lvl": 12, "name": "Síntesis", "t": "Planta" },
+        { "lvl": 18, "name": "Reflejo", "t": "Psíquico" },
+        { "lvl": 22, "name": "Hoja Mágica", "t": "Planta" },
+        { "lvl": 26, "name": "Don Natural", "t": "Normal" },
+        { "lvl": 32, "name": "Danza Pétalo", "t": "Planta" },
+        { "lvl": 34, "name": "Aromaterapia", "t": "Normal" },
+        { "lvl": 40, "name": "Pantalla Luz", "t": "Psíquico" },
+        { "lvl": 46, "name": "Golpe Cuerpo", "t": "Normal" },
+        { "lvl": 54, "name": "Salvaguarda", "t": "Normal" },
+        { "lvl": 60, "name": "Aromaterapia", "t": "Planta" },
+        { "lvl": 66, "name": "Rayo Solar", "t": "Planta" }
+      ]
+    }
+  },
+
+  "Meganium": {
+    "es": "Meganium",
+    "t": ["Planta"],
+    "hp": 8, "atk": 8, "def": 10, "spa": 8, "spd": 10, "spe": 8,
+    "abilities": {
+      "basic": ["Velo Aroma", "Absorbe Savia"],
+      "advanced": ["Manto Hoja", "Sanadora"],
+      "high": "Coraje"
+    },
+    "size": { "h": 1.8, "w": 100.5, "cat": "Grande", "wc": 5 },
+    "diet": "Fotótrofo, Herbívoro",
+    "habitat": ["Bosque", "Pradera"],
+    "skills": { "athl": "5d6+4", "acro": "3d6", "combat": "3d6+2", "stealth": "3d6", "percep": "3d6", "focus": "5d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 6, "name": "Hoja Afilada", "t": "Planta" },
+        { "lvl": 9, "name": "Polvo Veneno", "t": "Veneno" },
+        { "lvl": 12, "name": "Síntesis", "t": "Planta" },
+        { "lvl": 18, "name": "Reflejo", "t": "Psíquico" },
+        { "lvl": 22, "name": "Hoja Mágica", "t": "Planta" },
+        { "lvl": 26, "name": "Don Natural", "t": "Normal" },
+        { "lvl": 34, "name": "Danza Pétalo", "t": "Planta" },
+        { "lvl": 40, "name": "Aromaterapia", "t": "Normal" },
+        { "lvl": 46, "name": "Pantalla Luz", "t": "Psíquico" },
+        { "lvl": 54, "name": "Golpe Cuerpo", "t": "Normal" },
+        { "lvl": 60, "name": "Salvaguarda", "t": "Normal" },
+        { "lvl": 66, "name": "Aromaterapia", "t": "Planta" },
+        { "lvl": 70, "name": "Tormenta Floral", "t": "Planta" }
+      ]
+    }
+  },
+  "Cyndaquil": {
+    "es": "Cyndaquil",
+    "t": ["Fuego"],
+    "hp": 5, "atk": 5, "def": 4, "spa": 6, "spd": 5, "spe": 7,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Alerta"],
+      "advanced": ["Poder Solar", "Llama Blanca"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Quilava", "at": 14, "final": "Typhlosion", "finalAt": 30 },
+    "size": { "h": 0.5, "w": 7.9, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro",
+    "habitat": ["Montaña", "Pradera"],
+    "skills": { "athl": "2d6", "acro": "3d6+2", "combat": "2d6", "stealth": "3d6", "percep": "2d6+2", "focus": "2d6" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Placaje", "t": "Normal" },
+        { "lvl": 4, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Pantalla de Humo", "t": "Normal" },
+        { "lvl": 13, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 19, "name": "Rueda Fuego", "t": "Fuego" },
+        { "lvl": 22, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 28, "name": "Lanzallamas", "t": "Fuego" },
+        { "lvl": 31, "name": "Rueda Fuego", "t": "Fuego" },
+        { "lvl": 37, "name": "Doble Filo", "t": "Normal" },
+        { "lvl": 40, "name": "Estallido", "t": "Fuego" },
+        { "lvl": 46, "name": "Onda Ígnea", "t": "Fuego" }
+      ]
+    }
+  },
+
+  "Quilava": {
+    "es": "Quilava",
+    "t": ["Fuego"],
+    "hp": 6, "atk": 6, "def": 6, "spa": 8, "spd": 7, "spe": 8,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Alerta"],
+      "advanced": ["Poder Solar", "Llama Blanca"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Typhlosion", "at": 30 },
+    "size": { "h": 0.9, "w": 19.0, "cat": "Mediano", "wc": 2 },
+    "diet": "Carnívoro",
+    "habitat": ["Montaña", "Pradera"],
+    "skills": { "athl": "3d6+2", "acro": "4d6", "combat": "3d6+2", "stealth": "3d6", "percep": "3d6", "focus": "3d6" },
+    "moves": {
+      "level": [
+        { "lvl": 4, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Pantalla de Humo", "t": "Normal" },
+        { "lvl": 13, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 20, "name": "Rueda Fuego", "t": "Fuego" },
+        { "lvl": 24, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 31, "name": "Lanzallamas", "t": "Fuego" },
+        { "lvl": 35, "name": "Rueda Fuego", "t": "Fuego" },
+        { "lvl": 42, "name": "Doble Filo", "t": "Normal" },
+        { "lvl": 46, "name": "Estallido", "t": "Fuego" },
+        { "lvl": 53, "name": "Onda Ígnea", "t": "Fuego" }
+      ]
+    }
+  },
+
+  "Typhlosion": {
+    "es": "Typhlosion",
+    "t": ["Fuego"],
+    "hp": 7, "atk": 7, "def": 7, "spa": 10, "spd": 8, "spe": 9,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Alerta"],
+      "advanced": ["Poder Solar", "Llama Blanca"],
+      "high": "Coraje"
+    },
+    "size": { "h": 1.7, "w": 79.5, "cat": "Grande", "wc": 4 },
+    "diet": "Carnívoro",
+    "habitat": ["Montaña", "Pradera"],
+    "skills": { "athl": "4d6+3", "acro": "4d6", "combat": "4d6+2", "stealth": "3d6", "percep": "3d6", "focus": "4d6" },
+    "moves": {
+      "level": [
+        { "lvl": 4, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Pantalla de Humo", "t": "Normal" },
+        { "lvl": 13, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 20, "name": "Rueda Fuego", "t": "Fuego" },
+        { "lvl": 24, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 31, "name": "Lanzallamas", "t": "Fuego" },
+        { "lvl": 35, "name": "Rueda Fuego", "t": "Fuego" },
+        { "lvl": 43, "name": "Doble Filo", "t": "Normal" },
+        { "lvl": 48, "name": "Estallido", "t": "Fuego" },
+        { "lvl": 56, "name": "Onda Ígnea", "t": "Fuego" },
+        { "lvl": 61, "name": "Anillo Ígneo", "t": "Fuego" }
+      ]
+    }
+  },
+
+  "Totodile": {
+    "es": "Totodile",
+    "t": ["Agua"],
+    "hp": 5, "atk": 7, "def": 6, "spa": 4, "spd": 5, "spe": 6,
+    "abilities": {
+      "basic": ["Torrente", "Mandíbula Firme"],
+      "advanced": ["Fuerza Bruta", "Nado Rápido"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Croconaw", "at": 18, "final": "Feraligatr", "finalAt": 30 },
+    "size": { "h": 0.6, "w": 9.5, "cat": "Pequeño", "wc": 1 },
+    "diet": "Carnívoro",
+    "habitat": ["Agua dulce", "Pantano"],
+    "skills": { "athl": "3d6+2", "acro": "2d6", "combat": "3d6", "stealth": "3d6+2", "percep": "3d6", "focus": "2d6" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Arañazo", "t": "Normal" },
+        { "lvl": 3, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 6, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 9, "name": "Mordida", "t": "Siniestro" },
+        { "lvl": 13, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 19, "name": "Colmillo Hielo", "t": "Hielo" },
+        { "lvl": 22, "name": "Triturar", "t": "Siniestro" },
+        { "lvl": 27, "name": "Cuchillada", "t": "Normal" },
+        { "lvl": 30, "name": "Acua Cola", "t": "Agua" },
+        { "lvl": 33, "name": "Golpe Cuerpo", "t": "Normal" },
+        { "lvl": 37, "name": "Danza Dragón", "t": "Dragón" },
+        { "lvl": 41, "name": "Hidrobomba", "t": "Agua" }
+      ]
+    }
+  },
+
+  "Croconaw": {
+    "es": "Croconaw",
+    "t": ["Agua"],
+    "hp": 7, "atk": 9, "def": 8, "spa": 5, "spd": 6, "spe": 7,
+    "abilities": {
+      "basic": ["Torrente", "Mandíbula Firme"],
+      "advanced": ["Fuerza Bruta", "Nado Rápido"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Feraligatr", "at": 30 },
+    "size": { "h": 1.1, "w": 25.0, "cat": "Mediano", "wc": 3 },
+    "diet": "Carnívoro",
+    "habitat": ["Agua dulce", "Pantano"],
+    "skills": { "athl": "4d6+3", "acro": "2d6", "combat": "4d6+2", "stealth": "3d6+2", "percep": "3d6", "focus": "3d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 6, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 9, "name": "Mordida", "t": "Siniestro" },
+        { "lvl": 13, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 21, "name": "Colmillo Hielo", "t": "Hielo" },
+        { "lvl": 24, "name": "Triturar", "t": "Siniestro" },
+        { "lvl": 30, "name": "Cuchillada", "t": "Normal" },
+        { "lvl": 34, "name": "Acua Cola", "t": "Agua" },
+        { "lvl": 38, "name": "Golpe Cuerpo", "t": "Normal" },
+        { "lvl": 43, "name": "Danza Dragón", "t": "Dragón" },
+        { "lvl": 48, "name": "Hidrobomba", "t": "Agua" }
+      ]
+    }
+  },
+
+  "Feraligatr": {
+    "es": "Feraligatr",
+    "t": ["Agua"],
+    "hp": 8, "atk": 11, "def": 9, "spa": 7, "spd": 8, "spe": 8,
+    "abilities": {
+      "basic": ["Torrente", "Mandíbula Firme"],
+      "advanced": ["Fuerza Bruta", "Nado Rápido"],
+      "high": "Coraje"
+    },
+    "size": { "h": 2.3, "w": 88.8, "cat": "Grande", "wc": 5 },
+    "diet": "Carnívoro",
+    "habitat": ["Agua dulce", "Pantano"],
+    "skills": { "athl": "5d6+3", "acro": "2d6", "combat": "5d6+3", "stealth": "3d6+2", "percep": "3d6", "focus": "4d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 6, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 9, "name": "Mordida", "t": "Siniestro" },
+        { "lvl": 13, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 21, "name": "Colmillo Hielo", "t": "Hielo" },
+        { "lvl": 24, "name": "Triturar", "t": "Siniestro" },
+        { "lvl": 32, "name": "Cuchillada", "t": "Normal" },
+        { "lvl": 37, "name": "Acua Cola", "t": "Agua" },
+        { "lvl": 45, "name": "Golpe Cuerpo", "t": "Normal" },
+        { "lvl": 50, "name": "Danza Dragón", "t": "Dragón" },
+        { "lvl": 58, "name": "Hidrobomba", "t": "Agua" }
+      ]
+    }
+  },
+
+  "Treecko": {
+    "es": "Treecko",
+    "t": ["Planta"],
+    "hp": 4, "atk": 5, "def": 3, "spa": 6, "spd": 5, "spe": 7,
+    "abilities": {
+      "basic": ["Especialista", "Unaware"],
+      "advanced": ["Fuerza Solar", "Manto Hoja"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Grovyle", "at": 16, "final": "Sceptile", "finalAt": 32 },
+    "size": { "h": 0.5, "w": 5.0, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro",
+    "habitat": ["Bosque", "Selva"],
+    "skills": { "athl": "2d6+2", "acro": "4d6+2", "combat": "2d6", "stealth": "4d6", "percep": "2d6+2", "focus": "2d6" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 3, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 6, "name": "Absorber", "t": "Planta" },
+        { "lvl": 9, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 13, "name": "Bomba Ácida", "t": "Veneno" },
+        { "lvl": 16, "name": "Golpes Rápidos", "t": "Normal" },
+        { "lvl": 21, "name": "Detección", "t": "Lucha" },
+        { "lvl": 26, "name": "Hoja Aguda", "t": "Planta" },
+        { "lvl": 31, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 36, "name": "Golpe Agarre", "t": "Normal" },
+        { "lvl": 41, "name": "Doble Equipo", "t": "Normal" },
+        { "lvl": 46, "name": "Rayo Solar", "t": "Planta" }
+      ]
+    }
+  },
+
+  "Grovyle": {
+    "es": "Grovyle",
+    "t": ["Planta"],
+    "hp": 5, "atk": 7, "def": 5, "spa": 9, "spd": 6, "spe": 7,
+    "abilities": {
+      "basic": ["Especialista", "Unaware"],
+      "advanced": ["Fuerza Solar", "Manto Hoja"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Sceptile", "at": 32 },
+    "size": { "h": 0.9, "w": 21.6, "cat": "Mediano", "wc": 2 },
+    "diet": "Carnívoro, Herbívoro",
+    "habitat": ["Bosque", "Selva"],
+    "skills": { "athl": "3d6+2", "acro": "4d6+2", "combat": "3d6+2", "stealth": "5d6", "percep": "3d6", "focus": "3d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 6, "name": "Absorber", "t": "Planta" },
+        { "lvl": 9, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 13, "name": "Bomba Ácida", "t": "Veneno" },
+        { "lvl": 17, "name": "Golpes Rápidos", "t": "Normal" },
+        { "lvl": 23, "name": "Detección", "t": "Lucha" },
+        { "lvl": 29, "name": "Hoja Aguda", "t": "Planta" },
+        { "lvl": 35, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 41, "name": "Golpe Agarre", "t": "Normal" },
+        { "lvl": 47, "name": "Doble Equipo", "t": "Normal" },
+        { "lvl": 53, "name": "Rayo Solar", "t": "Planta" }
+      ]
+    }
+  },
+
+  "Sceptile": {
+    "es": "Sceptile",
+    "t": ["Planta"],
+    "hp": 7, "atk": 9, "def": 7, "spa": 11, "spd": 9, "spe": 12,
+    "abilities": {
+      "basic": ["Especialista", "Unaware"],
+      "advanced": ["Fuerza Solar", "Manto Hoja"],
+      "high": "Coraje"
+    },
+    "size": { "h": 1.7, "w": 52.2, "cat": "Grande", "wc": 4 },
+    "diet": "Carnívoro, Herbívoro",
+    "habitat": ["Bosque", "Selva"],
+    "skills": { "athl": "4d6+3", "acro": "5d6+2", "combat": "4d6+3", "stealth": "5d6", "percep": "4d6", "focus": "4d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Malicioso", "t": "Normal" },
+        { "lvl": 6, "name": "Absorber", "t": "Planta" },
+        { "lvl": 9, "name": "Cara Susto", "t": "Normal" },
+        { "lvl": 13, "name": "Bomba Ácida", "t": "Veneno" },
+        { "lvl": 17, "name": "Golpes Rápidos", "t": "Normal" },
+        { "lvl": 23, "name": "Detección", "t": "Lucha" },
+        { "lvl": 29, "name": "Hoja Aguda", "t": "Planta" },
+        { "lvl": 35, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 43, "name": "Golpe Agarre", "t": "Normal" },
+        { "lvl": 51, "name": "Doble Equipo", "t": "Normal" },
+        { "lvl": 59, "name": "Rayo Solar", "t": "Planta" },
+        { "lvl": 67, "name": "Tormenta de Hojas", "t": "Planta" }
+      ]
+    }
+  },
+
+  "Torchic": {
+    "es": "Torchic",
+    "t": ["Fuego"],
+    "hp": 5, "atk": 6, "def": 4, "spa": 7, "spd": 5, "spe": 5,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Velocidad"],
+      "advanced": ["Impulso", "Alas de Fuego"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Combusken", "at": 16, "final": "Blaziken", "finalAt": 36 },
+    "size": { "h": 0.4, "w": 2.5, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro",
+    "habitat": ["Pradera", "Montaña"],
+    "skills": { "athl": "2d6", "acro": "3d6+2", "combat": "2d6", "stealth": "3d6+2", "percep": "2d6+2", "focus": "2d6" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Arañazo", "t": "Normal" },
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 16, "name": "Doble Patada", "t": "Lucha" },
+        { "lvl": 19, "name": "Pico Taladro", "t": "Volador" },
+        { "lvl": 25, "name": "Patada Ígnea", "t": "Fuego" },
+        { "lvl": 28, "name": "Ataque Arena", "t": "Tierra" },
+        { "lvl": 34, "name": "Golpe Aéreo", "t": "Volador" },
+        { "lvl": 37, "name": "Danza Espada", "t": "Normal" },
+        { "lvl": 43, "name": "Patada Salto Alta", "t": "Lucha" },
+        { "lvl": 46, "name": "Envite Ígneo", "t": "Fuego" }
+      ]
+    }
+  },
+
+  "Combusken": {
+    "es": "Combusken",
+    "t": ["Fuego", "Lucha"],
+    "hp": 6, "atk": 8, "def": 6, "spa": 8, "spd": 6, "spe": 6,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Velocidad"],
+      "advanced": ["Impulso", "Alas de Fuego"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Blaziken", "at": 36 },
+    "size": { "h": 0.9, "w": 19.5, "cat": "Mediano", "wc": 2 },
+    "diet": "Omnívoro",
+    "habitat": ["Pradera", "Montaña"],
+    "skills": { "athl": "3d6+2", "acro": "4d6+2", "combat": "3d6+2", "stealth": "3d6+2", "percep": "3d6", "focus": "3d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 17, "name": "Doble Patada", "t": "Lucha" },
+        { "lvl": 21, "name": "Pico Taladro", "t": "Volador" },
+        { "lvl": 28, "name": "Patada Ígnea", "t": "Fuego" },
+        { "lvl": 32, "name": "Ataque Arena", "t": "Tierra" },
+        { "lvl": 39, "name": "Golpe Aéreo", "t": "Volador" },
+        { "lvl": 43, "name": "Danza Espada", "t": "Normal" },
+        { "lvl": 50, "name": "Patada Salto Alta", "t": "Lucha" },
+        { "lvl": 54, "name": "Envite Ígneo", "t": "Fuego" }
+      ]
+    }
+  },
+
+  "Blaziken": {
+    "es": "Blaziken",
+    "t": ["Fuego", "Lucha"],
+    "hp": 8, "atk": 11, "def": 8, "spa": 10, "spd": 8, "spe": 8,
+    "abilities": {
+      "basic": ["Cuerpo Llama", "Velocidad"],
+      "advanced": ["Impulso", "Alas de Fuego"],
+      "high": "Coraje"
+    },
+    "size": { "h": 1.9, "w": 52.0, "cat": "Grande", "wc": 4 },
+    "diet": "Omnívoro",
+    "habitat": ["Pradera", "Montaña"],
+    "skills": { "athl": "4d6+3", "acro": "5d6+3", "combat": "5d6+3", "stealth": "3d6+2", "percep": "4d6", "focus": "4d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 7, "name": "Ascuas", "t": "Fuego" },
+        { "lvl": 10, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 17, "name": "Doble Patada", "t": "Lucha" },
+        { "lvl": 21, "name": "Pico Taladro", "t": "Volador" },
+        { "lvl": 28, "name": "Patada Ígnea", "t": "Fuego" },
+        { "lvl": 32, "name": "Ataque Arena", "t": "Tierra" },
+        { "lvl": 36, "name": "Golpe Aéreo", "t": "Volador" },
+        { "lvl": 42, "name": "Danza Espada", "t": "Normal" },
+        { "lvl": 49, "name": "Patada Salto Alta", "t": "Lucha" },
+        { "lvl": 57, "name": "Envite Ígneo", "t": "Fuego" },
+        { "lvl": 66, "name": "Puño Certero", "t": "Lucha" }
+      ]
+    }
+  },
+
+  "Mudkip": {
+    "es": "Mudkip",
+    "t": ["Agua"],
+    "hp": 5, "atk": 7, "def": 5, "spa": 5, "spd": 5, "spe": 4,
+    "abilities": {
+      "basic": ["Torrente", "Nado Rápido"],
+      "advanced": ["Humedad", "Anticipación"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Marshtomp", "at": 16, "final": "Swampert", "finalAt": 36 },
+    "size": { "h": 0.4, "w": 7.6, "cat": "Pequeño", "wc": 1 },
+    "diet": "Omnívoro",
+    "habitat": ["Agua dulce", "Pantano"],
+    "skills": { "athl": "3d6+2", "acro": "2d6", "combat": "3d6", "stealth": "3d6+2", "percep": "2d6+2", "focus": "3d6" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Placaje", "t": "Normal" },
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 6, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 9, "name": "Bofetón Lodo", "t": "Tierra" },
+        { "lvl": 13, "name": "Lanza Rocas", "t": "Roca" },
+        { "lvl": 19, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 22, "name": "Toma y Daca", "t": "Normal" },
+        { "lvl": 28, "name": "Terremoto", "t": "Tierra" },
+        { "lvl": 31, "name": "Protección", "t": "Normal" },
+        { "lvl": 34, "name": "Danza Lluvia", "t": "Agua" },
+        { "lvl": 39, "name": "Hidrobomba", "t": "Agua" },
+        { "lvl": 43, "name": "Vista Aguda", "t": "Normal" }
+      ]
+    }
+  },
+
+  "Marshtomp": {
+    "es": "Marshtomp",
+    "t": ["Agua", "Tierra"],
+    "hp": 7, "atk": 9, "def": 7, "spa": 6, "spd": 7, "spe": 5,
+    "abilities": {
+      "basic": ["Torrente", "Nado Rápido"],
+      "advanced": ["Humedad", "Anticipación"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Swampert", "at": 36 },
+    "size": { "h": 0.7, "w": 28.0, "cat": "Mediano", "wc": 3 },
+    "diet": "Omnívoro",
+    "habitat": ["Agua dulce", "Pantano"],
+    "skills": { "athl": "4d6+3", "acro": "2d6", "combat": "4d6+2", "stealth": "3d6+2", "percep": "3d6", "focus": "4d6" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 6, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 9, "name": "Bofetón Lodo", "t": "Tierra" },
+        { "lvl": 13, "name": "Lanza Rocas", "t": "Roca" },
+        { "lvl": 20, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 24, "name": "Toma y Daca", "t": "Normal" },
+        { "lvl": 31, "name": "Terremoto", "t": "Tierra" },
+        { "lvl": 35, "name": "Protección", "t": "Normal" },
+        { "lvl": 39, "name": "Danza Lluvia", "t": "Agua" },
+        { "lvl": 45, "name": "Hidrobomba", "t": "Agua" },
+        { "lvl": 50, "name": "Vista Aguda", "t": "Normal" }
+      ]
+    }
+  },
+
+  "Swampert": {
+    "es": "Swampert",
+    "t": ["Agua", "Tierra"],
+    "hp": 10, "atk": 11, "def": 9, "spa": 9, "spd": 9, "spe": 6,
+    "abilities": {
+      "basic": ["Torrente", "Nado Rápido"],
+      "advanced": ["Humedad", "Anticipación"],
+      "high": "Coraje"
+    },
+    "size": { "h": 1.5, "w": 81.9, "cat": "Grande", "wc": 4 },
+    "diet": "Omnívoro",
+    "habitat": ["Agua dulce", "Pantano"],
+    "skills": { "athl": "5d6+3", "acro": "2d6", "combat": "5d6+3", "stealth": "3d6+2", "percep": "4d6", "focus": "5d6+2" },
+    "moves": {
+      "level": [
+        { "lvl": 3, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 6, "name": "Pistola Agua", "t": "Agua" },
+        { "lvl": 9, "name": "Bofetón Lodo", "t": "Tierra" },
+        { "lvl": 13, "name": "Lanza Rocas", "t": "Roca" },
+        { "lvl": 20, "name": "Defensa Férrea", "t": "Acero" },
+        { "lvl": 24, "name": "Toma y Daca", "t": "Normal" },
+        { "lvl": 31, "name": "Terremoto", "t": "Tierra" },
+        { "lvl": 35, "name": "Protección", "t": "Normal" },
+        { "lvl": 39, "name": "Danza Lluvia", "t": "Agua" },
+        { "lvl": 47, "name": "Hidrobomba", "t": "Agua" },
+        { "lvl": 56, "name": "Vista Aguda", "t": "Normal" },
+        { "lvl": 63, "name": "Fuerza Bruta", "t": "Lucha" }
+      ]
+    }
+  },
+
+  "Pikachu": {
+    "es": "Pikachu",
+    "t": ["Eléctrico"],
+    "hp": 3, "atk": 5, "def": 3, "spa": 5, "spd": 5, "spe": 8,
+    "abilities": {
+      "basic": ["Electricidad Estática", "Recogida"],
+      "advanced": ["Pararrayos", "Poder Solar"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Raichu", "at": "Piedra Trueno" },
+    "size": { "h": 0.4, "w": 6.0, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro",
+    "habitat": ["Bosque", "Pradera"],
+    "skills": { "athl": "2d6", "acro": "4d6", "combat": "2d6", "stealth": "3d6+2", "percep": "3d6", "focus": "2d6+2" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Impactrueno", "t": "Eléctrico" },
+        { "lvl": 1, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 4, "name": "Onda Trueno", "t": "Eléctrico" },
+        { "lvl": 8, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 12, "name": "Doble Equipo", "t": "Normal" },
+        { "lvl": 16, "name": "Chispa", "t": "Eléctrico" },
+        { "lvl": 20, "name": "Cola Férrea", "t": "Acero" },
+        { "lvl": 24, "name": "Electrobola", "t": "Eléctrico" },
+        { "lvl": 28, "name": "Rayo", "t": "Eléctrico" },
+        { "lvl": 34, "name": "Otra Vez", "t": "Normal" },
+        { "lvl": 40, "name": "Trueno", "t": "Eléctrico" }
+      ]
+    }
+  },
+
+  "Eevee": {
+    "es": "Eevee",
+    "t": ["Normal"],
+    "hp": 6, "atk": 6, "def": 5, "spa": 5, "spd": 7, "spe": 6,
+    "abilities": {
+      "basic": ["Fuga", "Adaptable"],
+      "advanced": ["Anticipación", "Gracia"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Varies", "at": "Piedra especial o amistad" },
+    "size": { "h": 0.3, "w": 6.5, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro",
+    "habitat": ["Pradera", "Ciudad"],
+    "skills": { "athl": "3d6", "acro": "3d6+2", "combat": "2d6+2", "stealth": "3d6", "percep": "3d6+2", "focus": "3d6" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Placaje", "t": "Normal" },
+        { "lvl": 1, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 5, "name": "Ataque Arena", "t": "Tierra" },
+        { "lvl": 9, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 13, "name": "Mordida", "t": "Siniestro" },
+        { "lvl": 17, "name": "Otra Vez", "t": "Normal" },
+        { "lvl": 21, "name": "Derribo", "t": "Normal" },
+        { "lvl": 25, "name": "Silbato", "t": "Normal" },
+        { "lvl": 29, "name": "Bola Sombra", "t": "Fantasma" },
+        { "lvl": 33, "name": "Última Baza", "t": "Normal" }
+      ]
+    }
+  },
+
+  "Ralts": {
+    "es": "Ralts",
+    "t": ["Psíquico", "Hada"],
+    "hp": 3, "atk": 3, "def": 3, "spa": 5, "spd": 5, "spe": 5,
+    "abilities": {
+      "basic": ["Sincronía", "Rastro"],
+      "advanced": ["Telepatía", "Compasión"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Kirlia", "at": 20, "final": "Gardevoir", "finalAt": 30 },
+    "size": { "h": 0.4, "w": 6.6, "cat": "Pequeño", "wc": 1 },
+    "diet": "Herbívoro",
+    "habitat": ["Pradera", "Ciudad"],
+    "skills": { "athl": "1d6", "acro": "2d6", "combat": "1d6", "stealth": "3d6", "percep": "4d6", "focus": "3d6+2" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Gruñido", "t": "Normal" },
+        { "lvl": 4, "name": "Confusión", "t": "Psíquico" },
+        { "lvl": 8, "name": "Rayo Confuso", "t": "Fantasma" },
+        { "lvl": 11, "name": "Teletransporte", "t": "Psíquico" },
+        { "lvl": 15, "name": "Doble Equipo", "t": "Normal" },
+        { "lvl": 18, "name": "Rastreo", "t": "Normal" },
+        { "lvl": 22, "name": "Rayo Carga", "t": "Eléctrico" },
+        { "lvl": 25, "name": "Psicorrayo", "t": "Psíquico" },
+        { "lvl": 29, "name": "Premonición", "t": "Lucha" },
+        { "lvl": 32, "name": "Psíquico", "t": "Psíquico" },
+        { "lvl": 36, "name": "Hipnosis", "t": "Psíquico" },
+        { "lvl": 39, "name": "Sueño", "t": "Psíquico" },
+        { "lvl": 43, "name": "Recuperación", "t": "Normal" }
+      ]
+    }
+  },
+
+  "Riolu": {
+    "es": "Riolu",
+    "t": ["Lucha"],
+    "hp": 4, "atk": 7, "def": 4, "spa": 4, "spd": 4, "spe": 6,
+    "abilities": {
+      "basic": ["Impasible", "Imperturbable"],
+      "advanced": ["Justiciero", "Venganza"],
+      "high": "Coraje"
+    },
+    "evo": { "next": "Lucario", "at": "Amistad alta + día" },
+    "size": { "h": 0.7, "w": 20.2, "cat": "Pequeño", "wc": 1 },
+    "diet": "Omnívoro",
+    "habitat": ["Montaña", "Cueva"],
+    "skills": { "athl": "4d6", "acro": "3d6+2", "combat": "3d6+2", "stealth": "3d6", "percep": "3d6+2", "focus": "3d6+2" },
+    "moves": {
+      "level": [
+        { "lvl": 1, "name": "Ataque Rápido", "t": "Normal" },
+        { "lvl": 1, "name": "Profecía", "t": "Lucha" },
+        { "lvl": 6, "name": "Contraataque", "t": "Lucha" },
+        { "lvl": 11, "name": "Golpe Fuerza", "t": "Lucha" },
+        { "lvl": 15, "name": "Detección", "t": "Lucha" },
+        { "lvl": 19, "name": "A Bocajarro", "t": "Lucha" },
+        { "lvl": 24, "name": "Reversal", "t": "Lucha" },
+        { "lvl": 29, "name": "Copia", "t": "Normal" },
+        { "lvl": 47, "name": "A Bocajarro", "t": "Lucha" },
+        { "lvl": 50, "name": "Puño Certero", "t": "Lucha" }
+      ]
+    }
+  }
+}

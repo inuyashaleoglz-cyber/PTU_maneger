@@ -1,0 +1,57 @@
+{
+  "_nota": "Habilidades del Indices and Reference 1.05. Las que faltan se añaden igual.",
+
+  "Confianza":        { "tipo": "Social",  "desc": "+2 a tiradas de Encanto con Pokémon aliados.", "full": "Cuando haces una tirada de Encanto o Mando dirigida a un Pokémon que te ha visto ganar un combate, ganas +2." },
+  "Fotosíntesis":     { "tipo": "Curativa","desc": "En sol fuerte, recupera 1/8 de PG al final del turno.", "full": "Al final de tu turno, si el clima es Soleado, recuperas 1/8 de tus PG máximos." },
+  "Clorofila":        { "tipo": "Velocidad","desc": "En sol fuerte, duplica la Velocidad.", "full": "Mientras el clima sea Soleado, tu Velocidad se duplica a efectos de Iniciativa y Evasión de Velocidad." },
+  "Manto Hoja":       { "tipo": "Defensa", "desc": "En sol fuerte, inmune a problemas de estado.", "full": "Mientras el clima sea Soleado, no puedes ser afectado por problemas de estado persistentes." },
+  "Coraje":           { "tipo": "Ofensiva","desc": "+2 al daño cuando estás bajo el 50% de PG.", "full": "Cuando tus PG están por debajo de la mitad de tu máximo, sumas +2 al daño de todos tus ataques." },
+
+  "Cuerpo Llama":     { "tipo": "Contacto", "desc": "30% de quemar al ser golpeado por contacto.", "full": "Cuando un enemigo te golpea con un movimiento de contacto, tira 1d10. Con 8+ el atacante queda Quemado." },
+  "Alerta":           { "tipo": "Iniciativa","desc": "+2 a Iniciativa el primer turno.", "full": "En el primer turno de cualquier combate, ganas +2 a tu Iniciativa." },
+  "Poder Solar":      { "tipo": "Ofensiva", "desc": "En sol, +2 At. Esp. pero pierde 1/8 PG por turno.", "full": "En clima Soleado, tus ataques especiales ganan +2 al daño, pero pierdes 1/8 de tus PG máximos al final de cada turno." },
+  "Llama Blanca":     { "tipo": "Defensa", "desc": "Inmune a Quemado. Recupera 1/8 de PG cuando recibe Fuego.", "full": "No puedes ser Quemado. Cuando recibes daño de tipo Fuego, recuperas 1/8 de tus PG máximos en vez de recibir daño." },
+
+  "Caparazón":        { "tipo": "Defensa", "desc": "No puede ser crítico.", "full": "Los golpes críticos no te afectan. Los 20 naturales aciertan pero no duplican daño." },
+  "Abundante":        { "tipo": "Utilidad","desc": "Puede crear agua potable. Fuera de combate.", "full": "Fuera de combate puedes crear agua limpia para ti y tus aliados. En combate, +1 a tiradas contra efectos de calor." },
+  "Cura Lluvia":      { "tipo": "Curativa","desc": "En lluvia, recupera 1/16 de PG al final del turno.", "full": "Al final de tu turno, si el clima es Lluvioso, recuperas 1/16 de tus PG máximos." },
+  "Escudo Caparazón": { "tipo": "Defensa", "desc": "Resiste daño físico cuando está bajo el 50%.", "full": "Mientras estés por debajo del 50% de tus PG, todos los ataques físicos que recibas cuentan como si fueran resistidos por un paso más." },
+
+  "Velo Aroma":       { "tipo": "Defensa", "desc": "Inmune a Enamorado y atracción.", "full": "No puedes ser Enamorado ni afectado por movimientos de atracción. Además, tus aliados adyacentes ganan +2 a salvaciones contra esos efectos." },
+  "Absorbe Savia":    { "tipo": "Inmunidad","desc": "Inmune a movimientos de tipo Planta; +1 CS Ataque si recibe uno.", "full": "Eres inmune a movimientos de tipo Planta. Cuando uno te alcanza, en vez de daño ganas +1 Combat Stage de Ataque." },
+  "Sanadora":         { "tipo": "Curativa","desc": "Puede curar estados persistentes de aliados una vez por escena.", "full": "Una vez por escena, como acción estándar, puedes curar un estado persistente de un aliado adyacente." },
+
+  "Torrente":         { "tipo": "Ofensiva","desc": "+2 al daño de tipo Agua bajo el 33% de PG.", "full": "Cuando tus PG están por debajo de un tercio de tu máximo, tus movimientos de tipo Agua ganan +2 al daño." },
+  "Mandíbula Firme":  { "tipo": "Ofensiva","desc": "+2 al daño de movimientos de mordida.", "full": "Los movimientos con la palabra 'Mordida', 'Colmillo' o 'Triturar' en el nombre ganan +2 al daño." },
+  "Fuerza Bruta":     { "tipo": "Ofensiva","desc": "+2 al daño físico. -2 a salvaciones mentales.", "full": "Ganas +2 al daño de ataques físicos. Sufres -2 a todas las salvaciones contra efectos mentales (Confuso, Enamorado, etc.)." },
+  "Nado Rápido":      { "tipo": "Movilidad","desc": "En lluvia, duplica la velocidad de nado.", "full": "Mientras el clima sea Lluvioso, tu capacidad de Nado se duplica." },
+
+  "Especialista":     { "tipo": "Ofensiva","desc": "+1 al daño con movimientos de tu tipo.", "full": "Elige un tipo al obtener la habilidad. Ganas +1 al daño con movimientos de ese tipo." },
+  "Unaware":          { "tipo": "Defensa", "desc": "Ignora los cambios de CS del rival al recibir daño.", "full": "Cuando un enemigo te ataca, ignora sus Combat Stages positivos a la hora de calcular el daño." },
+  "Fuerza Solar":     { "tipo": "Ofensiva","desc": "En sol, +3 al daño de ataques especiales.", "full": "Mientras el clima sea Soleado, tus ataques especiales ganan +3 al daño." },
+
+  "Velocidad":        { "tipo": "Iniciativa","desc": "+2 Iniciativa. Se acumula con otras fuentes.", "full": "Ganas +2 a Iniciativa permanente." },
+  "Impulso":          { "tipo": "Velocidad","desc": "Al final del turno, +1 CS Velocidad.", "full": "Al final de cada uno de tus turnos, ganas +1 Combat Stage de Velocidad (máximo +6)." },
+  "Alas de Fuego":    { "tipo": "Ofensiva","desc": "Sus movimientos de Fuego ganan STAB sin importar el tipo.", "full": "Tus movimientos de tipo Fuego siempre reciben el bono STAB (+2 al daño), aunque tu tipo no sea Fuego." },
+
+  "Humedad":          { "tipo": "Control", "desc": "Bloquea movimientos de autodestrucción.", "full": "Mientras estés en combate, todos los Pokémon en el campo no pueden usar movimientos de autodestrucción (Explosión, Autodestrucción, etc.)." },
+  "Anticipación":     { "tipo": "Utilidad","desc": "Detecta movimientos peligrosos del rival.", "full": "Al inicio del combate, el DJ te informa si algún enemigo tiene un movimiento que podría debilitar a un aliado en un solo golpe." },
+
+  "Electricidad Estática": { "tipo": "Contacto", "desc": "30% de paralizar al ser golpeado por contacto.", "full": "Cuando un enemigo te golpea con un movimiento de contacto, tira 1d10. Con 8+ el atacante queda Paralizado." },
+  "Recogida":         { "tipo": "Utilidad","desc": "Puede recoger objetos tras el combate.", "full": "Al final de un combate, tira 1d20. Con 15+ encuentras un objeto útil (a criterio del DJ)." },
+  "Pararrayos":       { "tipo": "Inmunidad","desc": "Inmune a Eléctrico; +1 CS At. Esp. si recibe uno.", "full": "Eres inmune a movimientos de tipo Eléctrico. Cuando uno te alcanza, ganas +1 Combat Stage de At. Esp. en vez de recibir daño." },
+
+  "Fuga":             { "tipo": "Utilidad","desc": "No puede ser atrapado fuera de combate.", "full": "Fuera de combate, no puedes ser rastreado ni atrapado. En combate, +2 a tiradas para huir." },
+  "Adaptable":        { "tipo": "Ofensiva","desc": "Sus movimientos de tipo Normal ganan STAB doble.", "full": "Tus movimientos de tipo Normal reciben STAB doble: +4 al daño en vez de +2." },
+  "Gracia":           { "tipo": "Ofensiva","desc": "Sus movimientos de tipo Hada ganan STAB.", "full": "Tus movimientos de tipo Hada siempre reciben STAB, sin importar tu tipo." },
+
+  "Sincronía":        { "tipo": "Utilidad","desc": "Comparte los estados persistentes con el rival.", "full": "Cuando contraes un estado persistente (Quemado, Envenenado, Paralizado), el causante también lo contrae." },
+  "Rastro":           { "tipo": "Utilidad","desc": "Copia la habilidad del rival al entrar en combate.", "full": "Al entrar en combate, copia la habilidad básica de un enemigo adyacente hasta el final del combate." },
+  "Telepatía":        { "tipo": "Defensa", "desc": "No recibe daño de aliados.", "full": "Los movimientos de tus aliados no te hacen daño (ni siquiera los de área)." },
+  "Compasión":        { "tipo": "Social",  "desc": "+2 a tiradas de Intimidación contra rivales con PG bajos.", "full": "+2 a tiradas de Encanto, Intimidación o Mando contra Pokémon que estén por debajo del 50% de sus PG." },
+
+  "Impasible":        { "tipo": "Defensa", "desc": "+2 a salvaciones contra efectos mentales.", "full": "Ganas +2 a todas las salvaciones contra efectos mentales (Confuso, Enamorado, Dormido, etc.)." },
+  "Imperturbable":    { "tipo": "Defensa", "desc": "+2 a salvaciones contra miedo e intimidación.", "full": "Ganas +2 a salvaciones contra efectos de miedo, intimidación y presión." },
+  "Justiciero":       { "tipo": "Ofensiva","desc": "+2 al daño contra enemigos que atacaron primero.", "full": "Si un enemigo te atacó en el turno anterior, tus ataques contra él ganan +2 al daño este turno." },
+  "Venganza":         { "tipo": "Ofensiva","desc": "+2 al daño contra quien te hizo daño en el turno anterior.", "full": "Contra cualquier enemigo que te haya hecho daño en el turno inmediatamente anterior, tus ataques ganan +2 al daño." }
+}

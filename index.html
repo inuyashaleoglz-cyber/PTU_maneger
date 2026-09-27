@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PTU Manager · Pokémon Tabletop United 1.05</title>
+<meta name="description" content="Gestor de fichas para PTU 1.05. Funciona sin conexión, en español neutro.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0e1513">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+</head>
+<body>
+
+<!-- ░░░ Barra lateral ░░░ -->
+<aside class="side" id="side" aria-label="Menú principal">
+  <div class="brand">
+    <div class="logo">PTU</div>
+    <div>
+      <b>Manager</b>
+      <small>1.05 · Entrenador</small>
+    </div>
+  </div>
+  <ul class="nav" id="nav">
+    <li><button data-view="inicio"><span class="ic">🏠</span>Inicio</button></li>
+
+    <li class="grp">Mi ficha</li>
+    <li><button data-view="crear"><span class="ic">✨</span>Crear entrenador</button></li>
+    <li><button data-view="entrenador"><span class="ic">👤</span>Mi entrenador</button></li>
+    <li><button data-view="pokemons"><span class="ic">🐾</span>Mis Pokémon<span class="badge hide" id="pkCount"></span></button></li>
+
+    <li class="grp">Progresión</li>
+    <li><button data-view="clases"><span class="ic">🎓</span>Clases</button></li>
+
+    <li class="grp">En la mesa</li>
+    <li><button data-view="tracker"><span class="ic">⚔️</span>Combate</button></li>
+    <li><button data-view="tools"><span class="ic">🧮</span>Calculadoras</button></li>
+    <li><button data-view="dados"><span class="ic">🎲</span>Dados</button></li>
+
+    <li class="grp">Grupo</li>
+    <li><button data-view="compartir"><span class="ic">🔗</span>Compartir ficha</button></li>
+    <li><button data-view="dj"><span class="ic">🎬</span>Vista DJ</button></li>
+
+    <li class="grp">Referencia</li>
+    <li><button data-view="tipos"><span class="ic">🔷</span>Tipos</button></li>
+    <li><button data-view="estados"><span class="ic">💫</span>Estados</button></li>
+    <li><button data-view="reglas"><span class="ic">📖</span>Reglas</button></li>
+    <li><button data-view="glosario"><span class="ic">📚</span>Glosario</button></li>
+  </ul>
+</aside>
+
+<main>
+  <div class="topbar">
+    <button class="menu mobile-only" id="menu" aria-label="Abrir menú">☰</button>
+    <h1 id="title">Inicio</h1>
+    <div class="top-actions">
+      <span class="chip" id="chipFicha" title="Resumen de tu ficha actual">Sin ficha</span>
+      <button class="btn ghost icon" id="helpBtn" title="Ayuda contextual de esta pantalla" aria-label="Ayuda">?</button>
+      <button class="btn ghost icon" id="theme" title="Cambiar tema claro / oscuro" aria-label="Cambiar tema">🌙</button>
+    </div>
+  </div>
+
+  <!-- ░░░ INICIO ░░░ -->
+  <section class="view on" id="view-inicio">
+    <div class="hero">
+      <h1 id="heroGreeting">Bienvenido, entrenador</h1>
+      <p>
+        Aquí puedes gestionar tu ficha de PTU 1.05 sin conexión y sin instalar nada.
+        Si es tu primera vez, empieza por <b>Crear entrenador</b> — el asistente te explica cada paso.
+      </p>
+      <div class="hero-actions">
+        <button class="btn" data-go="crear">Empezar una ficha</button>
+        <button class="btn ghost" data-go="compartir">Compartir con el grupo</button>
+        <button class="btn ghost" id="openHelp">¿Cómo funciona esto?</button>
+      </div>
+    </div>
+
+    <div id="warnStorage" class="call warn hide">
+      <span class="lbl">Aviso</span>
+      Tu navegador no permite guardar datos. Estás en modo incógnito o bloqueaste el almacenamiento.
+      <b>Exporta tus fichas al terminar</b> o perderás todo al cerrar.
+    </div>
+
+    <div class="grid c3">
+      <button class="action-card" data-go="entrenador">
+        <span class="ic">👤</span>
+        <b>Mi entrenador</b>
+        <small>Estadísticas, destrezas, edges y clase.</small>
+      </button>
+      <button class="action-card" data-go="pokemons">
+        <span class="ic">🐾</span>
+        <b>Mis Pokémon</b>
+        <small>Añade, edita y gestiona tu equipo completo.</small>
+      </button>
+      <button class="action-card" data-go="clases">
+        <span class="ic">🎓</span>
+        <b>Clases</b>
+        <small>Catálogo con requisitos y qué puedes tomar.</small>
+      </button>
+      <button class="action-card" data-go="tracker">
+        <span class="ic">⚔️</span>
+        <b>Combate</b>
+        <small>Iniciativa, PG, PA, estados y acciones.</small>
+      </button>
+      <button class="action-card" data-go="tools">
+        <span class="ic">🧮</span>
+        <b>Calculadoras</b>
+        <small>Daño, captura y tabla de DB.</small>
+      </button>
+      <button class="action-card" data-go="compartir">
+        <span class="ic">🔗</span>
+        <b>Compartir</b>
+        <small>Genera un código con tu ficha para el grupo.</small>
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>Primeros pasos</h2>
+      <div class="grid c2">
+        <div>
+          <h4>Cómo se juega, en una frase</h4>
+          <p>Tú eres un entrenador; el DJ describe el mundo. Cuando algo puede fallar y el resultado importa, se tiran dados.</p>
+          <h4>Tú y tu Pokémon son dos</h4>
+          <p>Cada uno tiene su ficha y su turno. No eres espectador: participas.</p>
+        </div>
+        <div>
+          <h4>Las tres tiradas que usarás todo el tiempo</h4>
+          <ul style="padding-left:20px;margin:.3em 0">
+            <li><b>Destreza</b> → tantos <code>d6</code> como tu rango.</li>
+            <li><b>Ataque</b> → <code>1d20 + precisión</code> vs AC.</li>
+            <li><b>Captura</b> → <code>1d100</code>, se resta el nivel del objetivo.</li>
+          </ul>
+          <div class="call warn">
+            <span class="lbl">Error común</span>
+            El valor de <b>Ataque</b> NO se suma a la tirada de acertar. Se suma al daño.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ CREAR ENTRENADOR (Wizard) ░░░ -->
+  <section class="view" id="view-crear">
+    <div class="wiz">
+      <div class="wiz-h">
+        <h3 id="wt">Paso 1 · Identidad</h3>
+        <p id="wd">Lo esencial: cómo se llama y quién es.</p>
+        <div class="prog"><i id="wb"></i></div>
+      </div>
+      <div class="steps" id="ws">
+        <button class="sbtn on" data-s="0">1 · Identidad</button>
+        <button class="sbtn" data-s="1">2 · Trasfondo</button>
+        <button class="sbtn" data-s="2">3 · Edges</button>
+        <button class="sbtn" data-s="3">4 · Clase</button>
+        <button class="sbtn" data-s="4">5 · Estadísticas</button>
+        <button class="sbtn" data-s="5">6 · Pokémon</button>
+        <button class="sbtn" data-s="6">7 · Equipo</button>
+        <button class="sbtn" data-s="7">8 · Listo</button>
+      </div>
+
+      <div class="panel on" data-p="0">
+        <div class="call info">
+          <span class="lbl">Por qué importa</span>
+          El nombre y el concepto ayudan a tu DJ a enganchar tu historia con la campaña. No necesitas un trasfondo épico: con una frase basta.
+        </div>
+        <div class="row wide">
+          <div class="field"><label for="w-nombre">Nombre del entrenador <span class="tip" tabindex="0" data-tip="Cómo se llama tu personaje. Puede ser tu nombre real o uno inventado.">?</span></label>
+            <input id="w-nombre" placeholder="Ej. Leo" autocomplete="off"></div>
+          <div class="field"><label for="w-nivel">Nivel <span class="tip" tabindex="0" data-tip="Empiezas en nivel 1. Sube con hitos narrativos o 10 EXP.">?</span></label>
+            <input id="w-nivel" type="number" value="1" min="1" max="50"></div>
+        </div>
+        <div class="field"><label for="w-concepto">Concepto (una frase)</label>
+          <input id="w-concepto" placeholder="Ej. Entrenar al Pokémon más débil para volverlo el más fuerte" autocomplete="off"></div>
+        <div class="field"><label for="w-historia">Historia breve <span style="opacity:.6">(opcional)</span></label>
+          <textarea id="w-historia" rows="3" placeholder="Ej. Su padre fue entrenador famoso…" autocomplete="off"></textarea></div>
+      </div>
+
+      <div class="panel" data-p="1">
+        <div class="call info">
+          <span class="lbl">Cómo funciona</span>
+          Todas las destrezas parten de <b>Sin entrenar (2d6)</b>. Elige una para subir a <b>Adepto (4d6)</b>, otra a <b>Novato (3d6)</b>, y tres para bajar a <b>Patético (1d6)</b>. Es tu historia: ¿en qué eres bueno, en qué no?
+        </div>
+        <div id="w-conflict" class="call err hide">
+          <span class="lbl">Conflicto</span>
+          Repetiste una destreza. Quítala de una de las categorías antes de continuar.
+        </div>
+        <div class="row">
+          <div class="field"><label for="w-adept">Adepto (4d6) <span class="tip" tabindex="0" data-tip="La destreza en la que más destacas. Se tira con 4 dados de 6 caras.">?</span></label>
+            <select id="w-adept"></select></div>
+          <div class="field"><label for="w-novice">Novato (3d6)</label>
+            <select id="w-novice"></select></div>
+        </div>
+        <div class="field">
+          <label>3 destrezas Patéticas (1d6)</label>
+          <div id="w-weak" class="chk-grid"></div>
+          <div class="count" id="w-weakc">0 / 3</div>
+        </div>
+      </div>
+
+      <div class="panel" data-p="2">
+        <div class="call info">
+          <span class="lbl">Qué es un Edge</span>
+          Un <b>Edge</b> es una mejora específica. El más común: subir una destreza un rango entero. Tienes <b>4 Edges</b> para repartir. Aquí asumimos la opción más simple: 4 destrezas a Novato.
+        </div>
+        <div class="field">
+          <label>Destrezas a subir a Novato (máx. 4)</label>
+          <div id="w-edges" class="chk-grid"></div>
+          <div class="count" id="w-edgesc">0 / 4</div>
+        </div>
+      </div>
+
+      <div class="panel" data-p="3">
+        <div class="call info">
+          <span class="lbl">Qué es una Clase</span>
+          Una <b>Clase</b> es un camino de especialización. Aquí eliges la inicial (opcional, puedes cambiarla luego). Todas las clases con requisitos que cumples aparecen marcadas como <span class="tag g">✓</span>.
+        </div>
+        <div class="row wide">
+          <div class="field"><label for="w-clase">Clase inicial</label>
+            <select id="w-clase"><option value="">— sin decidir —</option></select></div>
+          <div class="field"><label for="w-train">Entrenamiento gratis <span class="tip" tabindex="0" data-tip="Todos los entrenadores empiezan con un Entrenamiento gratuito. Es una ventaja que aplicas a tu equipo.">?</span></label>
+            <select id="w-train">
+              <option value="Entrenamiento de Agilidad">Entrenamiento de Agilidad (+1 mov., +4 ini.)</option>
+              <option value="Entrenamiento Enfocado">Entrenamiento Enfocado (+1 precisión, +2 destrezas)</option>
+              <option value="Entrenamiento Brutal">Entrenamiento Brutal (+1 rango crítico)</option>
+              <option value="Entrenamiento Inspirador">Entrenamiento Inspirador (+1 evasión, +2 salvaciones)</option>
+            </select></div>
+        </div>
+      </div>
+
+      <div class="panel" data-p="4">
+        <div class="call info">
+          <span class="lbl">Cómo repartir</span>
+          Empiezas con <b>10 de Salud</b> y <b>5 en todo lo demás</b>. Reparte <b>10 puntos</b> extra. Máximo +5 por estadística. <b>No se te ocurra dejar la Salud en 0</b>: es lo que determina tus Puntos de Golpe.
+        </div>
+        <div class="row" id="w-stats">
+          <div class="field"><label>Salud (+)</label><input id="w-hp" type="number" min="0" max="5" value="4"></div>
+          <div class="field"><label>Ataque (+)</label><input id="w-atk" type="number" min="0" max="5" value="0"></div>
+          <div class="field"><label>Defensa (+)</label><input id="w-def" type="number" min="0" max="5" value="3"></div>
+          <div class="field"><label>At. Esp. (+)</label><input id="w-spa" type="number" min="0" max="5" value="0"></div>
+          <div class="field"><label>Def. Esp. (+)</label><input id="w-spd" type="number" min="0" max="5" value="0"></div>
+          <div class="field"><label>Velocidad (+)</label><input id="w-spe" type="number" min="0" max="5" value="3"></div>
+        </div>
+        <p><b>Usados:</b> <span id="w-statstot" class="mono">10</span> / 10</p>
+        <div class="stats">
+          <div class="stat"><b>Salud</b><span id="w-fhp">14</span></div>
+          <div class="stat"><b>Ataque</b><span id="w-fatk">5</span></div>
+          <div class="stat"><b>Defensa</b><span id="w-fdef">8</span></div>
+          <div class="stat"><b>At. Esp.</b><span id="w-fspa">5</span></div>
+          <div class="stat"><b>Def. Esp.</b><span id="w-fspd">5</span></div>
+          <div class="stat"><b>Velocidad</b><span id="w-fspe">8</span></div>
+        </div>
+        <div class="stats" style="margin-top:8px">
+          <div class="stat"><b>PG</b><span id="w-pg">54</span><small>Nivel × 2 + Salud × 3 + 10</small></div>
+          <div class="stat"><b>PA</b><span id="w-ap">5</span><small>5 + (Nivel ÷ 5)</small></div>
+          <div class="stat"><b>Ev. Fís.</b><span id="w-ef">1</span><small>⌊Defensa ÷ 5⌋</small></div>
+          <div class="stat"><b>Ev. Esp.</b><span id="w-ee">1</span><small>⌊Def.Esp ÷ 5⌋</small></div>
+          <div class="stat"><b>Ev. Vel.</b><span id="w-ev">1</span><small>⌊Velocidad ÷ 5⌋</small></div>
+        </div>
+      </div>
+
+      <div class="panel" data-p="5">
+        <div class="call info">
+          <span class="lbl">Tu primer compañero</span>
+          Puedes empezar con cualquier Pokémon de nivel 5. Recomendación: un inicial (Bulbasaur, Charmander, etc.) o un Pokémon común con tres etapas evolutivas.
+        </div>
+        <div class="row wide">
+          <div class="field"><label for="w-esp">Especie</label>
+            <select id="w-esp"></select></div>
+          <div class="field"><label for="w-nivel-pk">Nivel</label>
+            <input id="w-nivel-pk" type="number" value="5" min="1" max="100"></div>
+          <div class="field"><label for="w-nat">Naturaleza <span class="tip" tabindex="0" data-tip="La naturaleza sube una estadística y baja otra. Nunca afecta a Salud más de ±1.">?</span></label>
+            <select id="w-nat"></select></div>
+        </div>
+        <div id="w-base"></div>
+        <h4>Reparto de puntos (nivel + 10)</h4>
+        <p class="count" id="w-ptot">0 / 15</p>
+        <div class="row" id="w-ppoints">
+          <div class="field"><label>Salud (+)</label><input data-pk="hp" type="number" min="0" value="0"></div>
+          <div class="field"><label>Ataque (+)</label><input data-pk="atk" type="number" min="0" value="0"></div>
+          <div class="field"><label>Defensa (+)</label><input data-pk="def" type="number" min="0" value="0"></div>
+          <div class="field"><label>At. Esp. (+)</label><input data-pk="spa" type="number" min="0" value="0"></div>
+          <div class="field"><label>Def. Esp. (+)</label><input data-pk="spd" type="number" min="0" value="0"></div>
+          <div class="field"><label>Velocidad (+)</label><input data-pk="spe" type="number" min="0" value="0"></div>
+        </div>
+        <div id="w-preview"></div>
+        <div class="row" style="margin-top:10px">
+          <div class="field"><label for="w-hab">Habilidad</label>
+            <input id="w-hab" placeholder="Ej. Fuga"></div>
+          <div class="field"><label for="w-movs">Movimientos (uno por línea, máx. 6)</label>
+            <textarea id="w-movs" rows="3" placeholder="Placaje&#10;Gruñido&#10;Ataque Arena"></textarea>
+            <div class="moves-list" id="w-movs-info"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" data-p="6">
+        <div class="call info">
+          <span class="lbl">Tu dinero inicial</span>
+          Empiezas con <b>5.000₽</b>. Anota lo que compres. La Poké Ball y la Poción son lo más útil al principio.
+        </div>
+        <div class="row wide">
+          <div class="field"><label>Poké Balls (250₽)</label><input id="b-ball" type="number" value="0" min="0"></div>
+          <div class="field"><label>Pociones (200₽)</label><input id="b-pot" type="number" value="0" min="0"></div>
+          <div class="field"><label>Revivir (300₽)</label><input id="b-rev" type="number" value="0" min="0"></div>
+          <div class="field"><label>Antídotos (200₽)</label><input id="b-ant" type="number" value="0" min="0"></div>
+        </div>
+        <div class="stats" style="margin-top:10px">
+          <div class="stat"><b>Gastado</b><span id="b-gast">0</span></div>
+          <div class="stat"><b>Restante</b><span id="b-rest">5000</span></div>
+        </div>
+      </div>
+
+      <div class="panel" data-p="7">
+        <div class="call info">
+          <span class="lbl">Listo</span>
+          Esta es tu ficha. Puedes volver atrás para ajustar o compartirla con tu grupo ahora mismo.
+        </div>
+        <div id="w-final"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn" data-go="entrenador">Ver mi entrenador →</button>
+          <button class="btn ghost" data-go="compartir">Compartir con el grupo</button>
+          <button class="btn ghost" onclick="window.print()">🖨 Imprimir</button>
+        </div>
+      </div>
+
+      <div class="wnav">
+        <button class="btn ghost" id="wprev" disabled>← Anterior</button>
+        <button class="btn" id="wnext">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ ENTRENADOR ░░░ -->
+  <section class="view" id="view-entrenador">
+    <div id="entrenadorView"></div>
+  </section>
+
+  <!-- ░░░ POKEMONS ░░░ -->
+  <section class="view" id="view-pokemons">
+    <div id="pokemonsListView"></div>
+    <div id="pokemonDetailView" class="hide"></div>
+  </section>
+
+  <!-- ░░░ CLASES ░░░ -->
+  <section class="view" id="view-clases">
+    <div class="call info">
+      <span class="lbl">Cómo leer esta lista</span>
+      Las clases con <span class="tag g">✓ lista</span> son las que ya puedes tomar con tu ficha actual.
+      Las que dicen <span class="tag r">✗ faltan</span> te indican exactamente qué destreza o nivel te falta.
+    </div>
+    <div class="card t">
+      <div class="row wide">
+        <div class="field"><label>Categoría</label>
+          <select id="cc-filter"><option value="">Todas</option></select></div>
+        <div class="field"><label>Buscar</label>
+          <input id="cc-search" placeholder="Ej. Ninja, Fuego…" autocomplete="off"></div>
+        <div class="field"><label>&nbsp;</label>
+          <label style="display:flex;gap:6px;align-items:center;font-size:12.5px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card2);cursor:pointer">
+            <input type="checkbox" id="cc-onlyok" style="width:auto"> Solo las que cumplo
+          </label></div>
+      </div>
+    </div>
+    <div id="classCatalog"></div>
+  </section>
+
+  <!-- ░░░ TRACKER ░░░ -->
+  <section class="view" id="view-tracker">
+    <div class="call info">
+      <span class="lbl">Cómo funciona</span>
+      Añade combatientes con su iniciativa (normalmente su Velocidad) y la app los ordena sola. Cada turno puedes marcar acción estándar, de movimiento y rápida.
+    </div>
+    <div class="card" id="combatControls">
+      <h3 style="margin-top:0">Añadir combatiente</h3>
+      <div class="row wide">
+        <div class="field"><label>Nombre</label><input id="cb-name" placeholder="Ej. Eevee salvaje"></div>
+        <div class="field"><label>Iniciativa</label><input id="cb-init" type="number" value="10"></div>
+        <div class="field"><label>PG máx.</label><input id="cb-hp" type="number" value="30"></div>
+        <div class="field"><label>PA máx.</label><input id="cb-ap" type="number" value="5"></div>
+        <div class="field"><label>Bando</label>
+          <select id="cb-side">
+            <option value="ally">Aliado</option>
+            <option value="enemy">Enemigo</option>
+            <option value="neutral">Neutral</option>
+          </select></div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="btn" id="cb-add">Añadir</button>
+        <button class="btn ghost" id="cb-add-me">+ Mi entrenador</button>
+        <button class="btn ghost" id="cb-add-team">+ Mi equipo</button>
+        <button class="btn ghost" id="cb-next">▶ Siguiente turno</button>
+        <button class="btn r" id="cb-clear">Vaciar</button>
+      </div>
+    </div>
+
+    <div class="card t">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <div><b>Ronda</b> <span class="mono" id="cb-round">1</span></div>
+        <div style="font-size:13.5px;color:var(--dim)">Turno de <b id="cb-current" style="color:var(--g)">—</b></div>
+      </div>
+    </div>
+
+    <div class="combat-list" id="combatList"></div>
+    <div id="combatEmpty" class="call info"><span class="lbl">Vacío</span>Añade combatientes para empezar.</div>
+  </section>
+
+  <!-- ░░░ CALCULADORAS ░░░ -->
+  <section class="view" id="view-tools">
+    <div class="tabs" data-tabs="calc">
+      <button class="tab on" data-tab="dano">Daño</button>
+      <button class="tab" data-tab="captura">Captura</button>
+      <button class="tab" data-tab="tabla">Tabla de daño</button>
+    </div>
+
+    <div class="tab-panel on" data-panel="dano">
+      <div class="card">
+        <div class="call info">
+          <span class="lbl">Cómo calcular daño</span>
+          <b>1.</b> Mira la DB del movimiento. <b>2.</b> Súmale tu estadística ofensiva (Ataque o At. Especial). <b>3.</b> Réstale la defensa correspondiente. <b>4.</b> Multiplica por el tipo. Si el Pokémon comparte tipo con el movimiento, añade <b>+2 a la DB</b> antes del paso 2.
+        </div>
+        <div class="row wide">
+          <div class="field"><label>DB final <span class="tip" tabindex="0" data-tip="La DB (Damage Base) viene del movimiento. Si hay STAB, ya deberías haber sumado +2.">?</span></label>
+            <input id="d-db" type="number" value="6" min="1" max="28"></div>
+          <div class="field"><label>Estadística ofensiva</label><input id="d-stat" type="number" value="9"></div>
+          <div class="field"><label>Estadística defensiva</label><input id="d-def" type="number" value="6"></div>
+          <div class="field"><label>Multiplicador de tipo</label>
+            <select id="d-mult">
+              <option value="0">×0 (inmune)</option>
+              <option value="0.25">×¼ (resiste fuerte)</option>
+              <option value="0.5">×½ (resiste)</option>
+              <option value="1" selected>×1 (neutral)</option>
+              <option value="1.5">×1.5 (débil)</option>
+              <option value="2">×2 (muy débil)</option>
+            </select></div>
+        </div>
+        <div class="stats" style="margin-top:10px">
+          <div class="stat"><b>Daño final</b><span id="d-out">—</span></div>
+          <div class="stat" style="grid-column:span 2;text-align:left;padding:10px">
+            <b>Fórmula</b>
+            <span id="d-f" style="font-size:12px;color:var(--dim);display:block;margin-top:4px">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="captura">
+      <div class="card">
+        <div class="call info">
+          <span class="lbl">Cómo capturar</span>
+          Lanza la Ball (<b>AC 6</b>). Si aciertas, el objetivo tira <code>1d100 − nivel</code>. Si el resultado es menor o igual a la tasa de captura, capturas. Un 100 natural captura siempre.
+        </div>
+        <div class="row wide">
+          <div class="field"><label>Nivel del Pokémon</label><input id="c-niv" type="number" value="5"></div>
+          <div class="field"><label>Tipo de Ball</label>
+            <select id="c-ball">
+              <option value="0">Básica (0)</option>
+              <option value="-10">Super Ball (−10)</option>
+              <option value="-15">Ultra Ball (−15)</option>
+            </select></div>
+          <div class="field"><label>PG del objetivo</label>
+            <select id="c-pg">
+              <option value="-30">&gt;75% (−30)</option>
+              <option value="-15">50-75% (−15)</option>
+              <option value="0">25-50% (0)</option>
+              <option value="15">&lt;25% (+15)</option>
+              <option value="30">1 PG (+30)</option>
+            </select></div>
+          <div class="field"><label>Otros ajustes</label><input id="c-otr" type="number" value="0"></div>
+        </div>
+        <div class="stats" style="margin-top:10px">
+          <div class="stat"><b>Tasa final</b><span id="c-out">—</span></div>
+        </div>
+        <details style="margin-top:14px"><summary>Ajustes adicionales</summary><div class="bd">
+          <div class="tw"><table><tbody>
+            <tr><td>2 evoluciones restantes</td><td class="num">+10</td></tr>
+            <tr><td>1 evolución restante</td><td class="num">0</td></tr>
+            <tr><td>0 evoluciones restantes</td><td class="num">−10</td></tr>
+            <tr><td>Variocolor (Shiny)</td><td class="num">−10</td></tr>
+            <tr><td>Legendario</td><td class="num">−30</td></tr>
+            <tr><td>Estado persistente</td><td class="num">+10</td></tr>
+            <tr><td>Estado volátil o herida</td><td class="num">+5</td></tr>
+          </tbody></table></div>
+        </div></details>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="tabla">
+      <div class="card">
+        <p style="margin-top:0">Cuando el movimiento dice “DB X”, busca aquí para saber cuántos dados y cuánto daño fijo usar. Ya está sumado el valor fijo antes de estadísticas.</p>
+        <div class="tw"><table>
+          <thead><tr><th>DB</th><th>Dados</th><th>Fijo</th><th>DB</th><th>Dados</th><th>Fijo</th></tr></thead>
+          <tbody id="dmgTable"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ DADOS ░░░ -->
+  <section class="view" id="view-dados">
+    <div class="card">
+      <h3 style="margin-top:0">Tirada rápida</h3>
+      <p style="margin-top:0">Haz clic en un dado para tirarlo. Se registra cada tirada con su desglose completo.</p>
+      <div class="dice">
+        <div class="die" data-d="1d6"><b>1d6</b><span>—</span></div>
+        <div class="die" data-d="1d20"><b>1d20</b><span>—</span></div>
+        <div class="die" data-d="1d100"><b>1d100</b><span>—</span></div>
+        <div class="die" data-d="2d6"><b>2d6</b><span>—</span></div>
+        <div class="die" data-d="3d6"><b>3d6</b><span>—</span></div>
+        <div class="die" data-d="4d6"><b>4d6</b><span>—</span></div>
+        <div class="die" data-d="5d6"><b>5d6</b><span>—</span></div>
+        <div class="die" data-d="6d6"><b>6d6</b><span>—</span></div>
+      </div>
+      <div class="field" style="margin-top:14px;max-width:180px">
+        <label>Modificador (+/−)</label>
+        <input id="mod" type="number" value="0">
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Tiradas desde mi ficha</h3>
+      <p style="margin-top:0">Tira una destreza directamente con tus dados actuales.</p>
+      <div id="skillRollsBlock"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 style="margin:0">Registro</h3>
+        <button class="btn ghost xs" id="clearRolls">Limpiar</button>
+      </div>
+      <div class="roll-log" id="rollLog"><div style="color:var(--dim)">Sin tiradas todavía.</div></div>
+    </div>
+  </section>
+
+  <!-- ░░░ COMPARTIR ░░░ -->
+  <section class="view" id="view-compartir">
+    <div class="call info">
+      <span class="lbl">Cómo compartir sin servidor</span>
+      Cada jugador genera un <b>código de texto</b> con su ficha y lo pega en el chat del grupo. Cualquiera puede importarlo. Todo queda en el navegador de cada uno — no hay cuentas ni nube.
+    </div>
+
+    <div class="tabs" data-tabs="share">
+      <button class="tab on" data-tab="enviar">Enviar mi ficha</button>
+      <button class="tab" data-tab="recibir">Importar ficha</button>
+      <button class="tab" data-tab="archivo">Archivo .ptu</button>
+    </div>
+
+    <div class="tab-panel on" data-panel="enviar">
+      <div class="card">
+        <h3 style="margin-top:0">Generar código de mi ficha</h3>
+        <p>Genera un código que puedes pegar en WhatsApp, Discord, Telegram o email.</p>
+        <button class="btn" id="share-gen">Generar código</button>
+        <div id="share-out" class="hide" style="margin-top:12px">
+          <textarea id="share-text" class="share-box" readonly></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn ghost sm" id="share-copy">📋 Copiar</button>
+            <span id="share-copy-ok" class="hide" style="color:var(--g);font-size:13px;align-self:center">¡Copiado!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="recibir">
+      <div class="card">
+        <h3 style="margin-top:0">Importar ficha de otro jugador</h3>
+        <p>Pega el código que te enviaron. Puedes cargarla como tu ficha activa o guardarla en la Vista DJ.</p>
+        <textarea id="share-in" class="share-box" placeholder="Pega aquí el código…"></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn" id="share-load">Cargar como ficha activa</button>
+          <button class="btn ghost" id="share-load-dm">Añadir a Vista DJ</button>
+        </div>
+        <div id="share-in-msg" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="archivo">
+      <div class="card">
+        <h3 style="margin-top:0">Exportar / importar archivo</h3>
+        <p>Un archivo <code>.ptu</code> (JSON) con toda tu ficha. Útil como copia de seguridad personal.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="file-export">⬇ Descargar mi ficha</button>
+          <button class="btn ghost" id="file-import-btn">⬆ Importar archivo</button>
+          <input type="file" id="file-import" accept=".ptu,.json" class="hide">
+        </div>
+        <hr>
+        <h4>Copia de seguridad interna</h4>
+        <p style="font-size:13px;color:var(--dim)">La app guarda automáticamente una copia. Si algo se rompe, puedes restaurarla.</p>
+        <button class="btn ghost sm" id="restore-backup">Restaurar última copia</button>
+        <div id="restore-msg" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ VISTA DJ ░░░ -->
+  <section class="view" id="view-dj">
+    <div class="call info">
+      <span class="lbl">Para el DJ</span>
+      Importa aquí las fichas de tus jugadores para consultarlas todas juntas. Se guardan aparte de tu ficha personal.
+    </div>
+    <div class="card t">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <span style="font-size:13px;color:var(--dim)">Fichas importadas: <b id="dj-count">0</b></span>
+        <button class="btn ghost sm" id="dj-clear">Vaciar vista DJ</button>
+      </div>
+    </div>
+    <div id="djList"></div>
+  </section>
+
+  <!-- ░░░ TIPOS ░░░ -->
+  <section class="view" id="view-tipos">
+    <div class="card">
+      <p style="margin-top:0">Haz clic en un tipo de ataque para ver contra qué es eficaz, resistido o inmune.</p>
+      <div class="type-grid" id="tgrid"></div>
+      <div id="tinfo" style="margin-top:14px">
+        <p style="color:var(--dim);margin:0;font-size:13.5px">Selecciona un tipo arriba.</p>
+      </div>
+    </div>
+    <div class="card t">
+      <h4 style="margin-top:0">Multiplicadores</h4>
+      <div class="grid c3">
+        <div class="stat"><b>Inmune</b><span>×0</span></div>
+        <div class="stat"><b>Resiste fuerte</b><span>×¼</span></div>
+        <div class="stat"><b>Resiste</b><span>×½</span></div>
+        <div class="stat"><b>Neutral</b><span>×1</span></div>
+        <div class="stat"><b>Débil</b><span>×1.5</span></div>
+        <div class="stat"><b>Muy débil</b><span>×2</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ ESTADOS ░░░ -->
+  <section class="view" id="view-estados">
+    <div class="tabs" data-tabs="est">
+      <button class="tab on" data-tab="persistentes">Persistentes</button>
+      <button class="tab" data-tab="volatiles">Volátiles</button>
+      <button class="tab" data-tab="descanso">Heridas y descanso</button>
+    </div>
+    <div class="tab-panel on" data-panel="persistentes">
+      <div class="card">
+        <p style="margin-top:0">Estos estados siguen contigo hasta que se curan específicamente.</p>
+        <div id="estPersist"></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-panel="volatiles">
+      <div class="card">
+        <p style="margin-top:0">Suelen durar hasta el final del combate o hasta que se cumple una condición.</p>
+        <div id="estVolat"></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-panel="descanso">
+      <div class="card">
+        <h3 style="margin-top:0">Heridas</h3>
+        <ul style="padding-left:20px">
+          <li>+1 herida si un golpe causa ≥ ½ de tus PG máximos.</li>
+          <li>También al cruzar 50%, 0%, −50%, −100% y cada −50% más.</li>
+          <li>Cada herida reduce un 10% el máximo que puedes curarte.</li>
+          <li>Recuperar PG <b>no elimina heridas</b>.</li>
+          <li>Con 5+ heridas: no recuperas PG descansando y pierdes PG al actuar.</li>
+        </ul>
+      </div>
+      <div class="card"><h3 style="margin-top:0">Descanso</h3><div id="descansoTable"></div></div>
+    </div>
+  </section>
+
+  <!-- ░░░ REGLAS ░░░ -->
+  <section class="view" id="view-reglas">
+    <div class="tabs" data-tabs="reg">
+      <button class="tab on" data-tab="combate">Combate</button>
+      <button class="tab" data-tab="stats">Estadísticas</button>
+      <button class="tab" data-tab="progreso">Progreso</button>
+    </div>
+    <div class="tab-panel on" data-panel="combate">
+      <div class="card">
+        <h3 style="margin-top:0">Una ronda, en orden</h3>
+        <ol style="padding-left:20px">
+          <li>Iniciativa = Velocidad. Empates se resuelven con 1d20.</li>
+          <li>Actúan de mayor a menor.</li>
+          <li>Cada participante: <b>1 estándar + 1 movimiento + 1 rápida</b>.</li>
+        </ol>
+        <div class="call"><span class="lbl">La regla clave</span>
+        En cada ronda tienes <b>un turno de entrenador y un turno de Pokémon</b>. Son independientes.</div>
+        <h3>Atacar</h3>
+        <pre>1d20 + precisión ≥ AC + evasión aplicable</pre>
+        <ul style="padding-left:20px">
+          <li><b>1 natural:</b> falla siempre.</li>
+          <li><b>20 natural:</b> acierta y es crítico.</li>
+          <li>Físico → evasión física o velocidad (la mayor).</li>
+          <li>Especial → evasión especial o velocidad (la mayor).</li>
+          <li>Estado → normalmente evasión de velocidad.</li>
+        </ul>
+        <h3>Daño paso a paso</h3>
+        <ol style="padding-left:20px">
+          <li>DB del movimiento (+2 si STAB).</li>
+          <li>Tabla de daño → dados o valor fijo.</li>
+          <li>Suma Ataque o At. Especial.</li>
+          <li>Resta Defensa o Def. Especial.</li>
+          <li>Aplica el multiplicador de tipo.</li>
+          <li>Resta los PG.</li>
+        </ol>
+        <div class="call warn"><span class="lbl">Crítico</span>
+        Con 20 natural, añade <b>otra vez el bloque de daño de la DB</b>, pero no repitas la estadística ofensiva.</div>
+      </div>
+    </div>
+    <div class="tab-panel" data-panel="stats">
+      <div class="card">
+        <h3 style="margin-top:0">Estadísticas</h3>
+        <div class="tw"><table>
+          <thead><tr><th>Estadística</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><b>Salud</b></td><td>Define los PG</td></tr>
+            <tr><td><b>Ataque</b></td><td>Se suma al daño físico</td></tr>
+            <tr><td><b>Defensa</b></td><td>Resta daño físico y da evasión física</td></tr>
+            <tr><td><b>At. Especial</b></td><td>Se suma al daño especial</td></tr>
+            <tr><td><b>Def. Especial</b></td><td>Resta daño especial y da evasión especial</td></tr>
+            <tr><td><b>Velocidad</b></td><td>Iniciativa y evasión de velocidad</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Fórmulas útiles</h3>
+        <pre>PG entrenador   = (nivel × 2) + (Salud × 3) + 10
+PG Pokémon      = nivel + (Salud × 3) + 10
+PA              = 5 + ⌊nivel ÷ 5⌋
+Evasión         = ⌊stat ÷ 5⌋, máx +6
+Movimiento      = 3 + ⌊(Atletismo + Acrobacias) ÷ 2⌋</pre>
+      </div>
+    </div>
+    <div class="tab-panel" data-panel="progreso">
+      <div class="card">
+        <h3 style="margin-top:0">Entrenador</h3>
+        <ul style="padding-left:20px">
+          <li>Sube por hito narrativo o por 10 EXP.</li>
+          <li>Capturar, eclosionar o evolucionar una especie nueva = 1 EXP.</li>
+          <li>+1 estadística por nivel.</li>
+          <li>Niveles impares: +1 Feature. Niveles pares: +1 Edge.</li>
+        </ul>
+        <h3>Pokémon</h3>
+        <ul style="padding-left:20px">
+          <li>La EXP se acumula hasta el siguiente nivel.</li>
+          <li>+1 estadística por nivel.</li>
+          <li>Revisa movimientos aprendidos y evolución.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ GLOSARIO ░░░ -->
+  <section class="view" id="view-glosario">
+    <div class="card">
+      <div class="field">
+        <label for="glossSearch">Buscar término</label>
+        <input id="glossSearch" placeholder="Ej. PG, AC, PA…" autocomplete="off">
+      </div>
+      <div class="tw" style="margin-top:12px"><table>
+        <thead><tr><th style="width:20%">Término</th><th>Significado</th></tr></thead>
+        <tbody id="glosarioBody"></tbody>
+      </table></div>
+    </div>
+  </section>
+</main>
+
+<!-- Modal de bienvenida -->
+<div class="modal-backdrop hide" id="onb-backdrop">
+  <div class="modal" role="dialog" aria-labelledby="onb-title">
+    <button class="modal-close" id="onb-close" aria-label="Cerrar">✕</button>
+    <h2 id="onb-title" style="margin-top:0">Bienvenido a PTU Manager 🎲</h2>
+    <p style="color:var(--dim)">Tres cosas rápidas y ya estás jugando.</p>
+    <ol style="padding-left:20px;line-height:1.7">
+      <li><b>Todo se guarda solo</b> en tu navegador. No hay cuentas ni nube.</li>
+      <li><b>Empieza con "Crear entrenador"</b>. El asistente te explica cada paso mientras lo haces.</li>
+      <li><b>Para compartir con tu grupo</b>, ve a "Compartir ficha" y genera un código para pegar en el chat.</li>
+    </ol>
+    <div class="call info" style="margin-top:14px">
+      <span class="lbl">Truco</span>
+      Todos los elementos con <span class="tip" tabindex="0" data-tip="¡Así! Pasa el cursor o toca aquí para ver una explicación.">?</span> tienen explicación. Pásate el cursor por encima cuando algo no quede claro.
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:18px">
+      <button class="btn" id="onb-go">Empezar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de ayuda contextual -->
+<div class="modal-backdrop hide" id="help-backdrop">
+  <div class="modal" role="dialog" aria-labelledby="help-title">
+    <button class="modal-close" id="help-close" aria-label="Cerrar">✕</button>
+    <h2 id="help-title" style="margin-top:0">Ayuda</h2>
+    <div id="help-content"></div>
+  </div>
+</div>
+
+<!-- ░░░ Scripts ░░░ -->
+<script src="src/storage.js"></script>
+<script src="src/data.js"></script>
+<script src="src/state.js"></script>
+<script src="src/ui.js"></script>
+<script src="src/wizard.js"></script>
+<script src="src/trainer.js"></script>
+<script src="src/pokemon.js"></script>
+<script src="src/combat.js"></script>
+<script src="src/tools.js"></script>
+<script src="src/share.js"></script>
+<script src="src/reference.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>

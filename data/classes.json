@@ -1,0 +1,74 @@
+{
+  "_nota": "Clases introductorias del Core 1.05. Las clases avanzadas requieren Features específicos que se añadirán después.",
+
+  "categories": {
+    "intro":   "Introductorias",
+    "combat":  "Estilo de combate",
+    "team":    "Equipo especializado",
+    "prof":    "Profesionales",
+    "fighter": "Luchador",
+    "super":   "Sobrenaturales"
+  },
+
+  "classes": {
+    "Entrenador Estrella": {
+      "cat": "intro",
+      "req": { "level": 1, "skills": {} },
+      "desc": "Potencia a un Pokémon favorito. Elige una 'Estrella' que gana bonos permanentes.",
+      "feature_base": {
+        "name": "Estrella del Equipo",
+        "effect": "Elige un Pokémon de tu equipo como Estrella. Ese Pokémon gana +1 a todas sus estadísticas base (aplicado antes del reparto de puntos). Si la Estrella es debilitada en combate, puedes elegir una nueva al final del día."
+      }
+    },
+
+    "Especialista en Captura": {
+      "cat": "intro",
+      "req": { "level": 1, "skills": { "Supervivencia": 3 } },
+      "desc": "Especialista en capturar Pokémon difíciles. Mejora tus Poké Balls y tu técnica.",
+      "feature_base": {
+        "name": "Técnica de Captura",
+        "effect": "Tus Poké Balls ganan +5 a la tasa de captura. Además, puedes aplicar el bono de 'Primera Ball' aunque el Pokémon ya haya sido dañado: si lanzas tu primera Poké Ball del combate sobre un Pokémon con menos del 50% de PG, ganas +10 adicional a la tasa."
+      }
+    },
+
+    "Comandante": {
+      "cat": "intro",
+      "req": { "level": 1, "skills": { "Mando": 4 } },
+      "desc": "Coordina órdenes y lidera. Mejora las acciones de tus aliados y Pokémon.",
+      "feature_base": {
+        "name": "Orden Firme",
+        "effect": "Como acción rápida, puedes dar una orden a un aliado o Pokémon aliado. Ese aliado gana +1 Combat Stage a la estadística que elijas (Ataque, Defensa, At. Esp., Def. Esp. o Velocidad) hasta el final del combate. Máximo +2 por combate por objetivo."
+      }
+    },
+
+    "Coordinador": {
+      "cat": "intro",
+      "req": { "level": 1, "skills": { "Encanto": 3, "Intuición": 3 } },
+      "desc": "Especialista en concursos y presentaciones. Saca lo mejor de cada Pokémon.",
+      "feature_base": {
+        "name": "Ojo de Coordinador",
+        "effect": "Una vez por escena, como acción estándar, puedes hacer que un Pokémon aliado recupere 1/4 de sus PG máximos y elimine un estado volátil (Confuso, Enamorado, Retroceso). Además, en concursos ganas +2 a todas tus tiradas."
+      }
+    },
+
+    "Aficionado": {
+      "cat": "intro",
+      "req": { "level": 1, "skills": {} },
+      "desc": "Amplia variedad de habilidades. Elige dos Features de cualquier clase introductoria.",
+      "feature_base": {
+        "name": "Amplio Repertorio",
+        "effect": "Al obtener esta clase, elige dos Features de otras clases introductorias. Las obtienes como si fueran tuyas. No puedes elegir dos Features de la misma clase."
+      }
+    },
+
+    "Mentor": {
+      "cat": "intro",
+      "req": { "level": 1, "skills": { "Encanto": 3, "Intuición": 3 } },
+      "desc": "Formador de Pokémon jóvenes. Acelera el crecimiento de tus Pokémon con menos nivel.",
+      "feature_base": {
+        "name": "Cuidado del Mentor",
+        "effect": "Tus Pokémon que estén 5 o más niveles por debajo del Pokémon de mayor nivel de tu equipo ganan EXP doble en combate. Además, una vez por día puedes dar a un Pokémon aliado un Entrenamiento específico sin gastar tiempo de entrenamiento."
+      }
+    }
+  }
+}
