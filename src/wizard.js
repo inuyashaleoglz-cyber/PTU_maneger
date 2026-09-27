@@ -23,7 +23,6 @@ const Wizard = {
   ],
 
   init() {
-    // Referencias
     this.panels = [...document.querySelectorAll('.panel')];
     this.buttons = [...document.querySelectorAll('.sbtn')];
     this.titleEl = document.getElementById('wt');
@@ -44,8 +43,8 @@ const Wizard = {
     const wWeak = document.getElementById('w-weak');
     const wEdges = document.getElementById('w-edges');
     this.SKILLS.forEach(s => {
-      wWeak.appendChild(this._check(s, 'weak'));
-      wEdges.appendChild(this._check(s, 'edge'));
+      wWeak.appendChild(this._check(s));
+      wEdges.appendChild(this._check(s));
     });
 
     // Llenar selección de especie
@@ -79,12 +78,11 @@ const Wizard = {
     this.goTo(0);
   },
 
-  _check(skill, kind) {
+  _check(skill) {
     const label = document.createElement('label');
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.value = skill;
-    cb.dataset.kind = kind;
     const span = document.createElement('span');
     span.textContent = skill;
     label.append(cb, span);
@@ -92,29 +90,25 @@ const Wizard = {
   },
 
   _fillNatures() {
-    // Copia del manual PTU 1.05
     const NATURES = [
-      ['— sin definir —', null, null],
-      ['Adorable', 'hp', 'atk'], ['Distraído', 'hp', 'def'], ['Orgulloso', 'hp', 'spa'],
-      ['Decidido', 'hp', 'spd'], ['Paciente', 'hp', 'spe'],
-      ['Desesperado', 'atk', 'hp'], ['Solitario', 'atk', 'def'], ['Firme', 'atk', 'spa'],
-      ['Travieso', 'atk', 'spd'], ['Valiente', 'atk', 'spe'],
-      ['Severo', 'def', 'hp'], ['Osado', 'def', 'atk'], ['Pícaro', 'def', 'spa'],
-      ['Relajado', 'def', 'spd'], ['Flemático', 'def', 'spe'],
-      ['Curioso', 'spa', 'hp'], ['Modesto', 'spa', 'atk'], ['Apacible', 'spa', 'def'],
-      ['Impulsivo', 'spa', 'spd'], ['Callado', 'spa', 'spe'],
-      ['Soñador', 'spd', 'hp'], ['Sereno', 'spd', 'atk'], ['Amable', 'spd', 'def'],
-      ['Cuidadoso', 'spd', 'spa'], ['Descarado', 'spd', 'spe'],
-      ['Asustadizo', 'spe', 'hp'], ['Tímido', 'spe', 'atk'], ['Apresurado', 'spe', 'def'],
-      ['Alegre', 'spe', 'spa'], ['Ingenuo', 'spe', 'spd'],
-      ['Compuesto', null, null], ['Fuerte', null, null], ['Dócil', null, null],
-      ['Excéntrico', null, null], ['Serio', null, null]
+      '— sin definir —',
+      'Adorable (+hp / −atk)', 'Distraído (+hp / −def)', 'Orgulloso (+hp / −spa)',
+      'Decidido (+hp / −spd)', 'Paciente (+hp / −spe)',
+      'Desesperado (+atk / −hp)', 'Solitario (+atk / −def)', 'Firme (+atk / −spa)',
+      'Travieso (+atk / −spd)', 'Valiente (+atk / −spe)',
+      'Severo (+def / −hp)', 'Osado (+def / −atk)', 'Pícaro (+def / −spa)',
+      'Relajado (+def / −spd)', 'Flemático (+def / −spe)',
+      'Curioso (+spa / −hp)', 'Modesto (+spa / −atk)', 'Apacible (+spa / −def)',
+      'Impulsivo (+spa / −spd)', 'Callado (+spa / −spe)',
+      'Soñador (+spd / −hp)', 'Sereno (+spd / −atk)', 'Amable (+spd / −def)',
+      'Cuidadoso (+spd / −spa)', 'Descarado (+spd / −spe)',
+      'Asustadizo (+spe / −hp)', 'Tímido (+spe / −atk)', 'Apresurado (+spe / −def)',
+      'Alegre (+spe / −spa)', 'Ingenuo (+spe / −spd)',
+      'Compuesto (neutral)', 'Fuerte (neutral)', 'Dócil (neutral)',
+      'Excéntrico (neutral)', 'Serio (neutral)'
     ];
     const sel = document.getElementById('w-nat');
-    NATURES.forEach((n, i) => {
-      const txt = n[1] ? `${n[0]} (+${n[1]} / −${n[2]})` : n[0];
-      sel.appendChild(new Option(txt, i));
-    });
+    NATURES.forEach((n, i) => sel.appendChild(new Option(n, i)));
   },
 
   _bindInputs() {
@@ -139,12 +133,10 @@ const Wizard = {
     });
 
     // Stats del entrenador
-    const statIds = { 'w-hp':'hp','w-atk':'atk','w-def':'def','w-spa':'spa','w-spd':'spd','w-spe':'spe' };
-    Object.entries(statIds).forEach(([id, key]) => {
-      document.getElementById(id).addEventListener('input', () => {
-        this._updateTrainerStats();
-        persist();
-      });
+    const statIds = ['w-hp', 'w-atk', 'w-def', 'w-spa', 'w-spd', 'w-spe'];
+    statIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => { this._updateTrainerStats(); persist(); });
     });
 
     // Checks Patéticas
@@ -213,44 +205,63 @@ const Wizard = {
     });
   },
 
+  /** CORREGIDO: ahora mapea input → display correctamente. */
   _updateTrainerStats() {
-    const BASE = { hp:10, atk:5, def:5, spa:5, spd:5, spe:5 };
-    const ids  = { 'w-hp':'hp','w-atk':'atk','w-def':'def','w-spa':'spa','w-spd':'spd','w-spe':'spe' };
-    const fin  = { 'w-fhp':'hp','w-fatk':'atk','w-fdef':'def','w-fspa':'spa','w-fspd':'spd','w-fspe':'spe' };
+    const BASE = { hp: 10, atk: 5, def: 5, spa: 5, spd: 5, spe: 5 };
+    const MAP = {
+      'w-hp':  ['hp',  'w-fhp'],
+      'w-atk': ['atk', 'w-fatk'],
+      'w-def': ['def', 'w-fdef'],
+      'w-spa': ['spa', 'w-fspa'],
+      'w-spd': ['spd', 'w-fspd'],
+      'w-spe': ['spe', 'w-fspe']
+    };
     let total = 0;
-    Object.entries(ids).forEach(([id, key]) => {
-      const v = Math.max(0, Math.min(5, parseInt(document.getElementById(id).value) || 0));
-      document.getElementById(id).value = v;
+    Object.entries(MAP).forEach(([inputId, [key, displayId]]) => {
+      const inputEl = document.getElementById(inputId);
+      const displayEl = document.getElementById(displayId);
+      if (!inputEl || !displayEl) return;
+      const v = Math.max(0, Math.min(5, parseInt(inputEl.value) || 0));
+      inputEl.value = v;
       total += v;
       State.trainer.stats[key] = BASE[key] + v;
-      document.getElementById(fin[id]).textContent = State.trainer.stats[key];
+      displayEl.textContent = State.trainer.stats[key];
     });
+
     const tot = document.getElementById('w-statstot');
-    tot.textContent = total;
-    tot.style.color = total === 10 ? 'var(--g)' : 'var(--r)';
+    if (tot) {
+      tot.textContent = total;
+      tot.style.color = total === 10 ? 'var(--g)' : 'var(--r)';
+    }
+
     const t = State.trainer;
-    document.getElementById('w-pg').textContent = t.level * 2 + t.stats.hp * 3 + 10;
-    document.getElementById('w-ap').textContent = 5 + Math.floor(t.level / 5);
-    document.getElementById('w-ef').textContent = Math.min(6, Math.floor(t.stats.def / 5));
-    document.getElementById('w-ee').textContent = Math.min(6, Math.floor(t.stats.spd / 5));
-    document.getElementById('w-ev').textContent = Math.min(6, Math.floor(t.stats.spe / 5));
+    const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setTxt('w-pg',  t.level * 2 + t.stats.hp * 3 + 10);
+    setTxt('w-ap',  5 + Math.floor(t.level / 5));
+    setTxt('w-ef',  Math.min(6, Math.floor(t.stats.def / 5)));
+    setTxt('w-ee',  Math.min(6, Math.floor(t.stats.spd / 5)));
+    setTxt('w-ev',  Math.min(6, Math.floor(t.stats.spe / 5)));
   },
 
   _updateBudget() {
     const prices = { ball: 250, pot: 200, rev: 300, ant: 200 };
     let spent = 0;
     Object.entries(State.items).forEach(([k, v]) => spent += (prices[k] || 0) * v);
-    document.getElementById('b-gast').textContent = spent;
+    const g = document.getElementById('b-gast');
+    if (g) g.textContent = spent;
     const rest = 5000 - spent;
     const el = document.getElementById('b-rest');
-    el.textContent = rest;
-    el.style.color = rest < 0 ? 'var(--r)' : 'var(--g)';
+    if (el) {
+      el.textContent = rest;
+      el.style.color = rest < 0 ? 'var(--r)' : 'var(--g)';
+    }
   },
 
   _refreshPreview() {
     const pk = State.pokemons[0];
     const r = this._pokemonFinal(pk);
     const div = document.getElementById('w-preview');
+    if (!div) return;
     if (!r) { div.innerHTML = ''; return; }
 
     const ev = s => Math.min(6, Math.floor(s / 5));
@@ -314,23 +325,28 @@ const Wizard = {
     const all = [t.adept, t.novice, ...t.weak].filter(Boolean);
     const seen = {};
     all.forEach(s => { if (seen[s]) dup.add(s); seen[s] = true; });
-    document.getElementById('w-conflict').classList.toggle('hide', dup.size === 0);
+    const conflictEl = document.getElementById('w-conflict');
+    if (conflictEl) conflictEl.classList.toggle('hide', dup.size === 0);
     document.querySelectorAll('#w-weak label').forEach(l => {
       l.classList.toggle('conflict', dup.has(l.querySelector('input').value));
     });
 
     // Contadores
     const wc = document.getElementById('w-weakc');
-    wc.textContent = `${t.weak.length} / 3`;
-    wc.style.color = t.weak.length === 3 ? 'var(--g)' : 'var(--r)';
+    if (wc) {
+      wc.textContent = `${t.weak.length} / 3`;
+      wc.style.color = t.weak.length === 3 ? 'var(--g)' : 'var(--r)';
+    }
     const ec = document.getElementById('w-edgesc');
-    ec.textContent = `${t.edges.length} / 4`;
-    ec.style.color = t.edges.length === 4 ? 'var(--g)' : 'var(--dim)';
+    if (ec) {
+      ec.textContent = `${t.edges.length} / 4`;
+      ec.style.color = t.edges.length === 4 ? 'var(--g)' : 'var(--dim)';
+    }
 
     // Base del Pokémon
     const base = Data.pokemon(State.pokemons[0].species);
     const baseDiv = document.getElementById('w-base');
-    if (base) {
+    if (baseDiv && base) {
       baseDiv.innerHTML = `
         <div class="tw" style="margin-top:8px"><table>
           <thead><tr><th>Tipo</th><th class="num">Salud</th><th class="num">Atq</th>
@@ -347,19 +363,21 @@ const Wizard = {
     // Preview de movimientos
     const movs = (State.pokemons[0].moves || '').split('\n').map(l => l.trim()).filter(Boolean);
     const info = document.getElementById('w-movs-info');
-    if (movs.length) {
-      const rows = movs.map(m => {
-        const mv = Data.move(m);
-        return mv
-          ? `<div class="move-row"><span>${m}</span><span class="mdb">DB ${mv.db} · AC ${mv.ac ?? '—'}</span><span class="tag">${mv.type}</span><span class="tag">${mv.class}</span></div>`
-          : `<div class="move-row"><span>${m}</span><span class="move-warn">desconocido</span></div>`;
-      }).join('');
-      const warn = movs.length > 6
-        ? `<div class="call err" style="margin:8px 0"><span class="lbl">Límite</span>Tienes ${movs.length} movimientos. Máximo 6.</div>`
-        : '';
-      info.innerHTML = `<div class="moves-list">${rows}</div>${warn}`;
-    } else {
-      info.innerHTML = '';
+    if (info) {
+      if (movs.length) {
+        const rows = movs.map(m => {
+          const mv = Data.move(m);
+          return mv
+            ? `<div class="move-row"><span>${m}</span><span class="mdb">DB ${mv.db} · AC ${mv.ac ?? '—'}</span><span class="tag">${mv.type}</span><span class="tag">${mv.class}</span></div>`
+            : `<div class="move-row"><span>${m}</span><span class="move-warn">desconocido</span></div>`;
+        }).join('');
+        const warn = movs.length > 6
+          ? `<div class="call err" style="margin:8px 0"><span class="lbl">Límite</span>Tienes ${movs.length} movimientos. Máximo 6.</div>`
+          : '';
+        info.innerHTML = `<div class="moves-list">${rows}</div>${warn}`;
+      } else {
+        info.innerHTML = '';
+      }
     }
 
     this._refreshPreview();
@@ -392,7 +410,9 @@ const Wizard = {
       .map(([k, v]) => `${v}× ${itemNames[k]}`)
       .join(' · ') || 'Sin equipo anotado';
 
-    document.getElementById('w-final').innerHTML = `
+    const finalDiv = document.getElementById('w-final');
+    if (!finalDiv) return;
+    finalDiv.innerHTML = `
       <div class="sheet">
         <h3>${t.name || 'Entrenador sin nombre'} · Nivel ${t.level}</h3>
         ${t.concept ? `<p><b>Concepto:</b> ${t.concept}</p>` : ''}
