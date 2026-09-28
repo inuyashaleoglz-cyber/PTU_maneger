@@ -1060,3 +1060,25 @@ details .bd{ padding:14px 16px; font-size:13.5px; color:var(--ink2); line-height
   .view{ display:block !important; }
   .card,.wiz,.call,.sheet,.learn-section{ break-inside:avoid; box-shadow:none; }
 }
+
+/* Botones de ideas de concepto */
+.idea-btn {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink2);
+  border-radius: 7px;
+  padding: 8px 11px;
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--tr);
+  line-height: 1.4;
+}
+.idea-btn:hover {
+  border-color: var(--g);
+  color: var(--ink);
+  background: var(--g-dim);
+  transform: translateY(-1px);
+}
