@@ -319,7 +319,6 @@ const Wizard = {
       'Dejamos Ataque a 0 porque tu Pokémon es quien ataca.'
     );
   },
-
   _autoPokemon() {
     const p = State.pokemons[0];
     if (!p.species) p.species = 'Bulbasaur';
@@ -339,12 +338,38 @@ const Wizard = {
 
     const base = Data.pokemon(p.species);
     if (base) {
+      // Presupuesto real: nivel + 10
+      const budget = p.level + 10;
       const statKeys = ['hp','atk','def','spa','spd','spe'];
-      const sorted = statKeys.slice().sort((a, b) => base[b] - base[a]);
-      const weights = [5, 4, 3, 2, 1, 0];
-      const dist = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
-      sorted.forEach((stat, i) => { dist[stat] = weights[i]; });
 
+      // Ordenar stats base de mayor a menor
+      const sorted = statKeys.slice().sort((a, b) => base[b] - base[a]);
+
+      // Pesos relativos (se usarán para repartir proporcionalmente)
+      const weights = { [sorted[0]]: 5, [sorted[1]]: 4, [sorted[2]]: 3,
+                        [sorted[3]]: 2, [sorted[4]]: 1, [sorted[5]]: 0 };
+      const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
+
+      // Reparto base proporcional al peso
+      const dist = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
+      let assigned = 0;
+      sorted.forEach(stat => {
+        const share = Math.floor((weights[stat] / totalWeight) * budget);
+        dist[stat] = share;
+        assigned += share;
+      });
+
+      // Repartir los puntos restantes al stat principal
+      let sobrante = budget - assigned;
+      let i = 0;
+      while (sobrante > 0 && i < sorted.length * 2) {
+        const s = sorted[i % sorted.length];
+        dist[s]++;
+        sobrante--;
+        i++;
+      }
+
+      // Garantizar hp >= 2
       if (dist.hp < 2) {
         const diff = 2 - dist.hp;
         dist.hp = 2;
@@ -357,8 +382,11 @@ const Wizard = {
         }
       }
 
-      let total = Object.values(dist).reduce((a, b) => a + b, 0);
-      if (total !== 15) dist[sorted[0]] += (15 - total);
+      // Verificación final: exactamente = budget
+      const totalNow = Object.values(dist).reduce((a, b) => a + b, 0);
+      if (totalNow !== budget) {
+        dist[sorted[0]] += (budget - totalNow);
+      }
 
       p.points = dist;
       document.querySelectorAll('#w-ppoints input').forEach(inp => {
@@ -383,16 +411,18 @@ const Wizard = {
 
     const naturalezaNombre = document.getElementById('w-nat').options[p.nature]?.text || '—';
     const movsList = (p.moves || '').split('\n').filter(Boolean);
+    const budget = p.level + 10;
 
     this._showExplanation(5,
       '<b>Especie:</b> ' + (base?.es || p.species) + '.<br>' +
-      '<b>Nivel ' + p.level + '.</b><br>' +
+      '<b>Nivel ' + p.level + ':</b> ' + budget + ' puntos a repartir (nivel + 10).<br>' +
       '<b>Naturaleza:</b> ' + naturalezaNombre + ' (puedes cambiarla).<br>' +
-      '<b>Puntos:</b> repartidos hacia sus mejores estadísticas.<br>' +
+      '<b>Puntos:</b> repartidos proporcionalmente a las mejores estadísticas base.<br>' +
       '<b>Habilidad:</b> la primera básica.<br>' +
       '<b>Movimientos marcados:</b> ' + (movsList.length ? movsList.join(', ') : 'ninguno disponible') + '.'
     );
   },
+ 
 
   _autoEquipo() {
     const items = { ball: 6, pot: 5, rev: 1, ant: 3 };
