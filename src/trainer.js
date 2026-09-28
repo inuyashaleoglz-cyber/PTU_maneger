@@ -89,6 +89,7 @@ const Trainer = {
     const filter = document.getElementById('cc-filter');
     const search = document.getElementById('cc-search').value.trim().toLowerCase();
     const onlyOk = document.getElementById('cc-onlyok').checked;
+    const hasTrainer = State.trainer.name && State.trainer.name.length > 0;
 
     // Llenar filtro de categorías la primera vez
     if (!filter.dataset.bound) {
@@ -107,39 +108,55 @@ const Trainer = {
     const classes = Data.classes.classes || {};
     const cats = cat ? { [cat]: Data.classes.categories[cat] } : (Data.classes.categories || {});
 
+    let total = 0;
+
     Object.entries(cats).forEach(([cKey, cName]) => {
       const inCat = Object.entries(classes).filter(([, c]) => c.cat === cKey);
       const filtered = inCat.filter(([name, cl]) => {
         if (search && !name.toLowerCase().includes(search)) return false;
-        if (onlyOk && !this.meets(cl).ok) return false;
+        // Solo filtra por "cumples" si hay entrenador Y el usuario lo pidió
+        if (onlyOk && hasTrainer && !this.meets(cl).ok) return false;
         return true;
       });
       if (!filtered.length) return;
 
+      total += filtered.length;
       html += `<h3>${cName} <span style="color:var(--dim);font-weight:400;font-size:13px">(${filtered.length})</span></h3>`;
       html += `<div class="class-grid">`;
       filtered.forEach(([name, cl]) => {
-        const { ok } = this.meets(cl);
+        const meets = hasTrainer ? this.meets(cl) : { ok: false };
         const reqs = [];
         if (cl.req?.level && cl.req.level > 1) {
-          const has = State.trainer.level >= cl.req.level;
+          const has = hasTrainer && State.trainer.level >= cl.req.level;
           reqs.push(`<span class="req-item ${has ? 'ok' : 'no'}">Nivel ${cl.req.level}</span>`);
         }
         Object.entries(cl.req?.skills || {}).forEach(([sk, need]) => {
-          const has = this.rankOf(sk) >= need;
+          const has = hasTrainer && this.rankOf(sk) >= need;
           reqs.push(`<span class="req-item ${has ? 'ok' : 'no'}">${sk} ${need}d6</span>`);
         });
-        html += `<div class="class-card ${ok ? 'ok' : ''}">
-          <span class="class-badge ${ok ? 'ok' : 'no'}">${ok ? '✓ lista' : '✗ faltan'}</span>
+        const badge = hasTrainer
+          ? `<span class="class-badge ${meets.ok ? 'ok' : 'no'}">${meets.ok ? '✓ lista' : '✗ faltan'}</span>`
+          : '';
+        html += `<div class="class-card ${meets.ok ? 'ok' : ''}">
+          ${badge}
           <h5>${name}</h5>
           <p class="desc">${cl.desc}</p>
           <div class="req">${reqs.join(' ') || 'Sin requisitos'}</div>
+          ${cl.feature_base ? `<div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12px">
+            <b style="color:var(--g)">${cl.feature_base.name}</b><br>
+            <span style="color:var(--dim)">${cl.feature_base.effect}</span>
+          </div>` : ''}
         </div>`;
       });
       html += `</div>`;
     });
 
-    wrap.innerHTML = html || '<div class="call info">Ninguna clase coincide con el filtro.</div>';
+    if (!total) {
+      wrap.innerHTML = '<div class="call info">Ninguna clase coincide con el filtro.</div>';
+      return;
+    }
+
+    wrap.innerHTML = `<p style="color:var(--dim);font-size:13px;margin:0 0 10px">${total} clases encontradas</p>${html}`;
   },
 
   meets(cl) {
