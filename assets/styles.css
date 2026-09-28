@@ -1154,3 +1154,46 @@ details .bd{ padding:14px 16px; font-size:13.5px; color:var(--ink2); line-height
   font-size: 12px;
   padding: 3px 10px;
 }
+/* ------------------------------------------------------------
+   Avisos globales (banner y notificación flotante)
+   ------------------------------------------------------------ */
+.global-banner {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  max-width: min(640px, calc(100vw - 24px));
+  padding: 12px 16px;
+  border-radius: var(--rd);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--sh-lg);
+  font-size: 13.5px;
+  font-weight: 500;
+  animation: bannerSlide .3s cubic-bezier(.4,0,.2,1);
+  border: 1px solid var(--line2);
+}
+.global-banner.warn {
+  background: linear-gradient(90deg, rgba(251,200,90,.15), var(--surface));
+  border-color: var(--y);
+  color: var(--ink);
+}
+.global-banner.warn .lbl {
+  color: var(--y);
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.global-banner.info {
+  background: linear-gradient(90deg, rgba(111,180,255,.15), var(--surface));
+  border-color: var(--b);
+  color: var(--ink);
+}
+.global-banner.hide { display: none; }
+@keyframes bannerSlide {
+  from { opacity: 0; transform: translate(-50%, -12px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
