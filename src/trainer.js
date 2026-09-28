@@ -5,7 +5,7 @@
 'use strict';
 
 const Trainer = {
-  render() {
+    render() {
     const t = State.trainer;
     const el = document.getElementById('entrenadorView');
     if (!el) return;
@@ -32,10 +32,41 @@ const Trainer = {
       </div>`;
     }).join('');
 
+    // Equipo / inventario
+    const itemNames = { ball:'Poké Balls', pot:'Pociones', rev:'Revivir', ant:'Antídotos' };
+    const items = Object.entries(State.items)
+      .filter(([, v]) => v > 0)
+      .map(([k, v]) => `<span class="tag g">${esc(v)}× ${esc(itemNames[k] || k)}</span>`)
+      .join(' ') || '<span style="color:var(--dim)">Sin objetos anotados</span>';
+
+    // Pokémon activo
+    const pkAct = activePokemon();
+    let pkBlock = '';
+    if (pkAct) {
+      const base = Data.pokemon(pkAct.species);
+      const stats = Pokemon._stats(pkAct);
+      const pgMax = pkAct.level + stats.hp * 3 + 10;
+      const pgNow = pkAct.hpCurrent === null ? pgMax : pkAct.hpCurrent;
+      const movsList = (pkAct.moves || '').split('\n').filter(Boolean);
+      pkBlock = `
+        <div class="tw" style="margin-top:8px"><table>
+          <tr>
+            <td><b>${esc(pkAct.nickname || base?.es || pkAct.species)}</b></td>
+            <td>Nv.${esc(pkAct.level)}</td>
+            <td>${base ? base.t.map(ty => `<span class="tag" data-type="${esc(ty)}">${esc(ty)}</span>`).join(' ') : '—'}</td>
+            <td class="num">${esc(pgNow)}/${esc(pgMax)} PG</td>
+          </tr>
+          ${pkAct.ability ? `<tr><td colspan="4"><b>Habilidad:</b> ${esc(pkAct.ability)}</td></tr>` : ''}
+          ${movsList.length ? `<tr><td colspan="4"><b>Movimientos:</b> ${movsList.map(esc).join(', ')}</td></tr>` : ''}
+        </table></div>`;
+    }
+
     el.innerHTML = `
       <div class="card">
         <h2 style="margin-top:0">${esc(t.name)} <span style="color:var(--dim);font-weight:400">· Nivel ${esc(t.level)}</span></h2>
         ${t.concept ? `<p style="color:var(--dim);margin-top:0">${esc(t.concept)}</p>` : ''}
+
+        ${t.story ? `<h3>Historia</h3><p style="white-space:pre-wrap">${esc(t.story)}</p>` : ''}
 
         <h3>Estadísticas</h3>
         <div class="stats">
@@ -55,7 +86,6 @@ const Trainer = {
         </div>
 
         <h3>Destrezas</h3>
-        <p style="font-size:12.5px;color:var(--dim);margin:0">Haz clic en <b>Tirar</b> para usar los dados actuales.</p>
         <div class="tw" style="padding:4px 0">${skills}</div>
 
         <h3>Ventajas y clase</h3>
@@ -63,7 +93,11 @@ const Trainer = {
         <p><b>Clase:</b> ${t.clase ? esc(t.clase) : '<span style="color:var(--dim)">sin definir</span>'}</p>
         <p><b>Entrenamiento:</b> ${t.training ? esc(t.training) : '<span style="color:var(--dim)">—</span>'}</p>
 
-        ${t.story ? `<h3>Historia</h3><p style="white-space:pre-wrap">${esc(t.story)}</p>` : ''}
+        <h3>Equipo</h3>
+        <p>${items}</p>
+
+        <h3>Pokémon activo</h3>
+        ${pkBlock || '<p style="color:var(--dim)">Sin Pokémon asignado</p>'}
 
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap" class="no-print">
           <button class="btn ghost sm" data-go="crear">Editar en asistente</button>
