@@ -12,6 +12,12 @@
 </head>
 <body>
 
+<!-- Spinner de carga inicial -->
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <p>Cargando datos…</p>
+</div>
+
 <aside class="side" id="side" aria-label="Menú principal">
   <div class="brand">
     <div class="logo">PTU</div>
@@ -83,6 +89,11 @@
       Tu navegador no permite guardar datos. Exporta tus fichas al terminar o perderás todo al cerrar.
     </div>
 
+    <div id="warnData" class="call warn hide">
+      <span class="lbl">Datos incompletos</span>
+      <span id="warnDataText"></span>
+    </div>
+
     <h2 style="margin-top:22px">Ejemplos listos para mirar</h2>
     <p style="color:var(--dim);font-size:13.5px;margin:0 0 10px">
       Antes de crear tu propia ficha, mira cómo se ve una ya hecha. Se abren en modo lectura, no modifican nada tuyo.
@@ -141,12 +152,10 @@
       <h1 style="margin:0 0 4px">Aprende a jugar en 5 minutos</h1>
       <p style="margin:0;color:var(--dim)">
         No necesitas saber nada de antemano. Aquí te explico qué es esto, cómo funciona una partida
-        y cómo usar la app. Si algo no queda claro, cada sección tiene ejemplos.
+        y cómo usar la app.
       </p>
     </div>
-
     <div id="aprenderContent"></div>
-
     <div class="card" style="text-align:center;padding:24px">
       <h3 style="margin-top:0">¿Todo claro? Vamos a crear tu ficha</h3>
       <p style="color:var(--dim)">El asistente te guía paso a paso. Puedes dejarlo a medias y volver después.</p>
@@ -173,14 +182,12 @@
         <button class="sbtn" data-s="7">8 · Listo</button>
       </div>
 
-      <!-- Paso 1: Identidad -->
       <div class="panel on" data-p="0">
         <div class="call info">
           <span class="lbl">Por qué importa</span>
           El nombre y el concepto ayudan a tu Narrador (DJ) a enganchar tu historia con la campaña.
           No necesitas un trasfondo épico: con una frase basta.
         </div>
-
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
           <button class="btn ghost sm elige-por-mi" data-step="0">✨ Elige por mí</button>
         </div>
@@ -221,25 +228,21 @@
         </div>
       </div>
 
-      <!-- Paso 2: Trasfondo -->
       <div class="panel" data-p="1">
         <div class="call info">
           <span class="lbl">Cómo funciona</span>
           Todas las destrezas parten de <b>Sin entrenar (2d6)</b>.
           Elige una para subir a <b>Adepto (4d6)</b>, otra a <b>Novato (3d6)</b>,
-          y tres para bajar a <b>Patético (1d6)</b>. Esto representa tu historia: ¿en qué eres bueno, en qué no?
+          y tres para bajar a <b>Patético (1d6)</b>.
         </div>
-
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
           <button class="btn ghost sm elige-por-mi" data-step="1">✨ Elige por mí</button>
         </div>
         <div id="explain-1" class="call" style="display:none"></div>
-
         <div id="w-conflict" class="call err hide">
           <span class="lbl">Conflicto</span>
           Repetiste una destreza. Quítala de una categoría antes de continuar.
         </div>
-
         <div class="row">
           <div class="field">
             <label for="w-adept">Adepto (4d6)
@@ -252,7 +255,6 @@
             <select id="w-novice"></select>
           </div>
         </div>
-
         <div class="field">
           <label>3 destrezas Patéticas (1d6)</label>
           <div id="w-weak" class="chk-grid"></div>
@@ -260,19 +262,16 @@
         </div>
       </div>
 
-      <!-- Paso 3: Ventajas -->
       <div class="panel" data-p="2">
         <div class="call info">
           <span class="lbl">Qué es una Ventaja (Edge)</span>
           Una <b>Ventaja</b> es una mejora específica. La más común: subir una destreza un rango entero.
           Tienes <b>4 Ventajas</b>. Aquí asumimos la opción más simple: 4 destrezas a Novato.
         </div>
-
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
           <button class="btn ghost sm elige-por-mi" data-step="2">✨ Elige por mí</button>
         </div>
         <div id="explain-2" class="call" style="display:none"></div>
-
         <div class="field">
           <label>Destrezas a subir a Novato (máx. 4)</label>
           <div id="w-edges" class="chk-grid"></div>
@@ -280,19 +279,15 @@
         </div>
       </div>
 
-      <!-- Paso 4: Clase -->
       <div class="panel" data-p="3">
         <div class="call info">
           <span class="lbl">Qué es una Clase</span>
           Una <b>Clase</b> es un camino de especialización. Puedes cambiarla después sin perder nada.
-          Todas las que cumples aparecen marcadas con ✓.
         </div>
-
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
           <button class="btn ghost sm elige-por-mi" data-step="3">✨ Elige por mí</button>
         </div>
         <div id="explain-3" class="call" style="display:none"></div>
-
         <div class="row wide">
           <div class="field">
             <label for="w-clase">Clase inicial
@@ -314,19 +309,16 @@
         </div>
       </div>
 
-      <!-- Paso 5: Estadísticas -->
       <div class="panel" data-p="4">
         <div class="call info">
           <span class="lbl">Cómo repartir</span>
           Empiezas con <b>10 de Salud</b> y <b>5 en todo lo demás</b>. Reparte <b>10 puntos</b> extra.
           Máximo +5 por estadística. No dejes la Salud en 0: es lo que determina tus Puntos de Golpe (PG).
         </div>
-
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
           <button class="btn ghost sm elige-por-mi" data-step="4">✨ Elige por mí</button>
         </div>
         <div id="explain-4" class="call" style="display:none"></div>
-
         <div class="row" id="w-stats">
           <div class="field"><label>Salud (+)</label><input id="w-hp" type="number" min="0" max="5" value="4"></div>
           <div class="field"><label>Ataque (+)</label><input id="w-atk" type="number" min="0" max="5" value="0"></div>
@@ -336,7 +328,6 @@
           <div class="field"><label>Velocidad (+)</label><input id="w-spe" type="number" min="0" max="5" value="3"></div>
         </div>
         <p><b>Usados:</b> <span id="w-statstot" class="mono">10</span> / 10</p>
-
         <div class="stats">
           <div class="stat"><b>Salud</b><span id="w-fhp">14</span></div>
           <div class="stat"><b>Ataque</b><span id="w-fatk">5</span></div>
@@ -354,19 +345,16 @@
         </div>
       </div>
 
-      <!-- Paso 6: Pokémon -->
       <div class="panel" data-p="5">
         <div class="call info">
           <span class="lbl">Tu primer compañero</span>
           Puedes empezar con cualquier Pokémon de nivel 5. Elige uno y ajusta lo que quieras.
           Si no sabes qué poner, deja los valores por defecto.
         </div>
-
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
           <button class="btn ghost sm elige-por-mi" data-step="5">✨ Elige por mí</button>
         </div>
         <div id="explain-5" class="call" style="display:none"></div>
-
         <div class="row wide">
           <div class="field"><label for="w-esp">Especie</label><select id="w-esp"></select></div>
           <div class="field"><label for="w-nivel-pk">Nivel</label><input id="w-nivel-pk" type="number" value="5" min="1" max="100"></div>
@@ -384,13 +372,11 @@
           <div class="field"><label>Velocidad (+)</label><input data-pk="spe" type="number" min="0" value="0"></div>
         </div>
         <div id="w-preview"></div>
-
         <h3>Habilidad</h3>
         <div class="field">
           <select id="w-hab"></select>
           <small style="color:var(--dim);font-size:12px">Elige una. Se recomienda la Básica si es tu primera vez.</small>
         </div>
-
         <h3>Movimientos</h3>
         <p style="font-size:13px;color:var(--dim);margin:0 0 8px">
           Marca hasta 6. Solo aparecen los que tu Pokémon puede aprender a su nivel actual.
@@ -398,18 +384,15 @@
         <div id="w-movs-selector"></div>
       </div>
 
-      <!-- Paso 7: Equipo -->
       <div class="panel" data-p="6">
         <div class="call info">
           <span class="lbl">Tu dinero inicial</span>
           Empiezas con <b>5.000₽</b>. Anota lo que compres. La Poké Ball y la Poción son lo más útil al principio.
         </div>
-
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
           <button class="btn ghost sm elige-por-mi" data-step="6">✨ Elige por mí</button>
         </div>
         <div id="explain-6" class="call" style="display:none"></div>
-
         <div class="row wide">
           <div class="field"><label>Poké Balls (250₽)</label><input id="b-ball" type="number" value="0" min="0"></div>
           <div class="field"><label>Pociones (200₽)</label><input id="b-pot" type="number" value="0" min="0"></div>
@@ -422,7 +405,6 @@
         </div>
       </div>
 
-      <!-- Paso 8: Listo -->
       <div class="panel" data-p="7">
         <div class="call info">
           <span class="lbl">Listo</span>
@@ -837,7 +819,7 @@ Evasión       = ⌊stat ÷ 5⌋, máx +6</pre>
           <li>Sube por hito narrativo o por 10 EXP.</li>
           <li>Capturar/eclosionar/evolucionar especie nueva = 1 EXP.</li>
           <li>+1 estadística por nivel.</li>
-          <li>Niveles impares: +1 Habilidad especial (Feature). Niveles pares: +1 Ventaja (Edge).</li>
+          <li>Niveles impares: +1 Habilidad especial. Niveles pares: +1 Ventaja.</li>
         </ul>
         <h3>Pokémon</h3>
         <ul style="padding-left:20px">
@@ -867,13 +849,20 @@ Evasión       = ⌊stat ÷ 5⌋, máx +6</pre>
 <div class="modal-backdrop hide" id="onb-backdrop">
   <div class="modal" role="dialog">
     <button class="modal-close" id="onb-close" aria-label="Cerrar">✕</button>
-    <h2 style="margin-top:0">¡Hola! Bienvenido a PTU Manager 🎲</h2>
-    <p style="color:var(--dim)">
-      Esto es una app para jugar a un juego de rol de mesa basado en Pokémon.
-      Si nunca has jugado algo así, no pasa nada — te lo explico paso a paso.
+    <h2 style="margin-top:0">🎲 Bienvenido a PTU Manager</h2>
+    <p>
+      Esto es una app para jugar <b>Pokémon Tabletop United (PTU)</b>: un juego de rol de mesa donde tú y tus
+      amigos cuentan una historia juntos, con dados, Pokémon y aventuras.
     </p>
-    <p><b>¿Qué quieres hacer primero?</b></p>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+    <p>No necesitas saber nada de antemano. Aquí puedes:</p>
+    <ul style="padding-left:22px;line-height:1.8">
+      <li>📕 <b>Explorar</b> la Pokédex, movimientos, habilidades y clases</li>
+      <li>✨ <b>Crear</b> tu entrenador paso a paso con ayuda</li>
+      <li>⚔️ <b>Llevar</b> el combate, los turnos y las tiradas</li>
+      <li>🔗 <b>Compartir</b> tu ficha con tu grupo</li>
+    </ul>
+    <p><b>¿Por dónde quieres empezar?</b></p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
       <button class="btn" data-go="aprender" id="onb-learn">
         📖 Nunca he jugado algo así, explícame
       </button>
@@ -884,6 +873,9 @@ Evasión       = ⌊stat ÷ 5⌋, máx +6</pre>
         ✨ Ya sé de qué va, crear mi ficha
       </button>
     </div>
+    <p style="font-size:12px;color:var(--dim);margin-top:16px;margin-bottom:0">
+      Todo se guarda en tu navegador. No hay cuentas ni servidores.
+    </p>
   </div>
 </div>
 
