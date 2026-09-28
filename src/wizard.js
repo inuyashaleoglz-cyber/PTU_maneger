@@ -8,10 +8,10 @@ const Wizard = {
   steps: [
     ['Paso 1 · Identidad',     'Lo esencial: cómo se llama y quién es.'],
     ['Paso 2 · Trasfondo',     'Una destreza Adepta, una Novata y tres Patéticas.'],
-    ['Paso 3 · Edges',         'Cuatro ventajas para empezar.'],
+    ['Paso 3 · Ventajas',      'Cuatro ventajas para empezar.'],
     ['Paso 4 · Clase',         'Elige tu primera especialización.'],
     ['Paso 5 · Estadísticas',  'Reparte 10 puntos, máx. +5 por estadística.'],
-    ['Paso 6 · Pokémon',       'Especie, nivel, naturaleza y reparto de puntos.'],
+    ['Paso 6 · Pokémon',       'Especie, nivel, naturaleza, habilidad y movimientos.'],
     ['Paso 7 · Equipo',        'Reparte 5.000₽.'],
     ['Paso 8 · Listo',         'Revisa tu ficha y compártela con tu grupo.']
   ],
@@ -31,7 +31,6 @@ const Wizard = {
     this.prevBtn = document.getElementById('wprev');
     this.nextBtn = document.getElementById('wnext');
 
-    // Llenar selects de destrezas
     const selA = document.getElementById('w-adept');
     const selN = document.getElementById('w-novice');
     this.SKILLS.forEach(s => {
@@ -39,7 +38,6 @@ const Wizard = {
       selN.appendChild(new Option(s, s));
     });
 
-    // Llenar checks de Patéticas y Edges
     const wWeak = document.getElementById('w-weak');
     const wEdges = document.getElementById('w-edges');
     this.SKILLS.forEach(s => {
@@ -47,23 +45,19 @@ const Wizard = {
       wEdges.appendChild(this._check(s));
     });
 
-    // Llenar selección de especie
     const selEsp = document.getElementById('w-esp');
     Data.pokemonKeys().forEach(k => {
       const pk = Data.pokemon(k);
       selEsp.appendChild(new Option(pk?.es || k, k));
     });
 
-    // Naturalezas
     this._fillNatures();
 
-    // Clases
     const selClase = document.getElementById('w-clase');
     Object.keys(Data.classes.classes || {}).forEach(k => {
       selClase.appendChild(new Option(k, k));
     });
 
-    // Listeners
     this.buttons.forEach((b, i) => b.addEventListener('click', () => this.goTo(i)));
     this.prevBtn.addEventListener('click', () => this.goTo(Math.max(0, this.step - 1)));
     this.nextBtn.addEventListener('click', () => {
@@ -122,9 +116,7 @@ const Wizard = {
       'w-clase':    v => t().clase = v,
       'w-train':    v => t().training = v,
       'w-adept':    v => t().adept = v,
-      'w-novice':   v => t().novice = v,
-      'w-hab':      v => State.pokemons[0].ability = v,
-      'w-movs':     v => State.pokemons[0].moves = v
+      'w-novice':   v => t().novice = v
     };
     Object.entries(map).forEach(([id, fn]) => {
       const el = document.getElementById(id);
@@ -132,14 +124,21 @@ const Wizard = {
       el.addEventListener('input', () => { fn(el.value); persist(); this._refresh(); });
     });
 
+    // Habilidad del Pokémon — ahora es un <select>
+    const habSel = document.getElementById('w-hab');
+    if (habSel) {
+      habSel.addEventListener('change', () => {
+        State.pokemons[0].ability = habSel.value;
+        persist();
+      });
+    }
+
     // Stats del entrenador
-    const statIds = ['w-hp', 'w-atk', 'w-def', 'w-spa', 'w-spd', 'w-spe'];
-    statIds.forEach(id => {
+    ['w-hp','w-atk','w-def','w-spa','w-spd','w-spe'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', () => { this._updateTrainerStats(); persist(); });
     });
 
-    // Checks Patéticas
     document.getElementById('w-weak').addEventListener('change', e => {
       const checked = [...document.querySelectorAll('#w-weak input:checked')];
       if (checked.length > 3) { e.target.checked = false; return; }
@@ -148,7 +147,6 @@ const Wizard = {
       persist();
     });
 
-    // Checks Edges
     document.getElementById('w-edges').addEventListener('change', e => {
       const checked = [...document.querySelectorAll('#w-edges input:checked')];
       if (checked.length > 4) { e.target.checked = false; return; }
@@ -157,19 +155,112 @@ const Wizard = {
       persist();
     });
 
-    // Pokémon
     document.getElementById('w-esp').addEventListener('change', e => {
       State.pokemons[0].species = e.target.value;
-      this._refresh(); persist();
+      State.pokemons[0].moves = ''; // reset al cambiar de especie
+      this._refresh();
+      this._refreshPokemonSelectors();
+      persist();
     });
     document.getElementById('w-nivel-pk').addEventListener('input', e => {
       State.pokemons[0].level = Math.max(1, parseInt(e.target.value) || 1);
-      this._refresh(); persist();
+      this._refresh();
+      this._refreshPokemonSelectors();
+      persist();
     });
     document.getElementById('w-nat').addEventListener('change', e => {
       State.pokemons[0].nature = parseInt(e.target.value) || 0;
-      this._refresh(); persist();
+      this._refresh();
+      persist();
     });
+  },
+
+  /** Refresca los selectores de habilidad y movimientos del Pokémon. */
+  _refreshPokemonSelectors() {
+    const pk = State.pokemons[0];
+    const base = Data.pokemon(pk.species);
+    if (!base) return;
+
+    // ---- Habilidad ----
+    const habSel = document.getElementById('w-hab');
+    if (habSel) {
+      const prev = pk.ability || '';
+      habSel.innerHTML = '';
+      habSel.appendChild(new Option('— sin elegir —', ''));
+      const groups = [];
+      if (base.abilities?.basic?.length)
+        groups.push({ label: 'Básica', items: base.abilities.basic });
+      if (base.abilities?.advanced?.length)
+        groups.push({ label: 'Avanzada', items: base.abilities.advanced });
+      if (base.abilities?.high)
+        groups.push({ label: 'Alta', items: [base.abilities.high] });
+
+      groups.forEach(g => {
+        const og = document.createElement('optgroup');
+        og.label = g.label;
+        g.items.forEach(h => {
+          const info = Data.abilities[h];
+          const txt = info ? `${h} — ${info.desc}` : h;
+          og.appendChild(new Option(txt, h));
+        });
+        habSel.appendChild(og);
+      });
+      habSel.value = prev;
+      if (!habSel.value) {
+        // Auto-elegir la primera básica
+        const first = base.abilities?.basic?.[0];
+        if (first) {
+          habSel.value = first;
+          pk.ability = first;
+        }
+      }
+    }
+
+    // ---- Movimientos ----
+    const movsBox = document.getElementById('w-movs-selector');
+    if (movsBox) {
+      const current = (pk.moves || '').split('\n').map(l => l.trim()).filter(Boolean);
+      const learned = (base.moves?.level || [])
+        .filter(m => m.lvl <= pk.level)
+        .sort((a, b) => a.lvl - b.lvl);
+
+      if (!learned.length) {
+        movsBox.innerHTML = '<p style="color:var(--dim);font-size:13px;margin:6px 0">Este Pokémon no tiene movimientos disponibles al nivel ' + pk.level + '.</p>';
+        return;
+      }
+
+      movsBox.innerHTML = `
+        <p style="font-size:12.5px;color:var(--dim);margin:0 0 6px">
+          Marca hasta <b>6</b> movimientos. Ya tienes <span id="w-movs-count">${current.length}</span>/6.
+        </p>
+        <div class="chk-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+          ${learned.map(m => {
+            const info = Data.move(m.name);
+            const isChecked = current.includes(m.name);
+            const dbTxt = info ? `DB ${info.db}` : '—';
+            const acTxt = info ? `AC ${info.ac ?? '—'}` : '';
+            const tipo = info ? info.type : (m.t || '');
+            return `<label title="${info?.effect || ''}">
+              <input type="checkbox" data-move="${m.name}" ${isChecked ? 'checked' : ''}>
+              <span>
+                <b>${m.name}</b>
+                <br><small style="color:var(--dim)">Nv.${m.lvl} · ${dbTxt} · ${acTxt} · ${tipo}</small>
+              </span>
+            </label>`;
+          }).join('')}
+        </div>`;
+
+      movsBox.querySelectorAll('input[data-move]').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const sel = [...movsBox.querySelectorAll('input[data-move]:checked')].map(c => c.dataset.move);
+          if (sel.length > 6) { cb.checked = false; return; }
+          pk.moves = sel.join('\n');
+          const cEl = document.getElementById('w-movs-count');
+          if (cEl) cEl.textContent = sel.length;
+          persist();
+        });
+      });
+    }
   },
 
   _bindPoints() {
@@ -205,7 +296,6 @@ const Wizard = {
     });
   },
 
-  /** CORREGIDO: ahora mapea input → display correctamente. */
   _updateTrainerStats() {
     const BASE = { hp: 10, atk: 5, def: 5, spa: 5, spd: 5, spe: 5 };
     const MAP = {
@@ -282,7 +372,6 @@ const Wizard = {
       </div>`;
   },
 
-  /** Calcula las stats finales de un Pokémon con naturaleza + puntos. */
   _pokemonFinal(pk) {
     const base = Data.pokemon(pk.species);
     if (!base) return null;
@@ -316,11 +405,9 @@ const Wizard = {
     return out;
   },
 
-  /** Refresca la UI completa desde el estado. */
   _refresh() {
     const t = State.trainer;
 
-    // Conflictos de destrezas
     const dup = new Set();
     const all = [t.adept, t.novice, ...t.weak].filter(Boolean);
     const seen = {};
@@ -331,7 +418,6 @@ const Wizard = {
       l.classList.toggle('conflict', dup.has(l.querySelector('input').value));
     });
 
-    // Contadores
     const wc = document.getElementById('w-weakc');
     if (wc) {
       wc.textContent = `${t.weak.length} / 3`;
@@ -343,7 +429,6 @@ const Wizard = {
       ec.style.color = t.edges.length === 4 ? 'var(--g)' : 'var(--dim)';
     }
 
-    // Base del Pokémon
     const base = Data.pokemon(State.pokemons[0].species);
     const baseDiv = document.getElementById('w-base');
     if (baseDiv && base) {
@@ -358,26 +443,6 @@ const Wizard = {
             <td class="num">${base.spd}</td><td class="num">${base.spe}</td>
           </tr></tbody>
         </table></div>`;
-    }
-
-    // Preview de movimientos
-    const movs = (State.pokemons[0].moves || '').split('\n').map(l => l.trim()).filter(Boolean);
-    const info = document.getElementById('w-movs-info');
-    if (info) {
-      if (movs.length) {
-        const rows = movs.map(m => {
-          const mv = Data.move(m);
-          return mv
-            ? `<div class="move-row"><span>${m}</span><span class="mdb">DB ${mv.db} · AC ${mv.ac ?? '—'}</span><span class="tag">${mv.type}</span><span class="tag">${mv.class}</span></div>`
-            : `<div class="move-row"><span>${m}</span><span class="move-warn">desconocido</span></div>`;
-        }).join('');
-        const warn = movs.length > 6
-          ? `<div class="call err" style="margin:8px 0"><span class="lbl">Límite</span>Tienes ${movs.length} movimientos. Máximo 6.</div>`
-          : '';
-        info.innerHTML = `<div class="moves-list">${rows}</div>${warn}`;
-      } else {
-        info.innerHTML = '';
-      }
     }
 
     this._refreshPreview();
@@ -396,6 +461,8 @@ const Wizard = {
     this.barEl.style.width = ((i + 1) / this.steps.length * 100) + '%';
     this.prevBtn.disabled = i === 0;
     this.nextBtn.textContent = i === this.steps.length - 1 ? 'Terminar ✓' : 'Siguiente →';
+
+    if (i === 5) this._refreshPokemonSelectors();
     if (i === this.steps.length - 1) this._renderFinal();
     this._refresh();
   },
@@ -409,6 +476,7 @@ const Wizard = {
       .filter(([, v]) => v > 0)
       .map(([k, v]) => `${v}× ${itemNames[k]}`)
       .join(' · ') || 'Sin equipo anotado';
+    const movsList = (pk.moves || '').split('\n').filter(Boolean);
 
     const finalDiv = document.getElementById('w-final');
     if (!finalDiv) return;
@@ -430,6 +498,8 @@ const Wizard = {
         <p>Adepto: <b>${t.adept}</b> · Novato: <b>${t.novice}</b> · Patéticas: <b>${t.weak.join(', ') || '—'}</b></p>
         <h4>Pokémon inicial</h4>
         <p><b>${pk.nickname || pk.species}</b> · Nv.${pk.level} · ${base ? base.t.join(' / ') : '—'}</p>
+        ${pk.ability ? `<p><b>Habilidad:</b> ${pk.ability}</p>` : ''}
+        ${movsList.length ? `<p><b>Movimientos:</b> ${movsList.join(', ')}</p>` : ''}
         <h4>Equipo</h4>
         <p>${items}</p>
       </div>`;
