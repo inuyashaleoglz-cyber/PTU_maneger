@@ -1,5 +1,5 @@
 /* ============================================================
-   app.js · Arranque + sincronización multi-pestaña + aviso global
+   app.js · Arranque + hash routing + SW + multi-pestaña
    ============================================================ */
 'use strict';
 
@@ -16,6 +16,10 @@ const App = {
       const go = e.target.closest('[data-go]');
       if (go) UI.show(go.dataset.go);
     });
+
+    // Escuchar cambios de hash (back/forward del navegador)
+    window.addEventListener('hashchange', () => UI.showFromHash());
+    window.addEventListener('popstate', () => UI.showFromHash());
 
     document.getElementById('helpBtn').addEventListener('click', () => {
       document.getElementById('help-content').innerHTML = UI.helpText(UI.currentView);
@@ -41,12 +45,13 @@ const App = {
     });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
-        const back = document.getElementById('onb-backdrop');
-        if (back && !back.classList.contains('hide')) onbClose();
-        const eb = document.getElementById('example-backdrop');
-        if (eb && !eb.classList.contains('hide')) UI.hideModal('example-backdrop');
-        const hb = document.getElementById('help-backdrop');
-        if (hb && !hb.classList.contains('hide')) UI.hideModal('help-backdrop');
+        ['onb-backdrop','example-backdrop','help-backdrop'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el && !el.classList.contains('hide')) {
+            if (id === 'onb-backdrop') onbClose();
+            else UI.hideModal(id);
+          }
+        });
       }
     });
 
@@ -58,7 +63,6 @@ const App = {
     document.getElementById('btnExampleTrainer')?.addEventListener('click', () => this.showExampleTrainer());
     document.getElementById('btnExamplePokemon')?.addEventListener('click', () => this.showExamplePokemon());
 
-    // Botón de emergencia global
     document.getElementById('globalEmergencyExport')?.addEventListener('click', () => {
       Storage.markExported();
       Utils.download('ptu-emergencia-' + new Date().toISOString().slice(0,10) + '.ptu',
@@ -81,21 +85,31 @@ const App = {
     this.hydrate();
     UI.updateChip();
 
+    // Mostrar vista según hash actual
+    UI.showFromHash();
+
     if (!Storage.hasOnboarded()) {
       UI.showModal('onb-backdrop');
     }
 
+    // Registrar service worker
+    this._registerSW();
+
     setInterval(() => persist(), 30000);
     window.addEventListener('beforeunload', () => persistForce());
-
-    UI.show('inicio');
   },
 
-  /** Se llama cuando otra pestaña cambió el estado. */
+  _registerSW() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('SW registrado'))
+        .catch(e => console.warn('SW no registrado:', e));
+    }
+  },
+
   onExternalUpdate() {
     this.hydrate();
     UI.updateChip();
-    // Refrescar la vista actual
     const v = UI.currentView;
     if (v === 'entrenador' && typeof Trainer !== 'undefined') Trainer.render();
     if (v === 'pokemons' && typeof Pokemon !== 'undefined') Pokemon.showList();
@@ -104,7 +118,6 @@ const App = {
     this._flashNotification('Otra pestaña actualizó la ficha. Datos recargados.');
   },
 
-  /** Se llama cuando detectamos conflicto en persist. */
   notifyConflict() {
     this.hydrate();
     UI.updateChip();
@@ -143,10 +156,9 @@ const App = {
 
   showExampleTrainer() {
     const el = document.getElementById('example-content');
-    const esc = Utils.escapeHtml;
     el.innerHTML = `
       <h2 style="margin-top:0">Kai · Entrenador de ejemplo</h2>
-      <p style="color:var(--dim)">Ficha de nivel 5 solo para mirar. No modifica tus datos.</p>
+      <p style="color:var(--dim)">Ficha de nivel 5 solo para mirar.</p>
       <h3>Identidad</h3>
       <p><b>Nombre:</b> Kai<br><b>Concepto:</b> Joven que creció en un pueblo pesquero y ahora viaja con su Charmander</p>
       <h3>Estadísticas</h3>
@@ -175,10 +187,6 @@ const App = {
       Movimientos: Arañazo, Gruñido, Ascuas</p>
       <h3>Equipo</h3>
       <p>5 Poké Balls · 3 Pociones · 1 Revivir</p>
-      <div class="call info" style="margin-top:14px">
-        <span class="lbl">¿Y ahora qué?</span>
-        Cuando hagas la tuya tendrás algo parecido. Todo se puede editar después.
-      </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
         <button class="btn" data-go="crear" id="ex-to-create">✨ Crear mi propia ficha</button>
       </div>`;
@@ -197,27 +205,23 @@ const App = {
       <h3>Datos base</h3>
       <p><b>Especie:</b> Charmander<br>
       <b>Tipo:</b> <span class="tag" data-type="Fuego">Fuego</span><br>
-      <b>Nivel:</b> 5<br>
-      <b>Naturaleza:</b> Valiente (+Ataque, −Velocidad)</p>
+      <b>Nivel:</b> 5</p>
       <h3>Estadísticas</h3>
       <div class="stats">
-        <div class="stat"><b>Salud</b><span>4</span><small>base 4</small></div>
-        <div class="stat"><b>Ataque</b><span>7</span><small>base 5</small></div>
-        <div class="stat"><b>Defensa</b><span>4</span><small>base 4</small></div>
-        <div class="stat"><b>At. Esp.</b><span>6</span><small>base 6</small></div>
-        <div class="stat"><b>Def. Esp.</b><span>5</span><small>base 5</small></div>
-        <div class="stat"><b>Velocidad</b><span>5</span><small>base 7</small></div>
-      </div>
-      <div class="stats" style="margin-top:8px">
-        <div class="stat"><b>PG</b><span>27</span></div>
+        <div class="stat"><b>Salud</b><span>4</span></div>
+        <div class="stat"><b>Ataque</b><span>7</span></div>
+        <div class="stat"><b>Defensa</b><span>4</span></div>
+        <div class="stat"><b>At. Esp.</b><span>6</span></div>
+        <div class="stat"><b>Def. Esp.</b><span>5</span></div>
+        <div class="stat"><b>Velocidad</b><span>5</span></div>
       </div>
       <h3>Habilidad</h3>
-      <p><b>Cuerpo Llama</b> — Cuando un enemigo te golpea con un movimiento de contacto, tira 1d10. Con 8+ el atacante queda Quemado.</p>
+      <p><b>Cuerpo Llama</b> — Contacto: 30% de quemar al atacante.</p>
       <h3>Movimientos</h3>
       <ul style="padding-left:20px">
-        <li><b>Arañazo</b> · <span class="tag" data-type="Normal">Normal</span> · Físico · DB 2 · AC 2</li>
-        <li><b>Gruñido</b> · <span class="tag" data-type="Normal">Normal</span> · Estado · AC 2 · Baja 1 Ataque</li>
-        <li><b>Ascuas</b> · <span class="tag" data-type="Fuego">Fuego</span> · Especial · DB 4 · AC 2 · Puede quemar</li>
+        <li><b>Arañazo</b> · Normal · Físico · DB 2 · AC 2</li>
+        <li><b>Gruñido</b> · Normal · Estado · AC 2</li>
+        <li><b>Ascuas</b> · Fuego · Especial · DB 4 · AC 2</li>
       </ul>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
         <button class="btn" data-go="pokedex" id="ex-to-dex">📕 Explorar Pokédex</button>
@@ -243,7 +247,6 @@ const App = {
     document.querySelectorAll('#w-weak input').forEach(cb => cb.checked = t.weak.includes(cb.value));
     document.querySelectorAll('#w-edges input').forEach(cb => cb.checked = t.edges.includes(cb.value));
 
-    // ✅ Usa el nuevo hydrateStatsFromState que NO recorta valores
     if (typeof Wizard !== 'undefined' && Wizard.hydrateStatsFromState) {
       Wizard.hydrateStatsFromState();
     }
