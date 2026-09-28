@@ -560,7 +560,7 @@ const Wizard = {
     });
   },
 
-  _updateTrainerStats() {
+   _updateTrainerStats() {
     const BASE = { hp: 10, atk: 5, def: 5, spa: 5, spd: 5, spe: 5 };
     const MAP = {
       'w-hp':  ['hp',  'w-fhp'],
@@ -575,11 +575,23 @@ const Wizard = {
       const inputEl = document.getElementById(inputId);
       const displayEl = document.getElementById(displayId);
       if (!inputEl || !displayEl) return;
-      const v = Math.max(0, Math.min(5, parseInt(inputEl.value) || 0));
-      inputEl.value = v;
+      // Lee el valor del input SIN sobreescribirlo
+      const raw = parseInt(inputEl.value);
+      const v = Number.isFinite(raw) ? Math.max(0, Math.min(5, raw)) : 0;
       total += v;
-      State.trainer.stats[key] = BASE[key] + v;
-      displayEl.textContent = State.trainer.stats[key];
+      // Solo actualiza el display, no el input (así no rompemos el foco ni sobreescribimos datos)
+      displayEl.textContent = BASE[key] + v;
+    });
+
+    // Actualiza State.trainer.stats DESDE el input (solo si el input tiene valor válido)
+    Object.entries(MAP).forEach(([inputId, [key]]) => {
+      const inputEl = document.getElementById(inputId);
+      if (!inputEl) return;
+      const raw = parseInt(inputEl.value);
+      if (Number.isFinite(raw)) {
+        const v = Math.max(0, Math.min(5, raw));
+        State.trainer.stats[key] = BASE[key] + v;
+      }
     });
 
     const tot = document.getElementById('w-statstot');
@@ -769,4 +781,36 @@ const Wizard = {
         <p>${items}</p>
       </div>`;
   }
+     /**
+   * Carga valores externos al wizard sin recortarlos ni recalcularlos.
+   * Se usa tras importar una ficha para reflejar los datos exactos.
+   */
+  hydrateStatsFromState() {
+    const t = State.trainer;
+    const BASE = { hp: 10, atk: 5, def: 5, spa: 5, spd: 5, spe: 5 };
+    const MAP = {
+      'w-hp':  ['hp',  'w-fhp'],
+      'w-atk': ['atk', 'w-fatk'],
+      'w-def': ['def', 'w-fdef'],
+      'w-spa': ['spa', 'w-fspa'],
+      'w-spd': ['spd', 'w-fspd'],
+      'w-spe': ['spe', 'w-fspe']
+    };
+    let total = 0;
+    Object.entries(MAP).forEach(([inputId, [key, displayId]]) => {
+      const inputEl = document.getElementById(inputId);
+      const displayEl = document.getElementById(displayId);
+      if (!inputEl || !displayEl) return;
+      const finalVal = t.stats[key] || BASE[key];
+      const delta = Math.max(0, Math.min(5, finalVal - BASE[key]));
+      inputEl.value = delta;
+      displayEl.textContent = finalVal;
+      total += delta;
+    });
+    const tot = document.getElementById('w-statstot');
+    if (tot) {
+      tot.textContent = total;
+      tot.style.color = total === 10 ? 'var(--g)' : 'var(--r)';
+    }
+  },
 };
