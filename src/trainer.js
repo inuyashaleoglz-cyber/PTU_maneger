@@ -1,11 +1,11 @@
 /* ============================================================
-   trainer.js · Vista del entrenador + catálogo de clases
-   Todos los campos se escapan antes de insertar.
+   trainer.js · Vista del entrenador + clases + notas + mochila
+   Añade: campo de notas editable y mochila visual con "usar".
    ============================================================ */
 'use strict';
 
 const Trainer = {
-    render() {
+  render() {
     const t = State.trainer;
     const el = document.getElementById('entrenadorView');
     if (!el) return;
@@ -32,12 +32,29 @@ const Trainer = {
       </div>`;
     }).join('');
 
-    // Equipo / inventario
-    const itemNames = { ball:'Poké Balls', pot:'Pociones', rev:'Revivir', ant:'Antídotos' };
-    const items = Object.entries(State.items)
+    // Mochila visual
+    const itemInfo = {
+      ball: { name: 'Poké Ball', icon: '⚪', desc: 'Se usa desde el combate para capturar.' },
+      pot:  { name: 'Poción', icon: '🧪', desc: 'Recupera 20 PG a un Pokémon.' },
+      rev:  { name: 'Revivir', icon: '💛', desc: 'Revive a un Pokémon debilitado.' },
+      ant:  { name: 'Antídoto', icon: '💚', desc: 'Cura el estado Envenenado.' }
+    };
+    const bagItems = Object.entries(State.items)
       .filter(([, v]) => v > 0)
-      .map(([k, v]) => `<span class="tag g">${esc(v)}× ${esc(itemNames[k] || k)}</span>`)
-      .join(' ') || '<span style="color:var(--dim)">Sin objetos anotados</span>';
+      .map(([k, v]) => {
+        const info = itemInfo[k];
+        if (!info) return '';
+        return `<div class="bag-item" data-item="${esc(k)}">
+          <span class="bag-item-icon">${info.icon}</span>
+          <div class="bag-item-body">
+            <b>${esc(info.name)} <span class="bag-count">×${esc(v)}</span></b>
+            <small>${esc(info.desc)}</small>
+          </div>
+          <button class="btn ghost xs" data-use="${esc(k)}">Usar</button>
+        </div>`;
+      })
+      .filter(Boolean)
+      .join('') || '<p style="color:var(--dim);font-size:13px">Sin objetos. Compra desde el asistente o gestiona el inventario abajo.</p>';
 
     // Pokémon activo
     const pkAct = activePokemon();
@@ -93,11 +110,17 @@ const Trainer = {
         <p><b>Clase:</b> ${t.clase ? esc(t.clase) : '<span style="color:var(--dim)">sin definir</span>'}</p>
         <p><b>Entrenamiento:</b> ${t.training ? esc(t.training) : '<span style="color:var(--dim)">—</span>'}</p>
 
-        <h3>Equipo</h3>
-        <p>${items}</p>
+        <h3>Mochila</h3>
+        <div class="bag-list">${bagItems}</div>
 
         <h3>Pokémon activo</h3>
         ${pkBlock || '<p style="color:var(--dim)">Sin Pokémon asignado</p>'}
+
+        <h3>Notas del entrenador</h3>
+        <div class="field">
+          <textarea id="tr-notes" rows="5" placeholder="Diario de campaña, objetivos, PNJ importantes, pistas…">${esc(t.notes || '')}</textarea>
+          <small style="color:var(--dim);font-size:12px">Se guarda automáticamente.</small>
+        </div>
 
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap" class="no-print">
           <button class="btn ghost sm" data-go="crear">Editar en asistente</button>
@@ -110,6 +133,57 @@ const Trainer = {
       b.addEventListener('click', () => UI.show(b.dataset.go)));
     el.querySelectorAll('[data-roll]').forEach(b =>
       b.addEventListener('click', () => Tools.rollSkill(b.dataset.roll, b)));
+
+    // Notas del entrenador
+    el.querySelector('#tr-notes')?.addEventListener('input', e => {
+      State.trainer.notes = e.target.value;
+      persist();
+    });
+
+    // Usar objetos
+    el.querySelectorAll('[data-use]').forEach(btn => {
+      btn.addEventListener('click', () => this._useItem(btn.dataset.use));
+    });
+  },
+
+  /** Usa un objeto del inventario sobre el Pokémon activo. */
+  _useItem(key) {
+    const pk = activePokemon();
+    if (!pk) { alert('No tienes un Pokémon activo.'); return; }
+    const base = Data.pokemon(pk.species);
+    const stats = Pokemon._stats(pk);
+    const pgMax = pk.level + stats.hp * 3 + 10;
+    const pgNow = pk.hpCurrent === null ? pgMax : pk.hpCurrent;
+
+    if (key === 'pot') {
+      if (State.items.pot <= 0) { alert('No tienes Pociones.'); return; }
+      if (pgNow >= pgMax) { alert('El Pokémon ya tiene los PG al máximo.'); return; }
+      const healing = Math.min(20, pgMax - pgNow);
+      const newHP = pgNow + healing;
+      pk.hpCurrent = newHP === pgMax ? null : newHP;
+      State.items.pot--;
+      persist();
+      UI.updateChip();
+      this.render();
+      alert(`Poción usada. ${pk.nickname || base.es} recupera ${healing} PG.`);
+    } else if (key === 'rev') {
+      if (State.items.rev <= 0) { alert('No tienes Revivir.'); return; }
+      if (pgNow > 0) { alert('El Pokémon no está debilitado.'); return; }
+      pk.hpCurrent = Math.max(1, Math.floor(pgMax / 2));
+      State.items.rev--;
+      persist();
+      UI.updateChip();
+      this.render();
+      alert(`Revivir usado. ${pk.nickname || base.es} vuelve con ${pk.hpCurrent} PG.`);
+    } else if (key === 'ant') {
+      if (State.items.ant <= 0) { alert('No tienes Antídotos.'); return; }
+      alert('Antídoto usado. En mesa, aplica la cura del estado Envenenado.');
+      State.items.ant--;
+      persist();
+      this.render();
+    } else if (key === 'ball') {
+      alert('Las Poké Balls se usan desde la hoja de captura o el combate. Aquí solo se cuentan.');
+    }
   },
 
   rankOf(skill) {
