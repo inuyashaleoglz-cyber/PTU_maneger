@@ -1,6 +1,6 @@
-
 /* ============================================================
    trainer.js · Vista del entrenador + catálogo de clases
+   Todos los campos se escapan antes de insertar.
    ============================================================ */
 'use strict';
 
@@ -9,6 +9,8 @@ const Trainer = {
     const t = State.trainer;
     const el = document.getElementById('entrenadorView');
     if (!el) return;
+    const esc = Utils.escapeHtml;
+
     if (!t.name) {
       el.innerHTML = `<div class="call info"><span class="lbl">Sin ficha</span>
         Todavía no has creado un entrenador.
@@ -24,41 +26,44 @@ const Trainer = {
       const r = this.rankOf(s);
       const cls = r === 1 ? 'r' : r >= 4 ? 'g' : '';
       return `<div class="skill-roll">
-        <div class="skname">${s} <span class="tag ${cls}">${rankName[r]}</span></div>
+        <div class="skname">${esc(s)} <span class="tag ${cls}">${rankName[r]}</span></div>
         <div class="skdice">${r}d6</div>
-        <button class="btn ghost xs" data-roll="${s}">Tirar</button>
+        <button class="btn ghost xs" data-roll="${esc(s)}">Tirar</button>
       </div>`;
     }).join('');
 
     el.innerHTML = `
       <div class="card">
-        <h2 style="margin-top:0">${t.name} <span style="color:var(--dim);font-weight:400">· Nivel ${t.level}</span></h2>
-        ${t.concept ? `<p style="color:var(--dim);margin-top:0">${t.concept}</p>` : ''}
+        <h2 style="margin-top:0">${esc(t.name)} <span style="color:var(--dim);font-weight:400">· Nivel ${esc(t.level)}</span></h2>
+        ${t.concept ? `<p style="color:var(--dim);margin-top:0">${esc(t.concept)}</p>` : ''}
 
         <h3>Estadísticas</h3>
         <div class="stats">
-          <div class="stat"><b>Salud</b><span>${f.hp}</span></div>
-          <div class="stat"><b>Ataque</b><span>${f.atk}</span></div>
-          <div class="stat"><b>Defensa</b><span>${f.def}</span></div>
-          <div class="stat"><b>At. Esp.</b><span>${f.spa}</span></div>
-          <div class="stat"><b>Def. Esp.</b><span>${f.spd}</span></div>
-          <div class="stat"><b>Velocidad</b><span>${f.spe}</span></div>
+          <div class="stat"><b>Salud</b><span>${esc(f.hp)}</span></div>
+          <div class="stat"><b>Ataque</b><span>${esc(f.atk)}</span></div>
+          <div class="stat"><b>Defensa</b><span>${esc(f.def)}</span></div>
+          <div class="stat"><b>At. Esp.</b><span>${esc(f.spa)}</span></div>
+          <div class="stat"><b>Def. Esp.</b><span>${esc(f.spd)}</span></div>
+          <div class="stat"><b>Velocidad</b><span>${esc(f.spe)}</span></div>
         </div>
         <div class="stats" style="margin-top:8px">
-          <div class="stat"><b>PG</b><span>${t.level * 2 + f.hp * 3 + 10}</span></div>
-          <div class="stat"><b>PA</b><span>${5 + Math.floor(t.level / 5)}</span></div>
-          <div class="stat"><b>Ev. Fís.</b><span>${ev(f.def)}</span></div>
-          <div class="stat"><b>Ev. Esp.</b><span>${ev(f.spd)}</span></div>
-          <div class="stat"><b>Ev. Vel.</b><span>${ev(f.spe)}</span></div>
+          <div class="stat"><b>PG</b><span>${esc(t.level * 2 + f.hp * 3 + 10)}</span></div>
+          <div class="stat"><b>PA</b><span>${esc(5 + Math.floor(t.level / 5))}</span></div>
+          <div class="stat"><b>Ev. Fís.</b><span>${esc(ev(f.def))}</span></div>
+          <div class="stat"><b>Ev. Esp.</b><span>${esc(ev(f.spd))}</span></div>
+          <div class="stat"><b>Ev. Vel.</b><span>${esc(ev(f.spe))}</span></div>
         </div>
 
         <h3>Destrezas</h3>
         <p style="font-size:12.5px;color:var(--dim);margin:0">Haz clic en <b>Tirar</b> para usar los dados actuales.</p>
         <div class="tw" style="padding:4px 0">${skills}</div>
 
-        <h3>Edges y clase</h3>
-        <p><b>Edges:</b> ${t.edges.length ? t.edges.map(e => `<span class="tag g">${e}</span>`).join(' ') : '<span style="color:var(--dim)">—</span>'}</p>
-        <p><b>Clase:</b> ${t.clase || '<span style="color:var(--dim)">sin definir</span>'}</p>
+        <h3>Ventajas y clase</h3>
+        <p><b>Ventajas:</b> ${t.edges.length ? t.edges.map(e => `<span class="tag g">${esc(e)}</span>`).join(' ') : '<span style="color:var(--dim)">—</span>'}</p>
+        <p><b>Clase:</b> ${t.clase ? esc(t.clase) : '<span style="color:var(--dim)">sin definir</span>'}</p>
+        <p><b>Entrenamiento:</b> ${t.training ? esc(t.training) : '<span style="color:var(--dim)">—</span>'}</p>
+
+        ${t.story ? `<h3>Historia</h3><p style="white-space:pre-wrap">${esc(t.story)}</p>` : ''}
 
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap" class="no-print">
           <button class="btn ghost sm" data-go="crear">Editar en asistente</button>
@@ -73,7 +78,6 @@ const Trainer = {
       b.addEventListener('click', () => Tools.rollSkill(b.dataset.roll, b)));
   },
 
-  /** Rango (1-6) de una destreza. */
   rankOf(skill) {
     const t = State.trainer;
     if (skill === t.adept) return 4;
@@ -86,12 +90,12 @@ const Trainer = {
   renderClasses() {
     const wrap = document.getElementById('classCatalog');
     if (!wrap) return;
+    const esc = Utils.escapeHtml;
     const filter = document.getElementById('cc-filter');
-    const search = document.getElementById('cc-search').value.trim().toLowerCase();
+    const search = document.getElementById('cc-search').value.trim();
     const onlyOk = document.getElementById('cc-onlyok').checked;
     const hasTrainer = State.trainer.name && State.trainer.name.length > 0;
 
-    // Llenar filtro de categorías la primera vez
     if (!filter.dataset.bound) {
       filter.dataset.bound = '1';
       filter.innerHTML = '';
@@ -107,44 +111,44 @@ const Trainer = {
     let html = '';
     const classes = Data.classes.classes || {};
     const cats = cat ? { [cat]: Data.classes.categories[cat] } : (Data.classes.categories || {});
+    const q = Utils.norm(search);
 
     let total = 0;
 
     Object.entries(cats).forEach(([cKey, cName]) => {
       const inCat = Object.entries(classes).filter(([, c]) => c.cat === cKey);
       const filtered = inCat.filter(([name, cl]) => {
-        if (search && !name.toLowerCase().includes(search)) return false;
-        // Solo filtra por "cumples" si hay entrenador Y el usuario lo pidió
+        if (q && !Utils.norm(name).includes(q) && !Utils.norm(cl.desc || '').includes(q)) return false;
         if (onlyOk && hasTrainer && !this.meets(cl).ok) return false;
         return true;
       });
       if (!filtered.length) return;
 
       total += filtered.length;
-      html += `<h3>${cName} <span style="color:var(--dim);font-weight:400;font-size:13px">(${filtered.length})</span></h3>`;
+      html += `<h3>${esc(cName)} <span style="color:var(--dim);font-weight:400;font-size:13px">(${filtered.length})</span></h3>`;
       html += `<div class="class-grid">`;
       filtered.forEach(([name, cl]) => {
         const meets = hasTrainer ? this.meets(cl) : { ok: false };
         const reqs = [];
         if (cl.req?.level && cl.req.level > 1) {
           const has = hasTrainer && State.trainer.level >= cl.req.level;
-          reqs.push(`<span class="req-item ${has ? 'ok' : 'no'}">Nivel ${cl.req.level}</span>`);
+          reqs.push(`<span class="req-item ${has ? 'ok' : 'no'}">Nivel ${esc(cl.req.level)}</span>`);
         }
         Object.entries(cl.req?.skills || {}).forEach(([sk, need]) => {
           const has = hasTrainer && this.rankOf(sk) >= need;
-          reqs.push(`<span class="req-item ${has ? 'ok' : 'no'}">${sk} ${need}d6</span>`);
+          reqs.push(`<span class="req-item ${has ? 'ok' : 'no'}">${esc(sk)} ${esc(need)}d6</span>`);
         });
         const badge = hasTrainer
           ? `<span class="class-badge ${meets.ok ? 'ok' : 'no'}">${meets.ok ? '✓ lista' : '✗ faltan'}</span>`
           : '';
         html += `<div class="class-card ${meets.ok ? 'ok' : ''}">
           ${badge}
-          <h5>${name}</h5>
-          <p class="desc">${cl.desc}</p>
+          <h5>${esc(name)}</h5>
+          <p class="desc">${esc(cl.desc)}</p>
           <div class="req">${reqs.join(' ') || 'Sin requisitos'}</div>
           ${cl.feature_base ? `<div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12px">
-            <b style="color:var(--g)">${cl.feature_base.name}</b><br>
-            <span style="color:var(--dim)">${cl.feature_base.effect}</span>
+            <b style="color:var(--g)">${esc(cl.feature_base.name)}</b><br>
+            <span style="color:var(--dim)">${esc(cl.feature_base.effect)}</span>
           </div>` : ''}
         </div>`;
       });
