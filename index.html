@@ -266,8 +266,10 @@
       </div>
 
       <div class="panel" data-p="5">
-        <div class="call info"><span class="lbl">Tu primer compañero</span>
-          Puedes empezar con cualquier Pokémon de nivel 5.</div>
+        <div class="call info">
+          <span class="lbl">Tu primer compañero</span>
+          Puedes empezar con cualquier Pokémon de nivel 5. Elige uno y ajusta lo que quieras. Si no sabes qué poner, deja los valores por defecto.
+        </div>
         <div class="row wide">
           <div class="field"><label for="w-esp">Especie</label><select id="w-esp"></select></div>
           <div class="field"><label for="w-nivel-pk">Nivel</label><input id="w-nivel-pk" type="number" value="5" min="1" max="100"></div>
@@ -285,13 +287,18 @@
           <div class="field"><label>Velocidad (+)</label><input data-pk="spe" type="number" min="0" value="0"></div>
         </div>
         <div id="w-preview"></div>
-        <div class="row" style="margin-top:10px">
-          <div class="field"><label for="w-hab">Habilidad</label><input id="w-hab" placeholder="Ej. Fuga"></div>
-          <div class="field"><label for="w-movs">Movimientos (uno por línea, máx. 6)</label>
-            <textarea id="w-movs" rows="3" placeholder="Placaje&#10;Gruñido"></textarea>
-            <div class="moves-list" id="w-movs-info"></div>
-          </div>
+
+        <h3>Habilidad</h3>
+        <div class="field">
+          <select id="w-hab"></select>
+          <small style="color:var(--dim);font-size:12px">Elige una. Se recomienda la Básica si es tu primera vez.</small>
         </div>
+
+        <h3>Movimientos</h3>
+        <p style="font-size:13px;color:var(--dim);margin:0 0 8px">
+          Marca hasta 6. Solo aparecen los que tu Pokémon puede aprender a su nivel actual.
+        </p>
+        <div id="w-movs-selector"></div>
       </div>
 
       <div class="panel" data-p="6">
