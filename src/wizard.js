@@ -1,6 +1,7 @@
 /* ============================================================
    wizard.js · Asistente de creación del entrenador
-   Añade: resúmenes visuales en Trasfondo y Ventajas
+   Incluye: "Elige por mí" + banco de conceptos + resúmenes visuales
+   + hydrateStatsFromState (no recorta valores importados)
    ============================================================ */
 'use strict';
 
@@ -389,7 +390,7 @@ const Wizard = {
       '<b>Naturaleza:</b> ' + naturalezaNombre + ' (puedes cambiarla).<br>' +
       '<b>Puntos:</b> repartidos hacia sus mejores estadísticas.<br>' +
       '<b>Habilidad:</b> la primera básica.<br>' +
-      '<b>Movimientos marcados:</b> ' + (movsList.length ? movsList.join(', ') : 'ninguno disponible' ) + '.'
+      '<b>Movimientos marcados:</b> ' + (movsList.length ? movsList.join(', ') : 'ninguno disponible') + '.'
     );
   },
 
@@ -415,28 +416,24 @@ const Wizard = {
     exp.classList.remove('hide');
   },
 
-  /* ============================================================
-     RESUMEN VISUAL DE SELECCIÓN
-     ============================================================ */
   _updateSummaries() {
     const t = State.trainer;
+    const esc = this._escapeHtml;
 
-    // Resumen Trasfondo: Adepto + Novato + Patéticas
     const sumTras = document.getElementById('w-trasfondo-summary');
     if (sumTras) {
       const tags = [];
-      if (t.adept) tags.push(`<span class="tag g">Adepto: ${t.adept}</span>`);
-      if (t.novice) tags.push(`<span class="tag b">Novato: ${t.novice}</span>`);
-      t.weak.forEach(w => tags.push(`<span class="tag r">Patética: ${w}</span>`));
+      if (t.adept) tags.push(`<span class="tag g">Adepto: ${esc(t.adept)}</span>`);
+      if (t.novice) tags.push(`<span class="tag b">Novato: ${esc(t.novice)}</span>`);
+      t.weak.forEach(w => tags.push(`<span class="tag r">Patética: ${esc(w)}</span>`));
       const restantes = 3 - t.weak.length;
       if (restantes > 0) tags.push(`<span class="tag" style="border-style:dashed">Faltan ${restantes} Patéticas</span>`);
       sumTras.innerHTML = tags.join(' ') || '<span style="color:var(--dim);font-size:13px">Aún no has elegido nada.</span>';
     }
 
-    // Resumen Ventajas
     const sumEdge = document.getElementById('w-edges-summary');
     if (sumEdge) {
-      const tags = t.edges.map(e => `<span class="tag g">${e}</span>`);
+      const tags = t.edges.map(e => `<span class="tag g">${esc(e)}</span>`);
       const restantes = 4 - t.edges.length;
       if (restantes > 0) tags.push(`<span class="tag" style="border-style:dashed">Faltan ${restantes} ventajas</span>`);
       sumEdge.innerHTML = tags.join(' ') || '<span style="color:var(--dim);font-size:13px">Aún no has elegido ninguna ventaja.</span>';
@@ -560,7 +557,7 @@ const Wizard = {
     });
   },
 
-   _updateTrainerStats() {
+  _updateTrainerStats() {
     const BASE = { hp: 10, atk: 5, def: 5, spa: 5, spd: 5, spe: 5 };
     const MAP = {
       'w-hp':  ['hp',  'w-fhp'],
@@ -575,15 +572,12 @@ const Wizard = {
       const inputEl = document.getElementById(inputId);
       const displayEl = document.getElementById(displayId);
       if (!inputEl || !displayEl) return;
-      // Lee el valor del input SIN sobreescribirlo
       const raw = parseInt(inputEl.value);
       const v = Number.isFinite(raw) ? Math.max(0, Math.min(5, raw)) : 0;
       total += v;
-      // Solo actualiza el display, no el input (así no rompemos el foco ni sobreescribimos datos)
       displayEl.textContent = BASE[key] + v;
     });
 
-    // Actualiza State.trainer.stats DESDE el input (solo si el input tiene valor válido)
     Object.entries(MAP).forEach(([inputId, [key]]) => {
       const inputEl = document.getElementById(inputId);
       if (!inputEl) return;
@@ -607,6 +601,35 @@ const Wizard = {
     setTxt('w-ef',  Math.min(6, Math.floor(t.stats.def / 5)));
     setTxt('w-ee',  Math.min(6, Math.floor(t.stats.spd / 5)));
     setTxt('w-ev',  Math.min(6, Math.floor(t.stats.spe / 5)));
+  },
+
+  hydrateStatsFromState() {
+    const t = State.trainer;
+    const BASE = { hp: 10, atk: 5, def: 5, spa: 5, spd: 5, spe: 5 };
+    const MAP = {
+      'w-hp':  ['hp',  'w-fhp'],
+      'w-atk': ['atk', 'w-fatk'],
+      'w-def': ['def', 'w-fdef'],
+      'w-spa': ['spa', 'w-fspa'],
+      'w-spd': ['spd', 'w-fspd'],
+      'w-spe': ['spe', 'w-fspe']
+    };
+    let total = 0;
+    Object.entries(MAP).forEach(([inputId, [key, displayId]]) => {
+      const inputEl = document.getElementById(inputId);
+      const displayEl = document.getElementById(displayId);
+      if (!inputEl || !displayEl) return;
+      const finalVal = t.stats[key] || BASE[key];
+      const delta = Math.max(0, Math.min(5, finalVal - BASE[key]));
+      inputEl.value = delta;
+      displayEl.textContent = finalVal;
+      total += delta;
+    });
+    const tot = document.getElementById('w-statstot');
+    if (tot) {
+      tot.textContent = total;
+      tot.style.color = total === 10 ? 'var(--g)' : 'var(--r)';
+    }
   },
 
   _updateBudget() {
@@ -748,6 +771,7 @@ const Wizard = {
     const t = State.trainer;
     const pk = State.pokemons[0];
     const base = Data.pokemon(pk.species);
+    const esc = this._escapeHtml;
     const itemNames = { ball:'Poké Balls', pot:'Pociones', rev:'Revivir', ant:'Antídotos' };
     const items = Object.entries(State.items)
       .filter(([, v]) => v > 0)
@@ -759,58 +783,26 @@ const Wizard = {
     if (!finalDiv) return;
     finalDiv.innerHTML = `
       <div class="sheet">
-        <h3>${t.name || 'Entrenador sin nombre'} · Nivel ${t.level}</h3>
-        ${t.concept ? `<p><b>Concepto:</b> ${t.concept}</p>` : ''}
-        ${t.story ? `<p><b>Historia:</b> ${t.story}</p>` : ''}
+        <h3>${esc(t.name) || 'Entrenador sin nombre'} · Nivel ${esc(t.level)}</h3>
+        ${t.concept ? `<p><b>Concepto:</b> ${esc(t.concept)}</p>` : ''}
+        ${t.story ? `<p><b>Historia:</b> ${esc(t.story)}</p>` : ''}
         <h4>Estadísticas</h4>
         <div class="stats">
-          <div class="stat"><b>Salud</b><span>${t.stats.hp}</span></div>
-          <div class="stat"><b>Ataque</b><span>${t.stats.atk}</span></div>
-          <div class="stat"><b>Defensa</b><span>${t.stats.def}</span></div>
-          <div class="stat"><b>At. Esp.</b><span>${t.stats.spa}</span></div>
-          <div class="stat"><b>Def. Esp.</b><span>${t.stats.spd}</span></div>
-          <div class="stat"><b>Velocidad</b><span>${t.stats.spe}</span></div>
+          <div class="stat"><b>Salud</b><span>${esc(t.stats.hp)}</span></div>
+          <div class="stat"><b>Ataque</b><span>${esc(t.stats.atk)}</span></div>
+          <div class="stat"><b>Defensa</b><span>${esc(t.stats.def)}</span></div>
+          <div class="stat"><b>At. Esp.</b><span>${esc(t.stats.spa)}</span></div>
+          <div class="stat"><b>Def. Esp.</b><span>${esc(t.stats.spd)}</span></div>
+          <div class="stat"><b>Velocidad</b><span>${esc(t.stats.spe)}</span></div>
         </div>
         <h4>Destrezas</h4>
-        <p>Adepto: <b>${t.adept}</b> · Novato: <b>${t.novice}</b> · Patéticas: <b>${t.weak.join(', ') || '—'}</b></p>
+        <p>Adepto: <b>${esc(t.adept)}</b> · Novato: <b>${esc(t.novice)}</b> · Patéticas: <b>${t.weak.map(esc).join(', ') || '—'}</b></p>
         <h4>Pokémon inicial</h4>
-        <p><b>${pk.nickname || pk.species}</b> · Nv.${pk.level} · ${base ? base.t.join(' / ') : '—'}</p>
-        ${pk.ability ? `<p><b>Habilidad:</b> ${pk.ability}</p>` : ''}
-        ${movsList.length ? `<p><b>Movimientos:</b> ${movsList.join(', ')}</p>` : ''}
+        <p><b>${esc(pk.nickname || pk.species)}</b> · Nv.${esc(pk.level)} · ${base ? base.t.map(esc).join(' / ') : '—'}</p>
+        ${pk.ability ? `<p><b>Habilidad:</b> ${esc(pk.ability)}</p>` : ''}
+        ${movsList.length ? `<p><b>Movimientos:</b> ${movsList.map(esc).join(', ')}</p>` : ''}
         <h4>Equipo</h4>
-        <p>${items}</p>
+        <p>${esc(items)}</p>
       </div>`;
   }
-     /**
-   * Carga valores externos al wizard sin recortarlos ni recalcularlos.
-   * Se usa tras importar una ficha para reflejar los datos exactos.
-   */
-  hydrateStatsFromState() {
-    const t = State.trainer;
-    const BASE = { hp: 10, atk: 5, def: 5, spa: 5, spd: 5, spe: 5 };
-    const MAP = {
-      'w-hp':  ['hp',  'w-fhp'],
-      'w-atk': ['atk', 'w-fatk'],
-      'w-def': ['def', 'w-fdef'],
-      'w-spa': ['spa', 'w-fspa'],
-      'w-spd': ['spd', 'w-fspd'],
-      'w-spe': ['spe', 'w-fspe']
-    };
-    let total = 0;
-    Object.entries(MAP).forEach(([inputId, [key, displayId]]) => {
-      const inputEl = document.getElementById(inputId);
-      const displayEl = document.getElementById(displayId);
-      if (!inputEl || !displayEl) return;
-      const finalVal = t.stats[key] || BASE[key];
-      const delta = Math.max(0, Math.min(5, finalVal - BASE[key]));
-      inputEl.value = delta;
-      displayEl.textContent = finalVal;
-      total += delta;
-    });
-    const tot = document.getElementById('w-statstot');
-    if (tot) {
-      tot.textContent = total;
-      tot.style.color = total === 10 ? 'var(--g)' : 'var(--r)';
-    }
-  },
 };
