@@ -13,10 +13,11 @@ const UI = {
       b.classList.toggle('on', b.dataset.view === viewId));
 
     const titles = {
-      inicio: 'Inicio', crear: 'Crear entrenador', entrenador: 'Mi entrenador',
+      inicio: 'Inicio', aprender: 'Aprende a jugar',
+      crear: 'Crear entrenador', entrenador: 'Mi entrenador',
       pokemons: 'Mis Pokémon', clases: 'Clases', tracker: 'Combate',
       tools: 'Calculadoras', dados: 'Dados', compartir: 'Compartir ficha',
-      dj: 'Vista DJ', tipos: 'Tipos', estados: 'Estados',
+      dj: 'Vista del Narrador', tipos: 'Tipos', estados: 'Estados',
       reglas: 'Reglas', glosario: 'Glosario',
       pokedex: 'Pokédex', movimientos: 'Movimientos', habilidades: 'Habilidades'
     };
@@ -25,7 +26,7 @@ const UI = {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.currentView = viewId;
 
-    // Disparadores de render por vista
+    if (viewId === 'aprender'    && typeof Reference !== 'undefined') Reference.renderLearn();
     if (viewId === 'entrenador'  && typeof Trainer   !== 'undefined') Trainer.render();
     if (viewId === 'pokemons'    && typeof Pokemon   !== 'undefined') Pokemon.showList();
     if (viewId === 'clases'      && typeof Trainer   !== 'undefined') Trainer.renderClasses();
@@ -88,23 +89,24 @@ const UI = {
 
   helpText(view) {
     const help = {
-      inicio: '<p>Consulta todo desde el menú lateral. Si vas a jugar, empieza por <b>Crear entrenador</b>.</p>',
-      crear: '<p>El asistente te guía paso a paso. Nada es permanente: al terminar puedes editar todo desde <b>Mi entrenador</b>.</p>',
-      entrenador: '<p>Aquí ves tu ficha completa. Los valores se calculan solos.</p>',
-      pokemons: '<p>Cada Pokémon de tu equipo tiene su ficha. El <b>activo</b> es el que aparece en la cabecera.</p>',
-      clases: '<p>Todas las clases con sus requisitos. Las que cumples aparecen marcadas con ✓.</p>',
+      inicio: '<p>Consulta libre o crea tu ficha. Si es tu primera vez, ve a <b>Aprende a jugar</b>.</p>',
+      aprender: '<p>Explicaciones para quien nunca ha jugado un RPG de mesa. Léelo en orden, cada sección es corta.</p>',
+      crear: '<p>El asistente te guía paso a paso. En cada paso puedes pulsar <b>Elige por mí</b> y rellenamos valores sensatos.</p>',
+      entrenador: '<p>Tu ficha completa. Los valores se calculan solos.</p>',
+      pokemons: '<p>Cada Pokémon de tu equipo. El <b>activo</b> aparece en la cabecera.</p>',
+      clases: '<p>Todas las clases con sus requisitos.</p>',
       tracker: '<p>Lleva iniciativa, PG y PA de cada combatiente.</p>',
       tools: '<p>Calculadoras: daño, captura y tabla de DB.</p>',
       dados: '<p>Haz clic en un dado para tirarlo.</p>',
-      compartir: '<p>Genera un código de texto con tu ficha para pegarlo en el chat del grupo.</p>',
-      dj: '<p>Vista para el DJ: guarda aquí las fichas de tus jugadores.</p>',
+      compartir: '<p>Genera un código de texto con tu ficha.</p>',
+      dj: '<p>Para el Narrador: guarda las fichas de todos los jugadores.</p>',
       tipos: '<p>Tabla de efectividad de tipos.</p>',
       estados: '<p>Estados persistentes, volátiles y descanso.</p>',
       reglas: '<p>Resumen de reglas de combate, stats y progresión.</p>',
-      glosario: '<p>Los términos de PTU explicados en una línea.</p>',
-      pokedex: '<p>Consulta cualquier Pokémon con sus stats, tipos, habilidades y movimientos. No necesitas tener una ficha.</p>',
-      movimientos: '<p>Lista completa de movimientos con DB, AC, tipo, clase, rango y efecto.</p>',
-      habilidades: '<p>Todas las habilidades con su descripción breve y completa.</p>'
+      glosario: '<p>Los términos de PTU explicados.</p>',
+      pokedex: '<p>Consulta cualquier Pokémon con stats, habilidades y movimientos.</p>',
+      movimientos: '<p>Lista completa de movimientos.</p>',
+      habilidades: '<p>Todas las habilidades con descripción.</p>'
     };
     return help[view] || '<p>Sin ayuda contextual.</p>';
   }
