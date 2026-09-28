@@ -853,6 +853,17 @@ Evasión       = ⌊stat ÷ 5⌋, máx +6</pre>
   </section>
 </main>
 
+  <!-- Aviso global de guardado -->
+<div id="globalStorageWarn" class="global-banner warn hide">
+  <span class="lbl">⚠ Almacenamiento</span>
+  <span id="globalStorageWarnMsg"></span>
+  <button class="btn ghost sm" id="globalEmergencyExport" style="margin-left:auto">⬇ Exportar copia de emergencia</button>
+</div>
+
+<!-- Notificación flotante (multi-pestaña) -->
+<div id="globalNotify" class="global-banner info hide">
+  <span id="globalNotifyText"></span>
+</div>
 <!-- Modal de bienvenida -->
 <div class="modal-backdrop hide" id="onb-backdrop">
   <div class="modal" role="dialog">
