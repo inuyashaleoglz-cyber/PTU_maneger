@@ -1,6 +1,5 @@
 /* ============================================================
-   app.js · Arranque y enlaces globales
-   Añade: spinner de carga + aviso si algún JSON falla
+   app.js · Arranque + sincronización multi-pestaña + aviso global
    ============================================================ */
 'use strict';
 
@@ -18,7 +17,6 @@ const App = {
       if (go) UI.show(go.dataset.go);
     });
 
-    // Ayuda
     document.getElementById('helpBtn').addEventListener('click', () => {
       document.getElementById('help-content').innerHTML = UI.helpText(UI.currentView);
       UI.showModal('help-backdrop');
@@ -29,7 +27,6 @@ const App = {
       if (e.target.id === 'help-backdrop') UI.hideModal('help-backdrop');
     });
 
-    // Modal de bienvenida
     const onbClose = () => {
       UI.hideModal('onb-backdrop');
       Storage.setOnboarded();
@@ -48,10 +45,11 @@ const App = {
         if (back && !back.classList.contains('hide')) onbClose();
         const eb = document.getElementById('example-backdrop');
         if (eb && !eb.classList.contains('hide')) UI.hideModal('example-backdrop');
+        const hb = document.getElementById('help-backdrop');
+        if (hb && !hb.classList.contains('hide')) UI.hideModal('help-backdrop');
       }
     });
 
-    // Modal de ejemplo
     document.getElementById('example-close').addEventListener('click', () =>
       UI.hideModal('example-backdrop'));
     document.getElementById('example-backdrop').addEventListener('click', e => {
@@ -60,14 +58,20 @@ const App = {
     document.getElementById('btnExampleTrainer')?.addEventListener('click', () => this.showExampleTrainer());
     document.getElementById('btnExamplePokemon')?.addEventListener('click', () => this.showExamplePokemon());
 
-    initTabs();
+    // Botón de emergencia global
+    document.getElementById('globalEmergencyExport')?.addEventListener('click', () => {
+      Storage.markExported();
+      Utils.download('ptu-emergencia-' + new Date().toISOString().slice(0,10) + '.ptu',
+        JSON.stringify(State, null, 2));
+    });
 
-    // Cargar datos y ocultar spinner
+    initTabs();
     await Data.loadAll();
     this._hideLoader();
     this._checkDataWarnings();
 
     loadState();
+    initMultiTabSync();
 
     Wizard.init();
     Combat.init();
@@ -82,9 +86,39 @@ const App = {
     }
 
     setInterval(() => persist(), 30000);
-    window.addEventListener('beforeunload', () => persist());
+    window.addEventListener('beforeunload', () => persistForce());
 
     UI.show('inicio');
+  },
+
+  /** Se llama cuando otra pestaña cambió el estado. */
+  onExternalUpdate() {
+    this.hydrate();
+    UI.updateChip();
+    // Refrescar la vista actual
+    const v = UI.currentView;
+    if (v === 'entrenador' && typeof Trainer !== 'undefined') Trainer.render();
+    if (v === 'pokemons' && typeof Pokemon !== 'undefined') Pokemon.showList();
+    if (v === 'tracker' && typeof Combat !== 'undefined') Combat.render();
+    if (v === 'dj' && typeof Share !== 'undefined') Share.renderDJ();
+    this._flashNotification('Otra pestaña actualizó la ficha. Datos recargados.');
+  },
+
+  /** Se llama cuando detectamos conflicto en persist. */
+  notifyConflict() {
+    this.hydrate();
+    UI.updateChip();
+    this._flashNotification('Otra pestaña tenía datos más recientes. Se recargaron.');
+  },
+
+  _flashNotification(text) {
+    const el = document.getElementById('globalNotify');
+    const txt = document.getElementById('globalNotifyText');
+    if (!el || !txt) return;
+    txt.textContent = text;
+    el.classList.remove('hide');
+    clearTimeout(this._notifyTimer);
+    this._notifyTimer = setTimeout(() => el.classList.add('hide'), 4000);
   },
 
   _hideLoader() {
@@ -103,18 +137,18 @@ const App = {
     if (!box || !text) return;
     text.textContent = 'No se pudieron cargar ' + failed.length +
       ' archivo(s) de datos: ' + failed.map(f => f.path).join(', ') +
-      '. Algunas secciones pueden verse incompletas. Recarga la página o comprueba tu conexión.';
+      '. Algunas secciones pueden verse incompletas. Recarga la página.';
     box.classList.remove('hide');
   },
 
   showExampleTrainer() {
     const el = document.getElementById('example-content');
+    const esc = Utils.escapeHtml;
     el.innerHTML = `
       <h2 style="margin-top:0">Kai · Entrenador de ejemplo</h2>
-      <p style="color:var(--dim)">Este es un entrenador de nivel 5. Se muestra solo para que veas cómo se ve una ficha completa.</p>
+      <p style="color:var(--dim)">Ficha de nivel 5 solo para mirar. No modifica tus datos.</p>
       <h3>Identidad</h3>
-      <p><b>Nombre:</b> Kai<br>
-      <b>Concepto:</b> Joven que creció en un pueblo pesquero y ahora viaja con su Charmander</p>
+      <p><b>Nombre:</b> Kai<br><b>Concepto:</b> Joven que creció en un pueblo pesquero y ahora viaja con su Charmander</p>
       <h3>Estadísticas</h3>
       <div class="stats">
         <div class="stat"><b>Salud</b><span>12</span></div>
@@ -129,11 +163,10 @@ const App = {
         <div class="stat"><b>PA</b><span>6</span></div>
       </div>
       <h3>Destrezas</h3>
-      <p><b>Adepto:</b> Supervivencia<br>
-      <b>Novato:</b> Combate<br>
+      <p><b>Adepto:</b> Supervivencia<br><b>Novato:</b> Combate<br>
       <b>Patéticas:</b> Educación en Tecnología, Educación en Ocultismo, Astucia</p>
       <h3>Ventajas</h3>
-      <p>Atletismo, Acrobacias, Percepción, Encanto (todas a Novato)</p>
+      <p>Atletismo, Acrobacias, Percepción, Encanto</p>
       <h3>Clase</h3>
       <p>Entrenador Estrella</p>
       <h3>Pokémon</h3>
@@ -144,7 +177,7 @@ const App = {
       <p>5 Poké Balls · 3 Pociones · 1 Revivir</p>
       <div class="call info" style="margin-top:14px">
         <span class="lbl">¿Y ahora qué?</span>
-        Cuando hagas la tuya, tendrás algo parecido. No tiene que ser perfecta: se puede editar todo después.
+        Cuando hagas la tuya tendrás algo parecido. Todo se puede editar después.
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
         <button class="btn" data-go="crear" id="ex-to-create">✨ Crear mi propia ficha</button>
@@ -160,7 +193,7 @@ const App = {
     const el = document.getElementById('example-content');
     el.innerHTML = `
       <h2 style="margin-top:0">Charmander · Pokémon de ejemplo</h2>
-      <p style="color:var(--dim)">Así se ve la ficha de un Pokémon de nivel 5.</p>
+      <p style="color:var(--dim)">Ficha de nivel 5 solo para mirar.</p>
       <h3>Datos base</h3>
       <p><b>Especie:</b> Charmander<br>
       <b>Tipo:</b> <span class="tag" data-type="Fuego">Fuego</span><br>
@@ -183,13 +216,9 @@ const App = {
       <h3>Movimientos</h3>
       <ul style="padding-left:20px">
         <li><b>Arañazo</b> · <span class="tag" data-type="Normal">Normal</span> · Físico · DB 2 · AC 2</li>
-        <li><b>Gruñido</b> · <span class="tag" data-type="Normal">Normal</span> · Estado · AC 2 · Baja 1 Ataque al enemigo</li>
-        <li><b>Ascuas</b> · <span class="tag" data-type="Fuego">Fuego</span> · Especial · DB 4 · AC 2 · Puede quemar (18+)</li>
+        <li><b>Gruñido</b> · <span class="tag" data-type="Normal">Normal</span> · Estado · AC 2 · Baja 1 Ataque</li>
+        <li><b>Ascuas</b> · <span class="tag" data-type="Fuego">Fuego</span> · Especial · DB 4 · AC 2 · Puede quemar</li>
       </ul>
-      <div class="call info" style="margin-top:14px">
-        <span class="lbl">Cómo se lee</span>
-        Cada movimiento tiene <b>DB</b> (daño base), <b>AC</b> (dificultad de acierto) y un <b>tipo</b>.
-      </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
         <button class="btn" data-go="pokedex" id="ex-to-dex">📕 Explorar Pokédex</button>
       </div>`;
@@ -213,9 +242,12 @@ const App = {
     set('w-train', t.training);
     document.querySelectorAll('#w-weak input').forEach(cb => cb.checked = t.weak.includes(cb.value));
     document.querySelectorAll('#w-edges input').forEach(cb => cb.checked = t.edges.includes(cb.value));
-    const BASE = { hp: 10, atk: 5, def: 5, spa: 5, spd: 5, spe: 5 };
-    Object.entries({ 'w-hp':'hp', 'w-atk':'atk', 'w-def':'def', 'w-spa':'spa', 'w-spd':'spd', 'w-spe':'spe' })
-      .forEach(([id, key]) => set(id, (t.stats[key] || BASE[key]) - BASE[key]));
+
+    // ✅ Usa el nuevo hydrateStatsFromState que NO recorta valores
+    if (typeof Wizard !== 'undefined' && Wizard.hydrateStatsFromState) {
+      Wizard.hydrateStatsFromState();
+    }
+
     const p = State.pokemons[0];
     if (p) {
       set('w-esp', p.species);
@@ -226,8 +258,8 @@ const App = {
     }
     Object.entries({ 'b-ball':'ball', 'b-pot':'pot', 'b-rev':'rev', 'b-ant':'ant' })
       .forEach(([id, key]) => set(id, State.items[key] || 0));
+
     if (typeof Wizard !== 'undefined') {
-      Wizard._updateTrainerStats?.();
       Wizard._updateBudget?.();
       Wizard._refresh?.();
     }
