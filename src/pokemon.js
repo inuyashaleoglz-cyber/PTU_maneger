@@ -1,5 +1,7 @@
 /* ============================================================
    pokemon.js · Lista y detalle de Pokémon
+   Fix: querySelector con '+' inválido → getElementById.
+   Fix: escape de campos de texto importados.
    ============================================================ */
 'use strict';
 
@@ -13,6 +15,7 @@ const Pokemon = {
   renderList() {
     const el = document.getElementById('pokemonsListView');
     const list = State.pokemons;
+    const esc = Utils.escapeHtml;
 
     el.innerHTML = `
       <div class="card t">
@@ -33,6 +36,7 @@ const Pokemon = {
   _cardHTML(p) {
     const base = Data.pokemon(p.species);
     if (!base) return '';
+    const esc = Utils.escapeHtml;
     const stats = this._stats(p);
     const pgMax = p.level + stats.hp * 3 + 10;
     const pgNow = p.hpCurrent === null ? pgMax : p.hpCurrent;
@@ -41,21 +45,21 @@ const Pokemon = {
     const active = p.id === State.activePokemonId;
 
     return `
-      <div class="pokemon-card ${active ? 'active' : ''}" data-pkid="${p.id}">
+      <div class="pokemon-card ${active ? 'active' : ''}" data-pkid="${esc(p.id)}">
         <div class="pc-head">
           <div>
-            <div class="pc-name">${p.nickname || base.es || p.species}${active ? ' <span class="tag g">activo</span>' : ''}</div>
-            <div style="font-size:12px;color:var(--dim)">Nv. ${p.level}</div>
+            <div class="pc-name">${esc(p.nickname || base.es || p.species)}${active ? ' <span class="tag g">activo</span>' : ''}</div>
+            <div style="font-size:12px;color:var(--dim)">Nv. ${esc(p.level)}</div>
           </div>
         </div>
-        <div class="pc-types">${base.t.map(t => `<span class="tag" data-type="${t}">${t}</span>`).join('')}</div>
+        <div class="pc-types">${base.t.map(t => `<span class="tag" data-type="${esc(t)}">${esc(t)}</span>`).join('')}</div>
         <div class="hpbar ${cls}"><i style="width:${pct}%"></i></div>
         <div class="pc-stats">
-          <span>PG ${pgNow}/${pgMax}</span>
-          <span>Atq ${stats.atk}</span>
-          <span>Def ${stats.def}</span>
-          <span>Vel ${stats.spe}</span>
-          ${p.heridas ? `<span style="color:var(--r)">Heridas: ${p.heridas}</span>` : ''}
+          <span>PG ${esc(pgNow)}/${esc(pgMax)}</span>
+          <span>Atq ${esc(stats.atk)}</span>
+          <span>Def ${esc(stats.def)}</span>
+          <span>Vel ${esc(stats.spe)}</span>
+          ${p.heridas ? `<span style="color:var(--r)">Heridas: ${esc(p.heridas)}</span>` : ''}
         </div>
       </div>`;
   },
@@ -90,6 +94,7 @@ const Pokemon = {
     if (!p) return;
     const base = Data.pokemon(p.species);
     if (!base) { alert('Especie no reconocida: ' + p.species); return; }
+    const esc = Utils.escapeHtml;
 
     document.getElementById('pokemonsListView').classList.add('hide');
     const el = document.getElementById('pokemonDetailView');
@@ -112,28 +117,28 @@ const Pokemon = {
 
         <div class="row wide">
           <div class="field"><label>Apodo (opcional)</label>
-            <input id="pd-nick" value="${p.nickname || ''}" placeholder="${base.es || p.species}"></div>
+            <input id="pd-nick" value="${esc(p.nickname || '')}" placeholder="${esc(base.es || p.species)}"></div>
           <div class="field"><label>Especie</label>
             <select id="pd-esp">
               ${Data.pokemonKeys().map(k => {
                 const b = Data.pokemon(k);
-                return `<option value="${k}" ${k === p.species ? 'selected' : ''}>${b.es || k}</option>`;
+                return `<option value="${esc(k)}" ${k === p.species ? 'selected' : ''}>${esc(b.es || k)}</option>`;
               }).join('')}
             </select></div>
           <div class="field"><label>Nivel</label>
-            <input id="pd-lvl" type="number" min="1" max="100" value="${p.level}"></div>
+            <input id="pd-lvl" type="number" min="1" max="100" value="${esc(p.level)}"></div>
           <div class="field"><label>Naturaleza</label>
             <select id="pd-nat"></select></div>
         </div>
 
         <h3>Estadísticas</h3>
         <div class="stats">
-          <div class="stat"><b>Salud</b><span>${stats.hp}</span><small>base ${base.hp}</small></div>
-          <div class="stat"><b>Ataque</b><span>${stats.atk}</span><small>base ${base.atk}</small></div>
-          <div class="stat"><b>Defensa</b><span>${stats.def}</span><small>base ${base.def}</small></div>
-          <div class="stat"><b>At. Esp.</b><span>${stats.spa}</span><small>base ${base.spa}</small></div>
-          <div class="stat"><b>Def. Esp.</b><span>${stats.spd}</span><small>base ${base.spd}</small></div>
-          <div class="stat"><b>Velocidad</b><span>${stats.spe}</span><small>base ${base.spe}</small></div>
+          <div class="stat"><b>Salud</b><span>${esc(stats.hp)}</span><small>base ${esc(base.hp)}</small></div>
+          <div class="stat"><b>Ataque</b><span>${esc(stats.atk)}</span><small>base ${esc(base.atk)}</small></div>
+          <div class="stat"><b>Defensa</b><span>${esc(stats.def)}</span><small>base ${esc(base.def)}</small></div>
+          <div class="stat"><b>At. Esp.</b><span>${esc(stats.spa)}</span><small>base ${esc(base.spa)}</small></div>
+          <div class="stat"><b>Def. Esp.</b><span>${esc(stats.spd)}</span><small>base ${esc(base.spd)}</small></div>
+          <div class="stat"><b>Velocidad</b><span>${esc(stats.spe)}</span><small>base ${esc(base.spe)}</small></div>
         </div>
 
         <h3>Reparto de puntos</h3>
@@ -141,24 +146,24 @@ const Pokemon = {
         <div class="row">
           ${['hp','atk','def','spa','spd','spe'].map(k => `
             <div class="field"><label>${({hp:'Salud',atk:'Ataque',def:'Defensa',spa:'At. Esp.',spd:'Def. Esp.',spe:'Velocidad'})[k]} (+)</label>
-              <input data-pk2="${k}" type="number" min="0" value="${p.points[k] || 0}"></div>
+              <input data-pk2="${esc(k)}" type="number" min="0" value="${esc(p.points[k] || 0)}"></div>
           `).join('')}
         </div>
 
         <h3>Estado actual</h3>
         <div class="row wide">
-          <div class="field"><label>PG actuales (máx. ${pgMax})</label>
-            <input id="pd-hp" type="number" min="0" max="${pgMax}" value="${pgNow}">
+          <div class="field"><label>PG actuales (máx. ${esc(pgMax)})</label>
+            <input id="pd-hp" type="number" min="0" max="${esc(pgMax)}" value="${esc(pgNow)}">
             <div style="display:flex;gap:6px;margin-top:6px">
               <button class="btn ghost xs" id="pd-full">Llenar</button>
-              <button class="btn ghost xs" id="pd--10">−10</button>
-              <button class="btn ghost xs" id="pd-+10">+10</button>
+              <button class="btn ghost xs" id="pd-hp-menos10">−10</button>
+              <button class="btn ghost xs" id="pd-hp-mas10">+10</button>
             </div>
           </div>
           <div class="field"><label>Heridas</label>
-            <input id="pd-her" type="number" min="0" value="${p.heridas || 0}"></div>
+            <input id="pd-her" type="number" min="0" value="${esc(p.heridas || 0)}"></div>
           <div class="field"><label>EXP</label>
-            <input id="pd-exp" type="number" min="0" value="${p.exp || 0}"></div>
+            <input id="pd-exp" type="number" min="0" value="${esc(p.exp || 0)}"></div>
         </div>
 
         <h3>Habilidad</h3>
@@ -171,10 +176,9 @@ const Pokemon = {
         <div id="pd-movs-selector"></div>
 
         <h3>Notas</h3>
-        <div class="field"><textarea id="pd-notes" rows="3" placeholder="Opcional. Cualquier cosa que quieras recordar de este Pokémon.">${p.notes || ''}</textarea></div>
+        <div class="field"><textarea id="pd-notes" rows="3" placeholder="Opcional.">${esc(p.notes || '')}</textarea></div>
       </div>`;
 
-    // Naturalezas
     const nat = el.querySelector('#pd-nat');
     const NATURES = ['— sin definir —','Adorable','Distraído','Orgulloso','Decidido','Paciente',
       'Desesperado','Solitario','Firme','Travieso','Valiente','Severo','Osado','Pícaro','Relajado',
@@ -184,7 +188,6 @@ const Pokemon = {
     NATURES.forEach((n, i) => nat.appendChild(new Option(n, i)));
     nat.value = p.nature;
 
-    // Listeners básicos
     el.querySelector('#pk-back').addEventListener('click', () => this.showList());
     el.querySelector('#pk-del').addEventListener('click', () => this.remove(p.id));
     el.querySelector('#pk-activate')?.addEventListener('click', () => {
@@ -193,13 +196,17 @@ const Pokemon = {
 
     el.querySelector('#pd-nick').addEventListener('input', e => { p.nickname = e.target.value; persist(); UI.updateChip(); });
     el.querySelector('#pd-esp').addEventListener('change', e => { p.species = e.target.value; p.moves = ''; persist(); this.showDetail(p.id); });
-    el.querySelector('#pd-lvl').addEventListener('input', e => { p.level = Math.max(1, parseInt(e.target.value) || 1); persist(); this.showDetail(p.id); });
+    el.querySelector('#pd-lvl').addEventListener('input', e => {
+      const v = Math.max(1, parseInt(e.target.value) || 1);
+      p.level = v; persist();
+      // Solo actualizamos los derivados, no reconstruimos el DOM
+      this._refreshDerived(p);
+    });
     el.querySelector('#pd-nat').addEventListener('change', e => { p.nature = parseInt(e.target.value); persist(); this.showDetail(p.id); });
     el.querySelector('#pd-notes').addEventListener('input', e => { p.notes = e.target.value; persist(); });
     el.querySelector('#pd-her').addEventListener('input', e => { p.heridas = Math.max(0, parseInt(e.target.value) || 0); persist(); });
     el.querySelector('#pd-exp').addEventListener('input', e => { p.exp = Math.max(0, parseInt(e.target.value) || 0); persist(); });
 
-    // Puntos
     const pts = [...el.querySelectorAll('[data-pk2]')];
     const tot = el.querySelector('#pd-ptot');
     const upd = () => {
@@ -212,35 +219,71 @@ const Pokemon = {
       });
       tot.textContent = `${used} / ${max}`;
       tot.style.color = used === max ? 'var(--g)' : 'var(--r)';
+      // Refrescar derivados sin reconstruir
+      this._refreshDerived(p);
       persist();
     };
     pts.forEach(i => i.addEventListener('input', upd));
     upd();
 
-    // PG
     const hpIn = el.querySelector('#pd-hp');
     hpIn.addEventListener('change', () => {
       const v = Math.max(0, Math.min(pgMax, parseInt(hpIn.value) || 0));
       p.hpCurrent = v; persist();
     });
+
+    // ✅ SELECTORES CORREGIDOS: por ID, no por querySelector con '+'
     el.querySelector('#pd-full').addEventListener('click', () => { p.hpCurrent = null; persist(); this.showDetail(p.id); });
-    el.querySelector('#pd--10').addEventListener('click', () => {
+    el.querySelector('#pd-hp-menos10').addEventListener('click', () => {
       p.hpCurrent = Math.max(0, (p.hpCurrent ?? pgMax) - 10); persist(); this.showDetail(p.id);
     });
-    el.querySelector('#pd-+10').addEventListener('click', () => {
+    el.querySelector('#pd-hp-mas10').addEventListener('click', () => {
       p.hpCurrent = Math.min(pgMax, (p.hpCurrent ?? pgMax) + 10); persist(); this.showDetail(p.id);
     });
 
-    // Habilidad
     this._renderAbilitySelector(p, base);
-    // Movimientos
     this._renderMovesSelector(p, base);
+  },
+
+  /** Refresca solo las partes derivadas sin reconstruir todo el DOM (no pierde foco). */
+  _refreshDerived(p) {
+    const el = document.getElementById('pokemonDetailView');
+    if (!el) return;
+    const base = Data.pokemon(p.species);
+    if (!base) return;
+
+    const stats = this._stats(p);
+    const pgMax = p.level + stats.hp * 3 + 10;
+
+    // Actualizar las 6 stat cards
+    const statValues = el.querySelectorAll('.stats .stat span');
+    const keys = ['hp','atk','def','spa','spd','spe'];
+    if (statValues.length >= 6) {
+      keys.forEach((k, i) => { if (statValues[i]) statValues[i].textContent = stats[k]; });
+    }
+
+    // Actualizar contador de puntos
+    const max = p.level + 10;
+    let used = 0;
+    el.querySelectorAll('[data-pk2]').forEach(inp => {
+      used += parseInt(inp.value) || 0;
+    });
+    const tot = el.querySelector('#pd-ptot');
+    if (tot) {
+      tot.textContent = `${used} / ${max}`;
+      tot.style.color = used === max ? 'var(--g)' : 'var(--r)';
+    }
+
+    // Actualizar label de PG
+    const hpLabel = el.querySelector('#pd-hp')?.closest('.field')?.querySelector('label');
+    if (hpLabel) hpLabel.textContent = `PG actuales (máx. ${pgMax})`;
   },
 
   _renderAbilitySelector(p, base) {
     const sel = document.getElementById('pd-hab');
     const info = document.getElementById('pd-hab-info');
     if (!sel) return;
+    const esc = Utils.escapeHtml;
     sel.innerHTML = '';
     sel.appendChild(new Option('— sin elegir —', ''));
 
@@ -279,6 +322,7 @@ const Pokemon = {
   _renderMovesSelector(p, base) {
     const box = document.getElementById('pd-movs-selector');
     if (!box) return;
+    const esc = Utils.escapeHtml;
 
     const current = (p.moves || '').split('\n').map(l => l.trim()).filter(Boolean);
     const learned = (base.moves?.level || [])
@@ -286,7 +330,7 @@ const Pokemon = {
       .sort((a, b) => a.lvl - b.lvl);
 
     if (!learned.length) {
-      box.innerHTML = '<p style="color:var(--dim);font-size:13px">Este Pokémon no tiene movimientos disponibles al nivel ' + p.level + '.</p>';
+      box.innerHTML = '<p style="color:var(--dim);font-size:13px">Este Pokémon no tiene movimientos disponibles al nivel ' + esc(p.level) + '.</p>';
       return;
     }
 
@@ -302,11 +346,11 @@ const Pokemon = {
           const acTxt = mv ? `AC ${mv.ac ?? '—'}` : '';
           const tipo = mv ? mv.type : (m.t || '');
           const clase = mv ? mv.class : '';
-          return `<label title="${mv?.effect || ''}">
-            <input type="checkbox" data-move="${m.name}" ${isChecked ? 'checked' : ''}>
+          return `<label title="${esc(mv?.effect || '')}">
+            <input type="checkbox" data-move="${esc(m.name)}" ${isChecked ? 'checked' : ''}>
             <span>
-              <b>${m.name}</b>
-              <br><small style="color:var(--dim)">Nv.${m.lvl} · ${dbTxt} · ${acTxt} · ${tipo}${clase ? ' · ' + clase : ''}</small>
+              <b>${esc(m.name)}</b>
+              <br><small style="color:var(--dim)">Nv.${esc(m.lvl)} · ${esc(dbTxt)} · ${esc(acTxt)} · ${esc(tipo)}${clase ? ' · ' + esc(clase) : ''}</small>
             </span>
           </label>`;
         }).join('')}
