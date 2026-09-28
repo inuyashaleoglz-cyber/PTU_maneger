@@ -18,6 +18,18 @@
   <p>Cargando datos…</p>
 </div>
 
+<!-- Aviso global de guardado (fallo de almacenamiento) -->
+<div id="globalStorageWarn" class="global-banner warn hide">
+  <span class="lbl">⚠ Almacenamiento</span>
+  <span id="globalStorageWarnMsg"></span>
+  <button class="btn ghost sm" id="globalEmergencyExport" style="margin-left:auto">⬇ Exportar copia de emergencia</button>
+</div>
+
+<!-- Notificación flotante (multi-pestaña) -->
+<div id="globalNotify" class="global-banner info hide">
+  <span id="globalNotifyText"></span>
+</div>
+
 <aside class="side" id="side" aria-label="Menú principal">
   <div class="brand">
     <div class="logo">PTU</div>
@@ -58,7 +70,7 @@
   </ul>
 </aside>
 
-<main>
+<main id="mainContent">
   <div class="topbar">
     <button class="menu mobile-only" id="menu" aria-label="Abrir menú">☰</button>
     <h1 id="title">Inicio</h1>
@@ -182,6 +194,7 @@
         <button class="sbtn" data-s="7">8 · Listo</button>
       </div>
 
+      <!-- Paso 1: Identidad -->
       <div class="panel on" data-p="0">
         <div class="call info">
           <span class="lbl">Por qué importa</span>
@@ -228,6 +241,7 @@
         </div>
       </div>
 
+      <!-- Paso 2: Trasfondo -->
       <div class="panel" data-p="1">
         <div class="call info">
           <span class="lbl">Cómo funciona</span>
@@ -266,6 +280,7 @@
         </div>
       </div>
 
+      <!-- Paso 3: Ventajas -->
       <div class="panel" data-p="2">
         <div class="call info">
           <span class="lbl">Qué es una Ventaja (Edge)</span>
@@ -287,6 +302,7 @@
         </div>
       </div>
 
+      <!-- Paso 4: Clase -->
       <div class="panel" data-p="3">
         <div class="call info">
           <span class="lbl">Qué es una Clase</span>
@@ -317,6 +333,7 @@
         </div>
       </div>
 
+      <!-- Paso 5: Estadísticas -->
       <div class="panel" data-p="4">
         <div class="call info">
           <span class="lbl">Cómo repartir</span>
@@ -353,6 +370,7 @@
         </div>
       </div>
 
+      <!-- Paso 6: Pokémon -->
       <div class="panel" data-p="5">
         <div class="call info">
           <span class="lbl">Tu primer compañero</span>
@@ -392,6 +410,7 @@
         <div id="w-movs-selector"></div>
       </div>
 
+      <!-- Paso 7: Equipo -->
       <div class="panel" data-p="6">
         <div class="call info">
           <span class="lbl">Tu dinero inicial</span>
@@ -413,6 +432,7 @@
         </div>
       </div>
 
+      <!-- Paso 8: Listo -->
       <div class="panel" data-p="7">
         <div class="call info">
           <span class="lbl">Listo</span>
@@ -540,7 +560,7 @@
         <button class="btn ghost" id="cb-add-me">+ Mi entrenador</button>
         <button class="btn ghost" id="cb-add-team">+ Mi equipo</button>
         <button class="btn ghost" id="cb-next">▶ Siguiente turno</button>
-        <button class="btn ghost" id="cb-sync" title="Aplica los PG actuales del combate a las fichas de los Pokémon vinculados">↻ Sincronizar PG a fichas</button>        
+        <button class="btn ghost" id="cb-sync" title="Aplica los PG actuales del combate a las fichas de los Pokémon vinculados">↻ Sincronizar PG a fichas</button>
         <button class="btn r" id="cb-clear">Vaciar</button>
       </div>
     </div>
@@ -854,22 +874,11 @@ Evasión       = ⌊stat ÷ 5⌋, máx +6</pre>
   </section>
 </main>
 
-  <!-- Aviso global de guardado -->
-<div id="globalStorageWarn" class="global-banner warn hide">
-  <span class="lbl">⚠ Almacenamiento</span>
-  <span id="globalStorageWarnMsg"></span>
-  <button class="btn ghost sm" id="globalEmergencyExport" style="margin-left:auto">⬇ Exportar copia de emergencia</button>
-</div>
-
-<!-- Notificación flotante (multi-pestaña) -->
-<div id="globalNotify" class="global-banner info hide">
-  <span id="globalNotifyText"></span>
-</div>
 <!-- Modal de bienvenida -->
 <div class="modal-backdrop hide" id="onb-backdrop">
-  <div class="modal" role="dialog">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="onb-title">
     <button class="modal-close" id="onb-close" aria-label="Cerrar">✕</button>
-    <h2 style="margin-top:0">🎲 Bienvenido a PTU Manager</h2>
+    <h2 id="onb-title" style="margin-top:0">🎲 Bienvenido a PTU Manager</h2>
     <p>
       Esto es una app para jugar <b>Pokémon Tabletop United (PTU)</b>: un juego de rol de mesa donde tú y tus
       amigos cuentan una historia juntos, con dados, Pokémon y aventuras.
@@ -901,22 +910,23 @@ Evasión       = ⌊stat ÷ 5⌋, máx +6</pre>
 
 <!-- Modal de ayuda -->
 <div class="modal-backdrop hide" id="help-backdrop">
-  <div class="modal" role="dialog">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <button class="modal-close" id="help-close" aria-label="Cerrar">✕</button>
-    <h2 style="margin-top:0">Ayuda</h2>
+    <h2 id="help-title" style="margin-top:0">Ayuda</h2>
     <div id="help-content"></div>
   </div>
 </div>
 
 <!-- Modal de ficha de ejemplo -->
 <div class="modal-backdrop hide" id="example-backdrop">
-  <div class="modal" role="dialog" style="max-width:640px">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="example-title" style="max-width:640px">
     <button class="modal-close" id="example-close" aria-label="Cerrar">✕</button>
     <div id="example-content"></div>
   </div>
 </div>
 
-<script src="src/utils.js"></script>  
+<!-- ░░░ Scripts ░░░ -->
+<script src="src/utils.js"></script>
 <script src="src/storage.js"></script>
 <script src="src/data.js"></script>
 <script src="src/state.js"></script>
@@ -929,5 +939,17 @@ Evasión       = ⌊stat ÷ 5⌋, máx +6</pre>
 <script src="src/share.js"></script>
 <script src="src/reference.js"></script>
 <script src="src/app.js"></script>
+
+<!-- Registro del Service Worker para uso offline -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('✅ Service Worker registrado'))
+      .catch(e => console.warn('Service Worker no registrado:', e));
+  });
+}
+</script>
+
 </body>
 </html>
