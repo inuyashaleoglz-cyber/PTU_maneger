@@ -539,40 +539,53 @@
 
   <!-- ░░░ TRACKER ░░░ -->
   <section class="view" id="view-tracker">
-    <div class="call info"><span class="lbl">Cómo funciona</span>
-      Añade combatientes con su iniciativa. La app los ordena sola.</div>
-    <div class="card" id="combatControls">
+    <!-- Panel de turno actual -->
+    <div id="combatTurnPanel"></div>
+
+    <!-- Añadir combatiente -->
+    <div class="card">
       <h3 style="margin-top:0">Añadir combatiente</h3>
-      <div class="row wide">
-        <div class="field"><label>Nombre</label><input id="cb-name" placeholder="Ej. Eevee salvaje"></div>
-        <div class="field"><label>Iniciativa</label><input id="cb-init" type="number" value="10"></div>
-        <div class="field"><label>PG máx.</label><input id="cb-hp" type="number" value="30"></div>
-        <div class="field"><label>PA máx.</label><input id="cb-ap" type="number" value="5"></div>
-        <div class="field"><label>Bando</label>
-          <select id="cb-side">
-            <option value="ally">Aliado</option>
-            <option value="enemy">Enemigo</option>
-            <option value="neutral">Neutral</option>
-          </select></div>
+      <p style="font-size:13px;color:var(--dim);margin:0 0 12px">
+        Atajos: <b>+ Mi entrenador</b> y <b>+ Mi equipo</b> toman los datos de tu ficha.
+        O rellena a mano los campos de abajo.
+      </p>
+
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn" id="cb-add-me">👤 + Mi entrenador</button>
+        <button class="btn" id="cb-add-team">🐾 + Mi equipo</button>
+        <button class="btn ghost" id="cb-sync" title="Aplica los PG actuales del combate a las fichas">↻ Sincronizar PG</button>
+        <button class="btn ghost" id="cb-rest-scene" title="Recupera los usos de frecuencia de escena">🌙 Nueva escena</button>
+        <button class="btn ghost" id="cb-rest-day" title="Recupera todos los usos">☀️ Nuevo día</button>
+        <button class="btn r" id="cb-clear">Vaciar combate</button>
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-        <button class="btn" id="cb-add">Añadir</button>
-        <button class="btn ghost" id="cb-add-me">+ Mi entrenador</button>
-        <button class="btn ghost" id="cb-add-team">+ Mi equipo</button>
-        <button class="btn ghost" id="cb-next">▶ Siguiente turno</button>
-        <button class="btn ghost" id="cb-sync" title="Aplica los PG actuales del combate a las fichas de los Pokémon vinculados">↻ Sincronizar PG a fichas</button>
-        <button class="btn r" id="cb-clear">Vaciar</button>
-      </div>
+
+      <details>
+        <summary>Añadir manualmente</summary>
+        <div class="bd">
+          <div class="row wide">
+            <div class="field"><label>Nombre</label><input id="cb-name" placeholder="Ej. Eevee salvaje"></div>
+            <div class="field"><label>Iniciativa</label><input id="cb-init" type="number" value="10"></div>
+            <div class="field"><label>PG máx.</label><input id="cb-hp" type="number" value="30"></div>
+            <div class="field"><label>PA máx.</label><input id="cb-ap" type="number" value="5"></div>
+            <div class="field"><label>Bando</label>
+              <select id="cb-side">
+                <option value="ally">Aliado</option>
+                <option value="enemy">Enemigo</option>
+                <option value="neutral">Neutral</option>
+              </select></div>
+          </div>
+          <button class="btn sm" id="cb-add" style="margin-top:8px">+ Añadir al combate</button>
+        </div>
+      </details>
     </div>
-    <div class="card t">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-        <div><b>Ronda</b> <span class="mono" id="cb-round">1</span></div>
-        <div style="font-size:13.5px;color:var(--dim)">Turno de <b id="cb-current" style="color:var(--g)">—</b></div>
-      </div>
+
+    <!-- Lista de combatientes -->
+    <div id="combatList"></div>
+    <div id="combatEmpty" class="call info" style="margin-top:12px">
+      <span class="lbl">Vacío</span>
+      Añade combatientes con los botones de arriba para empezar. Si es tu primera vez, prueba con <b>+ Mi equipo</b>.
     </div>
-    <div class="combat-list" id="combatList"></div>
-    <div id="combatEmpty" class="call info"><span class="lbl">Vacío</span>Añade combatientes para empezar.</div>
-  </section>
+  </section> 
 
   <!-- ░░░ CALCULADORAS ░░░ -->
   <section class="view" id="view-tools">
