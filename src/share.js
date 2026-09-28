@@ -1,5 +1,5 @@
 /* ============================================================
-   share.js · Códigos de compartir, archivos .ptu, vista DJ
+   share.js · Códigos de compartir, archivos .ptu, vista del Narrador
    ============================================================ */
 'use strict';
 
@@ -7,22 +7,17 @@ const Share = {
   PREFIX: 'PTU5-',
 
   init() {
-    // Generar
     document.getElementById('share-gen').addEventListener('click', () => this._generate());
     document.getElementById('share-copy').addEventListener('click', () => this._copy());
-    // Importar
     document.getElementById('share-load').addEventListener('click', () => this._loadActive());
     document.getElementById('share-load-dm').addEventListener('click', () => this._loadToDM());
-    // Archivo
     document.getElementById('file-export').addEventListener('click', () => this._exportFile());
     document.getElementById('file-import-btn').addEventListener('click', () =>
       document.getElementById('file-import').click());
     document.getElementById('file-import').addEventListener('change', e => this._importFile(e));
-    // Backup
     document.getElementById('restore-backup').addEventListener('click', () => this._restoreBackup());
-    // DJ
     document.getElementById('dj-clear').addEventListener('click', () => {
-      if (!confirm('¿Vaciar la vista DJ?')) return;
+      if (!confirm('¿Vaciar la vista del Narrador?')) return;
       State.dmSheets = []; persist(); this.renderDJ();
     });
   },
@@ -89,8 +84,12 @@ const Share = {
       const imported = this._decode(code);
       State = imported;
       persist();
-      // Rehidratar inputs del wizard
       App.hydrate();
+      // Refrescar selectores del Pokémon (habilidad + movimientos)
+      if (typeof Wizard !== 'undefined' && Wizard._refreshPokemonSelectors) {
+        Wizard._refreshPokemonSelectors();
+      }
+      if (typeof Wizard !== 'undefined' && Wizard._refresh) Wizard._refresh();
       msg.innerHTML = `<div class="call"><span class="lbl">Ficha importada</span>
         ${State.trainer.name || 'Sin nombre'} · Nv.${State.trainer.level} · ${State.pokemons.length} Pokémon.</div>`;
       UI.updateChip();
@@ -115,7 +114,7 @@ const Share = {
         importedAt: Date.now()
       });
       persist();
-      msg.innerHTML = `<div class="call"><span class="lbl">Añadido a Vista DJ</span>
+      msg.innerHTML = `<div class="call"><span class="lbl">Añadido a Vista del Narrador</span>
         ${imported.trainer.name || 'Sin nombre'} guardado para consulta.</div>`;
       document.getElementById('share-in').value = '';
       this.renderDJ();
@@ -141,7 +140,11 @@ const Share = {
       try {
         const data = JSON.parse(reader.result);
         State = migrate(data);
-        persist(); App.hydrate(); UI.updateChip();
+        persist(); App.hydrate();
+        if (typeof Wizard !== 'undefined' && Wizard._refreshPokemonSelectors) {
+          Wizard._refreshPokemonSelectors();
+        }
+        UI.updateChip();
         alert('Ficha cargada.');
       } catch (err) {
         alert('Archivo no válido: ' + err.message);
@@ -158,7 +161,11 @@ const Share = {
       return;
     }
     State = migrate(raw);
-    persist(); App.hydrate(); UI.updateChip();
+    persist(); App.hydrate();
+    if (typeof Wizard !== 'undefined' && Wizard._refreshPokemonSelectors) {
+      Wizard._refreshPokemonSelectors();
+    }
+    UI.updateChip();
     msg.innerHTML = '<div class="call"><span class="lbl">Listo</span>Copia restaurada.</div>';
   },
 
@@ -166,12 +173,10 @@ const Share = {
     const el = document.getElementById('djList');
     if (!el) return;
     document.getElementById('dj-count').textContent = State.dmSheets.length;
-
     if (!State.dmSheets.length) {
-      el.innerHTML = '<div class="call info"><span class="lbl">Vacío</span>Ve a Compartir ficha → Importar, pega un código y pulsa <b>Añadir a Vista DJ</b>.</div>';
+      el.innerHTML = '<div class="call info"><span class="lbl">Vacío</span>Ve a Compartir ficha → Importar, pega un código y pulsa <b>Añadir a Vista del Narrador</b>.</div>';
       return;
     }
-
     el.innerHTML = State.dmSheets.map(sheet => {
       const t = sheet.trainer;
       const f = t.stats || {};
@@ -179,14 +184,14 @@ const Share = {
         const base = Data.pokemon(p.species);
         const stats = Pokemon._stats(p);
         const pg = p.level + stats.hp * 3 + 10;
+        const tipos = base ? base.t.map(ty => `<span class="tag" data-type="${ty}" style="font-size:10px;padding:1px 6px">${ty}</span>`).join('') : '—';
         return `<tr>
           <td>${p.nickname || base?.es || p.species}</td>
           <td class="num">${p.level}</td>
-          <td>${base ? base.t.join('/') : '—'}</td>
+          <td>${tipos}</td>
           <td class="num">${p.hpCurrent ?? pg}/${pg}</td>
         </tr>`;
       }).join('');
-
       return `<div class="card">
         <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
           <h3 style="margin:0">${sheet.name} <span style="color:var(--dim);font-weight:400;font-size:14px">· Nv.${sheet.level}</span></h3>
@@ -207,7 +212,6 @@ const Share = {
         </table></div>
       </div>`;
     }).join('');
-
     el.querySelectorAll('[data-dj-del]').forEach(b => {
       b.addEventListener('click', () => {
         if (!confirm('¿Quitar esta ficha?')) return;
