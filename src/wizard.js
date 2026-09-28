@@ -319,6 +319,7 @@ const Wizard = {
       'Dejamos Ataque a 0 porque tu Pokémon es quien ataca.'
     );
   },
+
   _autoPokemon() {
     const p = State.pokemons[0];
     if (!p.species) p.species = 'Bulbasaur';
@@ -338,19 +339,14 @@ const Wizard = {
 
     const base = Data.pokemon(p.species);
     if (base) {
-      // Presupuesto real: nivel + 10
       const budget = p.level + 10;
       const statKeys = ['hp','atk','def','spa','spd','spe'];
-
-      // Ordenar stats base de mayor a menor
       const sorted = statKeys.slice().sort((a, b) => base[b] - base[a]);
 
-      // Pesos relativos (se usarán para repartir proporcionalmente)
       const weights = { [sorted[0]]: 5, [sorted[1]]: 4, [sorted[2]]: 3,
                         [sorted[3]]: 2, [sorted[4]]: 1, [sorted[5]]: 0 };
       const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
 
-      // Reparto base proporcional al peso
       const dist = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
       let assigned = 0;
       sorted.forEach(stat => {
@@ -359,7 +355,6 @@ const Wizard = {
         assigned += share;
       });
 
-      // Repartir los puntos restantes al stat principal
       let sobrante = budget - assigned;
       let i = 0;
       while (sobrante > 0 && i < sorted.length * 2) {
@@ -369,7 +364,6 @@ const Wizard = {
         i++;
       }
 
-      // Garantizar hp >= 2
       if (dist.hp < 2) {
         const diff = 2 - dist.hp;
         dist.hp = 2;
@@ -382,7 +376,6 @@ const Wizard = {
         }
       }
 
-      // Verificación final: exactamente = budget
       const totalNow = Object.values(dist).reduce((a, b) => a + b, 0);
       if (totalNow !== budget) {
         dist[sorted[0]] += (budget - totalNow);
@@ -422,7 +415,6 @@ const Wizard = {
       '<b>Movimientos marcados:</b> ' + (movsList.length ? movsList.join(', ') : 'ninguno disponible') + '.'
     );
   },
- 
 
   _autoEquipo() {
     const items = { ball: 6, pot: 5, rev: 1, ant: 3 };
