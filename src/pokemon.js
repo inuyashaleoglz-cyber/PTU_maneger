@@ -111,7 +111,7 @@ const Pokemon = {
         </div>
 
         <div class="row wide">
-          <div class="field"><label>Apodo</label>
+          <div class="field"><label>Apodo (opcional)</label>
             <input id="pd-nick" value="${p.nickname || ''}" placeholder="${base.es || p.species}"></div>
           <div class="field"><label>Especie</label>
             <select id="pd-esp">
@@ -162,19 +162,19 @@ const Pokemon = {
         </div>
 
         <h3>Habilidad</h3>
-        <div class="field"><input id="pd-hab" value="${p.ability || ''}" placeholder="Ej. Fotosíntesis"></div>
-
-        <h3>Movimientos</h3>
         <div class="field">
-          <textarea id="pd-movs" rows="4" placeholder="Uno por línea, máx. 6">${p.moves || ''}</textarea>
-          <div class="moves-list" id="pd-movs-info"></div>
+          <select id="pd-hab"></select>
+          <div id="pd-hab-info" style="font-size:12.5px;color:var(--dim);margin-top:6px;line-height:1.5"></div>
         </div>
 
+        <h3>Movimientos <span style="font-size:12px;color:var(--dim);font-weight:400">(máx. 6)</span></h3>
+        <div id="pd-movs-selector"></div>
+
         <h3>Notas</h3>
-        <div class="field"><textarea id="pd-notes" rows="3">${p.notes || ''}</textarea></div>
+        <div class="field"><textarea id="pd-notes" rows="3" placeholder="Opcional. Cualquier cosa que quieras recordar de este Pokémon.">${p.notes || ''}</textarea></div>
       </div>`;
 
-    // Naturalezas en el select
+    // Naturalezas
     const nat = el.querySelector('#pd-nat');
     const NATURES = ['— sin definir —','Adorable','Distraído','Orgulloso','Decidido','Paciente',
       'Desesperado','Solitario','Firme','Travieso','Valiente','Severo','Osado','Pícaro','Relajado',
@@ -184,7 +184,7 @@ const Pokemon = {
     NATURES.forEach((n, i) => nat.appendChild(new Option(n, i)));
     nat.value = p.nature;
 
-    // Listeners
+    // Listeners básicos
     el.querySelector('#pk-back').addEventListener('click', () => this.showList());
     el.querySelector('#pk-del').addEventListener('click', () => this.remove(p.id));
     el.querySelector('#pk-activate')?.addEventListener('click', () => {
@@ -192,10 +192,9 @@ const Pokemon = {
     });
 
     el.querySelector('#pd-nick').addEventListener('input', e => { p.nickname = e.target.value; persist(); UI.updateChip(); });
-    el.querySelector('#pd-esp').addEventListener('change', e => { p.species = e.target.value; persist(); this.showDetail(p.id); });
+    el.querySelector('#pd-esp').addEventListener('change', e => { p.species = e.target.value; p.moves = ''; persist(); this.showDetail(p.id); });
     el.querySelector('#pd-lvl').addEventListener('input', e => { p.level = Math.max(1, parseInt(e.target.value) || 1); persist(); this.showDetail(p.id); });
     el.querySelector('#pd-nat').addEventListener('change', e => { p.nature = parseInt(e.target.value); persist(); this.showDetail(p.id); });
-    el.querySelector('#pd-hab').addEventListener('input', e => { p.ability = e.target.value; persist(); });
     el.querySelector('#pd-notes').addEventListener('input', e => { p.notes = e.target.value; persist(); });
     el.querySelector('#pd-her').addEventListener('input', e => { p.heridas = Math.max(0, parseInt(e.target.value) || 0); persist(); });
     el.querySelector('#pd-exp').addEventListener('input', e => { p.exp = Math.max(0, parseInt(e.target.value) || 0); persist(); });
@@ -232,24 +231,99 @@ const Pokemon = {
       p.hpCurrent = Math.min(pgMax, (p.hpCurrent ?? pgMax) + 10); persist(); this.showDetail(p.id);
     });
 
+    // Habilidad
+    this._renderAbilitySelector(p, base);
     // Movimientos
-    const movsIn = el.querySelector('#pd-movs');
-    const movsInfo = el.querySelector('#pd-movs-info');
-    const updMovs = () => {
-      p.moves = movsIn.value; persist();
-      const lines = movsIn.value.split('\n').map(l => l.trim()).filter(Boolean);
-      movsInfo.innerHTML = lines.length ? lines.map(m => {
-        const mv = Data.move(m);
-        return mv
-          ? `<div class="move-row"><span>${m}</span><span class="mdb">DB ${mv.db} · AC ${mv.ac ?? '—'}</span><span class="tag">${mv.type}</span><span class="tag">${mv.class}</span></div>`
-          : `<div class="move-row"><span>${m}</span><span class="move-warn">desconocido</span></div>`;
-      }).join('') : '';
-    };
-    movsIn.addEventListener('input', updMovs);
-    updMovs();
+    this._renderMovesSelector(p, base);
   },
 
-  /** Stats finales de un Pokémon (base + naturaleza + puntos). */
+  _renderAbilitySelector(p, base) {
+    const sel = document.getElementById('pd-hab');
+    const info = document.getElementById('pd-hab-info');
+    if (!sel) return;
+    sel.innerHTML = '';
+    sel.appendChild(new Option('— sin elegir —', ''));
+
+    const groups = [];
+    if (base.abilities?.basic?.length)
+      groups.push({ label: 'Básica', items: base.abilities.basic });
+    if (base.abilities?.advanced?.length)
+      groups.push({ label: 'Avanzada', items: base.abilities.advanced });
+    if (base.abilities?.high)
+      groups.push({ label: 'Alta', items: [base.abilities.high] });
+
+    groups.forEach(g => {
+      const og = document.createElement('optgroup');
+      og.label = g.label;
+      g.items.forEach(h => {
+        const ab = Data.abilities[h];
+        const txt = ab ? `${h} — ${ab.desc}` : h;
+        og.appendChild(new Option(txt, h));
+      });
+      sel.appendChild(og);
+    });
+    sel.value = p.ability || '';
+
+    const updInfo = () => {
+      const ab = Data.abilities[sel.value];
+      info.textContent = ab ? ab.full : '';
+    };
+    sel.addEventListener('change', () => {
+      p.ability = sel.value;
+      persist();
+      updInfo();
+    });
+    updInfo();
+  },
+
+  _renderMovesSelector(p, base) {
+    const box = document.getElementById('pd-movs-selector');
+    if (!box) return;
+
+    const current = (p.moves || '').split('\n').map(l => l.trim()).filter(Boolean);
+    const learned = (base.moves?.level || [])
+      .filter(m => m.lvl <= p.level)
+      .sort((a, b) => a.lvl - b.lvl);
+
+    if (!learned.length) {
+      box.innerHTML = '<p style="color:var(--dim);font-size:13px">Este Pokémon no tiene movimientos disponibles al nivel ' + p.level + '.</p>';
+      return;
+    }
+
+    box.innerHTML = `
+      <p style="font-size:12.5px;color:var(--dim);margin:0 0 6px">
+        Marca hasta <b>6</b>. Llevas <span id="pd-movs-count">${current.length}</span>/6.
+      </p>
+      <div class="chk-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+        ${learned.map(m => {
+          const mv = Data.move(m.name);
+          const isChecked = current.includes(m.name);
+          const dbTxt = mv ? `DB ${mv.db}` : '—';
+          const acTxt = mv ? `AC ${mv.ac ?? '—'}` : '';
+          const tipo = mv ? mv.type : (m.t || '');
+          const clase = mv ? mv.class : '';
+          return `<label title="${mv?.effect || ''}">
+            <input type="checkbox" data-move="${m.name}" ${isChecked ? 'checked' : ''}>
+            <span>
+              <b>${m.name}</b>
+              <br><small style="color:var(--dim)">Nv.${m.lvl} · ${dbTxt} · ${acTxt} · ${tipo}${clase ? ' · ' + clase : ''}</small>
+            </span>
+          </label>`;
+        }).join('')}
+      </div>`;
+
+    box.querySelectorAll('input[data-move]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const sel = [...box.querySelectorAll('input[data-move]:checked')].map(c => c.dataset.move);
+        if (sel.length > 6) { cb.checked = false; return; }
+        p.moves = sel.join('\n');
+        const c = document.getElementById('pd-movs-count');
+        if (c) c.textContent = sel.length;
+        persist();
+      });
+    });
+  },
+
   _stats(p) {
     const base = Data.pokemon(p.species);
     if (!base) return null;
