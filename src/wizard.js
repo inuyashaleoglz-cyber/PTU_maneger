@@ -1,8 +1,6 @@
 /* ============================================================
    wizard.js · Asistente de creación del entrenador
-   Incluye: "Elige por mí" + banco de conceptos
-   Bugs arreglados: reparto de 15 puntos, auto-marcado de movimientos,
-   naturaleza fija, respeto del nivel, escape HTML.
+   Añade: resúmenes visuales en Trasfondo y Ventajas
    ============================================================ */
 'use strict';
 
@@ -48,7 +46,6 @@ const Wizard = {
     'Entrenador que colecciona historias de cada Pokémon que ve'
   ],
 
-  // Naturaleza por defecto: "Compuesto" (neutral). Va al índice 31 del array.
   DEFAULT_NATURE: 31,
 
   init() {
@@ -98,12 +95,10 @@ const Wizard = {
     this._bindPoints();
     this._bindItems();
 
-    // Botones "Elige por mí"
     document.querySelectorAll('.elige-por-mi').forEach(btn => {
       btn.addEventListener('click', () => this._autoFill(parseInt(btn.dataset.step)));
     });
 
-    // Botón de ideas de concepto
     const btnIdea = document.getElementById('btnIdeaConcepto');
     const ideasBox = document.getElementById('ideasConcepto');
     const ideasList = document.getElementById('ideasConceptoList');
@@ -236,9 +231,6 @@ const Wizard = {
     });
   },
 
-  /* ============================================================
-     "ELIGE POR MÍ"
-     ============================================================ */
   _autoFill(step) {
     switch (step) {
       case 0: this._autoIdentidad(); break;
@@ -263,9 +255,9 @@ const Wizard = {
     document.getElementById('w-concepto').value = t.concept;
     document.getElementById('w-historia').value = t.story;
     this._showExplanation(0,
-      '<b>Nombre:</b> Kai (puedes cambiarlo por el que quieras).<br>' +
-      '<b>Concepto:</b> una frase que resume a tu personaje. Empieza simple, siempre puedes afinarlo.<br>' +
-      '<b>Historia:</b> dos frases bastan. No necesitas un trasfondo épico para empezar a jugar.'
+      '<b>Nombre:</b> Kai (puedes cambiarlo).<br>' +
+      '<b>Concepto:</b> una frase que resume a tu personaje.<br>' +
+      '<b>Historia:</b> dos frases bastan. No necesitas un trasfondo épico para empezar.'
     );
   },
 
@@ -280,9 +272,9 @@ const Wizard = {
       cb.checked = t.weak.includes(cb.value));
     this._refresh();
     this._showExplanation(1,
-      '<b>Adepto — Educación Pokémon:</b> entender a tus Pokémon es lo más útil en casi cualquier partida.<br>' +
-      '<b>Novato — Combate:</b> sirve para casi todo: pelear, defenderte, intimidar.<br>' +
-      '<b>Patéticas:</b> dejamos las que probablemente uses menos en tus primeras sesiones. Puedes cambiarlo cuando quieras.'
+      '<b>Adepto — Educación Pokémon:</b> entender a tus Pokémon es lo más útil.<br>' +
+      '<b>Novato — Combate:</b> sirve para pelear, defenderte, intimidar.<br>' +
+      '<b>Patéticas:</b> las que probablemente uses menos al principio.'
     );
   },
 
@@ -293,8 +285,8 @@ const Wizard = {
       cb.checked = t.edges.includes(cb.value));
     this._refresh();
     this._showExplanation(2,
-      '<b>Atletismo y Acrobacias:</b> moverte bien evita muchos problemas.<br>' +
-      '<b>Percepción:</b> notar cosas que otros no ven es oro en investigación.<br>' +
+      '<b>Atletismo y Acrobacias:</b> moverte bien evita problemas.<br>' +
+      '<b>Percepción:</b> notar cosas que otros no ven es clave.<br>' +
       '<b>Encanto:</b> a veces hablar convence más que pelear.'
     );
   },
@@ -306,8 +298,8 @@ const Wizard = {
     document.getElementById('w-clase').value = t.clase;
     document.getElementById('w-train').value = t.training;
     this._showExplanation(3,
-      '<b>Clase — Entrenador Estrella:</b> la más sencilla y flexible. Potencia a un Pokémon favorito sin obligarte a nada específico.<br>' +
-      '<b>Entrenamiento — Agilidad:</b> tu Pokémon se mueve mejor y actúa antes en combate. Buena opción para empezar.'
+      '<b>Clase — Entrenador Estrella:</b> la más sencilla y flexible.<br>' +
+      '<b>Entrenamiento — Agilidad:</b> tu Pokémon actúa antes en combate.'
     );
   },
 
@@ -320,20 +312,17 @@ const Wizard = {
     });
     this._updateTrainerStats();
     this._showExplanation(4,
-      '<b>Salud +4:</b> más Puntos de Golpe = aguantas más en combate.<br>' +
-      '<b>Defensa +3:</b> recibes menos daño físico.<br>' +
-      '<b>Velocidad +3:</b> actúas antes y esquivas mejor.<br>' +
-      'Dejamos Ataque y las especiales a 0 porque tu Pokémon es quien ataca, no tú. Si tu personaje va a pelear directamente, sube Ataque en su lugar.'
+      '<b>Salud +4:</b> más Puntos de Golpe.<br>' +
+      '<b>Defensa +3:</b> menos daño físico recibido.<br>' +
+      '<b>Velocidad +3:</b> actúas antes.<br>' +
+      'Dejamos Ataque a 0 porque tu Pokémon es quien ataca.'
     );
   },
 
   _autoPokemon() {
     const p = State.pokemons[0];
-
-    // Especie: mantener la actual o poner Bulbasaur
     if (!p.species) p.species = 'Bulbasaur';
 
-    // Nivel: NO resetear si el usuario lo cambió
     const lvlInput = document.getElementById('w-nivel-pk');
     const currentLvl = parseInt(lvlInput.value) || 0;
     if (!currentLvl || currentLvl < 1) {
@@ -343,24 +332,18 @@ const Wizard = {
       p.level = currentLvl;
     }
 
-    // Naturaleza: usar valor fijo y sensato (Compuesto, neutral)
     p.nature = this.DEFAULT_NATURE;
     document.getElementById('w-nat').value = p.nature;
-
     document.getElementById('w-esp').value = p.species;
 
-    // Reparto: 15 puntos exactos (5 + 4 + 3 + 2 + 1 + 0)
     const base = Data.pokemon(p.species);
     if (base) {
       const statKeys = ['hp','atk','def','spa','spd','spe'];
-      // Ordenar por base descendente
       const sorted = statKeys.slice().sort((a, b) => base[b] - base[a]);
-      // Pesos: top stats reciben más puntos, 0 al más débil
       const weights = [5, 4, 3, 2, 1, 0];
       const dist = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
       sorted.forEach((stat, i) => { dist[stat] = weights[i]; });
 
-      // Garantizar hp >= 2
       if (dist.hp < 2) {
         const diff = 2 - dist.hp;
         dist.hp = 2;
@@ -373,12 +356,8 @@ const Wizard = {
         }
       }
 
-      // Verificación final: exactamente 15
       let total = Object.values(dist).reduce((a, b) => a + b, 0);
-      // Si por alguna razón no suma 15, ajustar al stat principal
-      if (total !== 15) {
-        dist[sorted[0]] += (15 - total);
-      }
+      if (total !== 15) dist[sorted[0]] += (15 - total);
 
       p.points = dist;
       document.querySelectorAll('#w-ppoints input').forEach(inp => {
@@ -386,7 +365,6 @@ const Wizard = {
       });
     }
 
-    // Auto-marcar los primeros 4 movimientos disponibles
     if (base && base.moves?.level) {
       const learned = base.moves.level
         .filter(m => m.lvl <= p.level)
@@ -395,7 +373,6 @@ const Wizard = {
       p.moves = selected.join('\n');
     }
 
-    // Auto-seleccionar la primera habilidad básica
     if (base && base.abilities?.basic?.length) {
       p.ability = base.abilities.basic[0];
     }
@@ -407,12 +384,12 @@ const Wizard = {
     const movsList = (p.moves || '').split('\n').filter(Boolean);
 
     this._showExplanation(5,
-      '<b>Especie:</b> ' + (base?.es || p.species) + '. Un clásico con tres etapas evolutivas, fácil de llevar.<br>' +
-      '<b>Nivel ' + p.level + ':</b> el estándar para empezar.<br>' +
-      '<b>Naturaleza:</b> ' + naturalezaNombre + '. Puedes cambiarla.<br>' +
-      '<b>Puntos:</b> repartidos hacia sus mejores estadísticas base.<br>' +
-      '<b>Habilidad:</b> la primera básica de la especie.<br>' +
-      '<b>Movimientos marcados:</b> ' + (movsList.length ? movsList.join(', ') : 'ninguno disponible a este nivel') + '.'
+      '<b>Especie:</b> ' + (base?.es || p.species) + '.<br>' +
+      '<b>Nivel ' + p.level + '.</b><br>' +
+      '<b>Naturaleza:</b> ' + naturalezaNombre + ' (puedes cambiarla).<br>' +
+      '<b>Puntos:</b> repartidos hacia sus mejores estadísticas.<br>' +
+      '<b>Habilidad:</b> la primera básica.<br>' +
+      '<b>Movimientos marcados:</b> ' + (movsList.length ? movsList.join(', ') : 'ninguno disponible' ) + '.'
     );
   },
 
@@ -425,10 +402,7 @@ const Wizard = {
     });
     this._updateBudget();
     this._showExplanation(6,
-      '<b>6 Poké Balls:</b> suficientes para intentar varias capturas.<br>' +
-      '<b>5 Pociones:</b> curan 20 PG cada una.<br>' +
-      '<b>1 Revivir:</b> para emergencias.<br>' +
-      '<b>3 Antídotos:</b> el veneno es un problema común.<br>' +
+      '<b>6 Poké Balls, 5 Pociones, 1 Revivir, 3 Antídotos.</b><br>' +
       'Te quedan 1.600₽ para lo que surja en la aventura.'
     );
   },
@@ -442,14 +416,38 @@ const Wizard = {
   },
 
   /* ============================================================
-     SELECTORES DE HABILIDAD Y MOVIMIENTOS
+     RESUMEN VISUAL DE SELECCIÓN
      ============================================================ */
+  _updateSummaries() {
+    const t = State.trainer;
+
+    // Resumen Trasfondo: Adepto + Novato + Patéticas
+    const sumTras = document.getElementById('w-trasfondo-summary');
+    if (sumTras) {
+      const tags = [];
+      if (t.adept) tags.push(`<span class="tag g">Adepto: ${t.adept}</span>`);
+      if (t.novice) tags.push(`<span class="tag b">Novato: ${t.novice}</span>`);
+      t.weak.forEach(w => tags.push(`<span class="tag r">Patética: ${w}</span>`));
+      const restantes = 3 - t.weak.length;
+      if (restantes > 0) tags.push(`<span class="tag" style="border-style:dashed">Faltan ${restantes} Patéticas</span>`);
+      sumTras.innerHTML = tags.join(' ') || '<span style="color:var(--dim);font-size:13px">Aún no has elegido nada.</span>';
+    }
+
+    // Resumen Ventajas
+    const sumEdge = document.getElementById('w-edges-summary');
+    if (sumEdge) {
+      const tags = t.edges.map(e => `<span class="tag g">${e}</span>`);
+      const restantes = 4 - t.edges.length;
+      if (restantes > 0) tags.push(`<span class="tag" style="border-style:dashed">Faltan ${restantes} ventajas</span>`);
+      sumEdge.innerHTML = tags.join(' ') || '<span style="color:var(--dim);font-size:13px">Aún no has elegido ninguna ventaja.</span>';
+    }
+  },
+
   _refreshPokemonSelectors() {
     const pk = State.pokemons[0];
     const base = Data.pokemon(pk.species);
     if (!base) return;
 
-    // Habilidad
     const habSel = document.getElementById('w-hab');
     if (habSel) {
       const prev = pk.ability || '';
@@ -483,7 +481,6 @@ const Wizard = {
       }
     }
 
-    // Movimientos
     const movsBox = document.getElementById('w-movs-selector');
     if (movsBox) {
       const current = (pk.moves || '').split('\n').map(l => l.trim()).filter(Boolean);
@@ -712,6 +709,7 @@ const Wizard = {
         </table></div>`;
     }
 
+    this._updateSummaries();
     this._refreshPreview();
     UI.updateChip();
   },
