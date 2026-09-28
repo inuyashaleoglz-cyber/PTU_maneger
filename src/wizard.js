@@ -1,7 +1,6 @@
 /* ============================================================
    wizard.js · Asistente de creación del entrenador
-   Incluye: "Elige por mí" + banco de conceptos + resúmenes visuales
-   + hydrateStatsFromState (no recorta valores importados)
+   Fix: _updateSummaries crea los divs si no existen.
    ============================================================ */
 'use strict';
 
@@ -442,7 +441,23 @@ const Wizard = {
     const t = State.trainer;
     const esc = this._escapeHtml;
 
-    const sumTras = document.getElementById('w-trasfondo-summary');
+    // Asegurar contenedor de Trasfondo
+    let sumTras = document.getElementById('w-trasfondo-summary');
+    if (!sumTras) {
+      const weakCount = document.getElementById('w-weakc');
+      if (weakCount) {
+        const field = document.createElement('div');
+        field.className = 'field';
+        const label = document.createElement('label');
+        label.textContent = 'Tu selección actual';
+        field.appendChild(label);
+        sumTras = document.createElement('div');
+        sumTras.id = 'w-trasfondo-summary';
+        sumTras.className = 'selection-summary';
+        field.appendChild(sumTras);
+        weakCount.parentElement.parentElement.appendChild(field);
+      }
+    }
     if (sumTras) {
       const tags = [];
       if (t.adept) tags.push(`<span class="tag g">Adepto: ${esc(t.adept)}</span>`);
@@ -453,7 +468,23 @@ const Wizard = {
       sumTras.innerHTML = tags.join(' ') || '<span style="color:var(--dim);font-size:13px">Aún no has elegido nada.</span>';
     }
 
-    const sumEdge = document.getElementById('w-edges-summary');
+    // Asegurar contenedor de Ventajas
+    let sumEdge = document.getElementById('w-edges-summary');
+    if (!sumEdge) {
+      const edgeCount = document.getElementById('w-edgesc');
+      if (edgeCount) {
+        const field = document.createElement('div');
+        field.className = 'field';
+        const label = document.createElement('label');
+        label.textContent = 'Tu selección actual';
+        field.appendChild(label);
+        sumEdge = document.createElement('div');
+        sumEdge.id = 'w-edges-summary';
+        sumEdge.className = 'selection-summary';
+        field.appendChild(sumEdge);
+        edgeCount.parentElement.parentElement.appendChild(field);
+      }
+    }
     if (sumEdge) {
       const tags = t.edges.map(e => `<span class="tag g">${esc(e)}</span>`);
       const restantes = 4 - t.edges.length;
