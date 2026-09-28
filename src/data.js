@@ -1,6 +1,6 @@
 /* ============================================================
    data.js · Carga de catálogos
-   Lee los JSON de /data al arrancar. Si falla uno, la app sigue.
+   Lee los JSON de /data al arrancar. Reporta qué falló.
    ============================================================ */
 'use strict';
 
@@ -12,6 +12,7 @@ const Data = {
   items: {},
   glossary: {},
   loaded: false,
+  loadStatus: { loaded: [], failed: [], total: 0 },
 
   async loadAll() {
     const files = [
@@ -22,6 +23,7 @@ const Data = {
       ['items',     'data/items.json'],
       ['glossary',  'data/glossary.json']
     ];
+    this.loadStatus = { loaded: [], failed: [], total: files.length };
 
     for (const [key, path] of files) {
       try {
@@ -29,33 +31,31 @@ const Data = {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
 
-        // Normaliza según el formato de cada archivo
         if (key === 'moves')        this.moves     = json.movimientos || json;
         else if (key === 'classes') this.classes   = json;
         else if (key === 'glossary') this.glossary = json.terminos || json;
         else                        this[key]      = json;
+
+        this.loadStatus.loaded.push(key);
       } catch (e) {
         console.warn(`No se pudo cargar ${path}:`, e.message);
+        this.loadStatus.failed.push({ key, path, error: e.message });
       }
     }
     this.loaded = true;
   },
 
-  /** Devuelve el objeto de un Pokémon por su clave (nombre inglés). */
   pokemon(key) { return this.pokedex[key] || null; },
 
-  /** Lista de claves de Pokémon ordenadas alfabéticamente. */
   pokemonKeys() {
     return Object.keys(this.pokedex)
       .filter(k => !k.startsWith('_'))
       .sort();
   },
 
-  /** Devuelve los datos de un movimiento, en español o inglés. */
   move(name) {
     if (!name) return null;
     if (this.moves[name]) return this.moves[name];
-    // Buscar por alias en inglés
     for (const key in this.moves) {
       const m = this.moves[key];
       if (m && m.en && m.en.toLowerCase() === name.toLowerCase()) {
