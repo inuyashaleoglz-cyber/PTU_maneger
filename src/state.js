@@ -1,12 +1,15 @@
 /* ============================================================
-   state.js · Estado global
-   Un único objeto `State` con todo. Se guarda con Storage.save().
+   state.js · Estado global + multi-pestaña
+   Detecta cambios de otras pestañas y evita pisar datos recientes.
    ============================================================ */
 'use strict';
 
 const SCHEMA_VERSION = 3;
+const STATE_CHANNEL = 'ptu-manager-sync';
 
-/** Estado vacío con valores por defecto sensatos. */
+let _bc = null;      // BroadcastChannel
+let _lastLocalEdit = 0;
+
 function emptyState() {
   const pk = emptyPokemon();
   return {
@@ -49,16 +52,13 @@ function emptyPokemon() {
   };
 }
 
-/** ID único corto. */
 function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
-/** Migración entre versiones de esquema. */
 function migrate(s) {
   if (!s || typeof s !== 'object') return emptyState();
 
-  // v1 → v2: pokemon único pasa a array
   if (!s.version || s.version < 2) {
     if (s.pokemon && !s.pokemons) {
       const p = Object.assign(emptyPokemon(), s.pokemon, { id: uid() });
@@ -69,14 +69,12 @@ function migrate(s) {
     s.version = 2;
   }
 
-  // v2 → v3: features separadas, exp del entrenador, dmSheets
   if (s.version < 3) {
     if (!s.trainer.exp) s.trainer.exp = 0;
     if (!Array.isArray(s.dmSheets)) s.dmSheets = [];
     s.version = 3;
   }
 
-  // Normaliza el valor de entrenamiento si venía del formato antiguo
   if (s.trainer && s.trainer.training) {
     const map = {
       agilidad: 'Entrenamiento de Agilidad',
@@ -87,7 +85,12 @@ function migrate(s) {
     if (map[s.trainer.training]) s.trainer.training = map[s.trainer.training];
   }
 
-  // Saneamiento general
+  // Saneamiento defensivo
+  if (!s.trainer) s.trainer = emptyTrainer();
+  if (!Array.isArray(s.trainer.weak)) s.trainer.weak = [];
+  if (!Array.isArray(s.trainer.edges)) s.trainer.edges = [];
+  if (!s.trainer.stats) s.trainer.stats = { hp: 14, atk: 5, def: 8, spa: 5, spd: 5, spe: 8 };
+
   if (!Array.isArray(s.pokemons) || !s.pokemons.length) {
     const p = emptyPokemon();
     s.pokemons = [p];
@@ -101,25 +104,89 @@ function migrate(s) {
     if (p.exp === undefined) p.exp = 0;
   });
   if (!s.combat) s.combat = { list: [], round: 1, currentIndex: 0 };
+  if (!Array.isArray(s.combat.list)) s.combat.list = [];
+  if (!s.items) s.items = { ball: 0, pot: 0, rev: 0, ant: 0 };
 
   return s;
 }
 
 let State = emptyState();
 
-/** Guarda el estado actual. Llamar tras cualquier cambio importante. */
+/**
+ * Guarda el estado. Marca la edición como local y notifica a otras pestañas.
+ * Antes de guardar, comprueba si hay una versión más reciente en localStorage
+ * de otra pestaña que no sea la nuestra.
+ */
 function persist() {
+  // Detección de conflicto: ¿otra pestaña guardó después que nosotros editamos?
+  try {
+    const diskRaw = localStorage.getItem(STORAGE_KEY);
+    if (diskRaw && _lastLocalEdit) {
+      const disk = JSON.parse(diskRaw);
+      if (disk.updatedAt && disk.updatedAt > _lastLocalEdit + 500 && disk.updatedAt > State.updatedAt) {
+        // Hay una versión más reciente en disco de otra pestaña.
+        // Cargamos la más reciente y avisamos.
+        console.warn('Detectada versión más reciente en otra pestaña. Recargando.');
+        State = migrate(disk);
+        State.updatedAt = Date.now();
+        _lastLocalEdit = State.updatedAt;
+        // Notificar al usuario
+        if (window.App && App.notifyConflict) App.notifyConflict();
+        return;
+      }
+    }
+  } catch (e) { /* ignorar */ }
+
   State.updatedAt = Date.now();
+  _lastLocalEdit = State.updatedAt;
   Storage.save(State);
+
+  // Notificar a otras pestañas
+  if (_bc) {
+    try {
+      _bc.postMessage({ type: 'state-updated', ts: State.updatedAt });
+    } catch (e) { /* ignorar */ }
+  }
 }
 
-/** Carga el estado desde disco (o crea uno nuevo). */
+/** Guardado sin comprobar conflictos (para uso interno tras cargar). */
+function persistForce() {
+  State.updatedAt = Date.now();
+  _lastLocalEdit = State.updatedAt;
+  Storage.save(State);
+  if (_bc) {
+    try { _bc.postMessage({ type: 'state-updated', ts: State.updatedAt }); } catch (e) {}
+  }
+}
+
 function loadState() {
   const raw = Storage.load();
   State = migrate(raw || emptyState());
+  _lastLocalEdit = State.updatedAt || 0;
 }
 
-/** Pokémon actualmente seleccionado en la UI. */
 function activePokemon() {
   return State.pokemons.find(p => p.id === State.activePokemonId) || State.pokemons[0];
+}
+
+/** Inicializa la sincronización entre pestañas. */
+function initMultiTabSync() {
+  if (typeof BroadcastChannel === 'undefined') return;
+  try {
+    _bc = new BroadcastChannel(STATE_CHANNEL);
+    _bc.addEventListener('message', (ev) => {
+      if (!ev.data || ev.data.type !== 'state-updated') return;
+      if (ev.data.ts && ev.data.ts <= _lastLocalEdit) return;
+
+      // Otra pestaña guardó algo nuevo. Recargamos del disco y avisamos.
+      const raw = Storage.load();
+      if (!raw) return;
+      State = migrate(raw);
+      _lastLocalEdit = State.updatedAt || 0;
+
+      if (window.App && App.onExternalUpdate) App.onExternalUpdate();
+    });
+  } catch (e) {
+    console.warn('BroadcastChannel no disponible:', e);
+  }
 }
