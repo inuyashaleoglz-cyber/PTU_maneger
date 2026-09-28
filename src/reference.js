@@ -52,9 +52,6 @@ const Reference = {
     ['Tomar un respiro',    'Acción completa. Reinicia CS, quita PG temporales y volátiles.']
   ],
 
-  /* ============================================================
-     APRENDE A JUGAR
-     ============================================================ */
   LEARN_SECTIONS: [
     {
       id: 'que-es',
@@ -225,9 +222,6 @@ const Reference = {
     `).join('');
   },
 
-  /* ============================================================
-     TIPOS
-     ============================================================ */
   renderTypes() {
     const grid = document.getElementById('tgrid');
     const info = document.getElementById('tinfo');
@@ -252,9 +246,6 @@ const Reference = {
     });
   },
 
-  /* ============================================================
-     ESTADOS
-     ============================================================ */
   renderStates() {
     const rows = arr => arr.map(([n, d]) => `<tr><td><b>${n}</b></td><td>${d}</td></tr>`).join('');
     const p = document.getElementById('estPersist');
@@ -265,9 +256,6 @@ const Reference = {
     if (d) d.innerHTML = `<div class="tw"><table><tbody>${rows(this.DESCANSO)}</tbody></table></div>`;
   },
 
-  /* ============================================================
-     GLOSARIO
-     ============================================================ */
   renderGlossary() {
     const body = document.getElementById('glosarioBody');
     if (!body) return;
@@ -289,9 +277,6 @@ const Reference = {
     }
   },
 
-  /* ============================================================
-     POKÉDEX
-     ============================================================ */
   renderPokedex() {
     const list = document.getElementById('dex-list');
     const detail = document.getElementById('dex-detail');
@@ -331,7 +316,7 @@ const Reference = {
           const p = Data.pokemon(k);
           return `<button class="action-card" data-pk-key="${k}">
             <div style="margin-bottom:8px"><b style="font-size:15px">${p.es || k}</b></div>
-            <div style="margin-bottom:8px">${p.t.map(t => `<span class="tag b">${t}</span>`).join('')}</div>
+            <div style="margin-bottom:8px">${p.t.map(t => `<span class="tag" data-type="${t}">${t}</span>`).join('')}</div>
             <div class="stats" style="grid-template-columns:repeat(3,1fr);gap:4px">
               <div class="stat" style="padding:4px 2px"><b style="font-size:9px">HP</b><span style="font-size:14px">${p.hp}</span></div>
               <div class="stat" style="padding:4px 2px"><b style="font-size:9px">Atk</b><span style="font-size:14px">${p.atk}</span></div>
@@ -375,7 +360,7 @@ const Reference = {
       return `<tr>
         <td class="num">${m.lvl}</td>
         <td><b>${m.name}</b></td>
-        <td>${info ? `<span class="tag">${info.type}</span>` : '<span class="tag">' + (m.t || '—') + '</span>'}</td>
+        <td>${info ? `<span class="tag" data-type="${info.type}">${info.type}</span>` : `<span class="tag"${m.t ? ` data-type="${m.t}"` : ''}>${m.t || '—'}</span>`}</td>
         <td class="num">${info ? info.db : '—'}</td>
         <td class="num">${info ? (info.ac ?? '—') : '—'}</td>
         <td>${info ? info.class : '—'}</td>
@@ -386,7 +371,7 @@ const Reference = {
       <div class="card">
         <div style="margin-bottom:12px"><button class="btn ghost xs" id="dex-back">← Volver a la lista</button></div>
         <h2 style="margin-top:0">${p.es || key}</h2>
-        <div style="margin-bottom:12px">${p.t.map(t => `<span class="tag b" style="font-size:13px;padding:4px 10px">${t}</span>`).join(' ')}</div>
+        <div style="margin-bottom:12px">${p.t.map(t => `<span class="tag" data-type="${t}" style="font-size:13px;padding:5px 12px">${t}</span>`).join(' ')}</div>
         ${p.size ? `<p style="font-size:13px;color:var(--dim)"><b>Tamaño:</b> ${p.size.cat} · <b>Altura:</b> ${p.size.h} m · <b>Peso:</b> ${p.size.w} kg</p>` : ''}
         ${p.diet ? `<p style="font-size:13px;color:var(--dim)"><b>Dieta:</b> ${p.diet}</p>` : ''}
         ${p.habitat ? `<p style="font-size:13px;color:var(--dim)"><b>Hábitat:</b> ${p.habitat.join(', ')}</p>` : ''}
@@ -418,9 +403,6 @@ const Reference = {
     });
   },
 
-  /* ============================================================
-     MOVIMIENTOS
-     ============================================================ */
   renderMoves() {
     const tbody = document.getElementById('mov-tbody');
     if (!tbody) return;
@@ -461,7 +443,7 @@ const Reference = {
     tbody.innerHTML = movs.map(([name, m]) => `
       <tr>
         <td><b>${name}</b>${m.en ? `<br><span style="color:var(--dim);font-size:11px">${m.en}</span>` : ''}</td>
-        <td><span class="tag b">${m.type}</span></td>
+        <td><span class="tag" data-type="${m.type}">${m.type}</span></td>
         <td>${claseName[m.class] || m.class}</td>
         <td class="num">${m.db || '—'}</td>
         <td class="num">${m.ac ?? '—'}</td>
@@ -470,9 +452,6 @@ const Reference = {
       </tr>`).join('');
   },
 
-  /* ============================================================
-     HABILIDADES
-     ============================================================ */
   renderAbilities() {
     const list = document.getElementById('ab-list');
     if (!list) return;
