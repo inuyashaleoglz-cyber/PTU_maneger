@@ -1,7 +1,7 @@
 /* ============================================================
    reference.js · Tipos, estados, glosario + Pokédex, Movimientos,
    Habilidades + Aprende a jugar
-   Búsqueda tolerante a acentos + filtro por tipo robusto.
+   Fix: filtro de tipos traduce inglés → español.
    ============================================================ */
 'use strict';
 
@@ -52,6 +52,27 @@ const Reference = {
     ['Centro Pokémon',      '1 h + 30 min por herida. Máx. 3 heridas al día.'],
     ['Tomar un respiro',    'Acción completa. Reinicia CS, quita PG temporales y volátiles.']
   ],
+
+  /** Traduce el tipo del movimiento (inglés) al español. */
+  _typeEs(t) {
+    const MAP = {
+      'Normal': 'Normal', 'Fire': 'Fuego', 'Water': 'Agua', 'Electric': 'Eléctrico',
+      'Grass': 'Planta', 'Ice': 'Hielo', 'Fighting': 'Lucha', 'Poison': 'Veneno',
+      'Ground': 'Tierra', 'Flying': 'Volador', 'Psychic': 'Psíquico', 'Bug': 'Bicho',
+      'Rock': 'Roca', 'Ghost': 'Fantasma', 'Dragon': 'Dragón', 'Dark': 'Siniestro',
+      'Steel': 'Acero', 'Fairy': 'Hada'
+    };
+    return MAP[t] || t;
+  },
+
+  /** Normaliza texto para búsquedas: sin acentos, minúsculas, sin espacios exteriores. */
+  _norm(s) {
+    return String(s || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
+  },
 
   LEARN_SECTIONS: [
     {
@@ -185,16 +206,6 @@ const Reference = {
         <p>Todo funciona sin internet. Todo se guarda en tu navegador. No hay cuentas ni servidores.</p>`
     }
   ],
-
-  // -------------------- UTILIDAD --------------------
-  /** Normaliza texto para búsqueda: sin acentos, minúsculas. */
-  _norm(s) {
-    return String(s || '')
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .trim();
-  },
 
   renderLearn() {
     const cont = document.getElementById('aprenderContent');
@@ -356,10 +367,11 @@ const Reference = {
     }).join('');
     const movs = (p.moves?.level || []).map(m => {
       const info = Data.move(m.name);
+      const tipoEs = info ? this._typeEs(info.type) : (m.t || '—');
       return `<tr>
         <td class="num">${m.lvl}</td>
         <td><b>${m.name}</b></td>
-        <td>${info ? `<span class="tag" data-type="${info.type}">${info.type}</span>` : `<span class="tag"${m.t ? ` data-type="${m.t}"` : ''}>${m.t || '—'}</span>`}</td>
+        <td><span class="tag" data-type="${tipoEs}">${tipoEs}</span></td>
         <td class="num">${info ? info.db : '—'}</td>
         <td class="num">${info ? (info.ac ?? '—') : '—'}</td>
         <td>${info ? info.class : '—'}</td>
@@ -432,20 +444,19 @@ const Reference = {
       .filter(([k, m]) => {
         if (k.startsWith('_') || !m || !m.type) return false;
 
-        // Búsqueda por nombre (ES o EN) o por efecto
         if (q) {
           const nombreEs = this._norm(k);
           const nombreEn = this._norm(m.en || '');
           const efectoTxt = this._norm(m.effect || '');
-          const tipoTxt = this._norm(m.type || '');
+          const tipoEs = this._norm(this._typeEs(m.type));
+          const tipoEn = this._norm(m.type);
           if (!nombreEs.includes(q) && !nombreEn.includes(q) &&
-              !efectoTxt.includes(q) && !tipoTxt.includes(q)) return false;
+              !efectoTxt.includes(q) && !tipoEs.includes(q) && !tipoEn.includes(q)) {
+            return false;
+          }
         }
 
-        // Filtro de tipo
-        if (tipo && m.type !== tipo) return false;
-
-        // Filtro de clase
+        if (tipo && this._typeEs(m.type) !== tipo) return false;
         if (cls && m.class !== cls) return false;
         return true;
       })
@@ -457,16 +468,19 @@ const Reference = {
       return;
     }
     const claseName = { Physical: 'Físico', Special: 'Especial', Status: 'Estado' };
-    tbody.innerHTML = movs.map(([name, m]) => `
-      <tr>
-        <td><b>${name}</b>${m.en ? `<br><span style="color:var(--dim);font-size:11px">${m.en}</span>` : ''}</td>
-        <td><span class="tag" data-type="${m.type}">${m.type}</span></td>
-        <td>${claseName[m.class] || m.class}</td>
-        <td class="num">${m.db || '—'}</td>
-        <td class="num">${m.ac ?? '—'}</td>
-        <td style="font-size:12px">${m.range || '—'}</td>
-        <td style="font-size:12px;max-width:280px">${m.effect || '—'}</td>
-      </tr>`).join('');
+    tbody.innerHTML = movs.map(([name, m]) => {
+      const tipoEs = this._typeEs(m.type);
+      return `
+        <tr>
+          <td><b>${name}</b>${m.en ? `<br><span style="color:var(--dim);font-size:11px">${m.en}</span>` : ''}</td>
+          <td><span class="tag" data-type="${tipoEs}">${tipoEs}</span></td>
+          <td>${claseName[m.class] || m.class}</td>
+          <td class="num">${m.db || '—'}</td>
+          <td class="num">${m.ac ?? '—'}</td>
+          <td style="font-size:12px">${m.range || '—'}</td>
+          <td style="font-size:12px;max-width:280px">${m.effect || '—'}</td>
+        </tr>`;
+    }).join('');
   },
 
   /* ============================================================
