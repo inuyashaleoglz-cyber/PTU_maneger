@@ -1,5 +1,5 @@
 {
-  "_nota": "Clases introductorias del Core 1.05. Las clases avanzadas requieren Features específicos que se añadirán después.",
+  "_nota": "Clases del Core 1.05. Introductorias (nivel 1) + avanzadas (nivel 3-6).",
 
   "categories": {
     "intro":   "Introductorias",
@@ -11,6 +11,7 @@
   },
 
   "classes": {
+
     "Entrenador Estrella": {
       "cat": "intro",
       "req": { "level": 1, "skills": {} },
@@ -68,6 +69,226 @@
       "feature_base": {
         "name": "Cuidado del Mentor",
         "effect": "Tus Pokémon que estén 5 o más niveles por debajo del Pokémon de mayor nivel de tu equipo ganan EXP doble en combate. Además, una vez por día puedes dar a un Pokémon aliado un Entrenamiento específico sin gastar tiempo de entrenamiento."
+      }
+    },
+
+    "Duelista": {
+      "cat": "combat",
+      "req": { "level": 3, "skills": { "Combate": 4 } },
+      "desc": "Combate cuerpo a cuerpo refinado. Duelos uno a uno.",
+      "feature_base": {
+        "name": "Duelo",
+        "effect": "Cuando atacas a un enemigo que no está adyacente a ningún otro Pokémon, tus ataques ganan +2 al daño. Si estás en un duelo declarado (ambos eligen solo atacarse entre sí), ganas +1 adicional a todas las tiradas."
+      }
+    },
+
+    "Alma Resistente": {
+      "cat": "combat",
+      "req": { "level": 3, "skills": { "Concentración": 4 } },
+      "desc": "Resiste más de lo esperado. Sobrevive cuando debería caer.",
+      "feature_base": {
+        "name": "Resistencia",
+        "effect": "Cuando recibes daño que te dejaría con 0 PG o menos, puedes gastar 1 PA para quedarte con 1 PG en su lugar. Solo funciona una vez por escena."
+      }
+    },
+
+    "Malabarista": {
+      "cat": "combat",
+      "req": { "level": 3, "skills": { "Acrobacias": 4 } },
+      "desc": "Manipula objetos y Poké Balls en combate.",
+      "feature_base": {
+        "name": "Malabarismo",
+        "effect": "Puedes usar objetos como acción rápida en lugar de estándar. Además, puedes lanzar Poké Balls a AC 3 en vez de AC 6."
+      }
+    },
+
+    "Jinete": {
+      "cat": "combat",
+      "req": { "level": 3, "skills": { "Acrobacias": 3, "Mando": 3 } },
+      "desc": "Combate montado. Lucha desde tu Pokémon.",
+      "feature_base": {
+        "name": "Monta",
+        "effect": "Puedes montar un Pokémon aliado de tamaño Mediano o mayor. Mientras estás montado, tu Iniciativa y la de tu montura se resuelven juntas en el turno del más rápido. El enemigo debe elegir si ataca al jinete o a la montura (no a ambos)."
+      }
+    },
+
+    "Capataz": {
+      "cat": "combat",
+      "req": { "level": 3, "skills": { "Intimidación": 4 } },
+      "desc": "Órdenes duras y presión. Intimida y domina el campo.",
+      "feature_base": {
+        "name": "Presión",
+        "effect": "Como acción estándar, puedes intimidar a todos los enemigos en un Burst 2. Cada uno debe pasar una salvación de Mando (dificultad = tu rango de Mando + 5) o baja 1 Combat Stage de Ataque."
+      }
+    },
+
+    "Embaucador": {
+      "cat": "combat",
+      "req": { "level": 3, "skills": { "Astucia": 4 } },
+      "desc": "Manipula el terreno y al rival con trampas y engaños.",
+      "feature_base": {
+        "name": "Truco",
+        "effect": "Una vez por escena, como acción rápida, puedes colocar una trampa en una casilla adyacente. El primer enemigo que entre en esa casilla queda Confuso hasta el final de su próximo turno."
+      }
+    },
+
+    "As de Estadística": {
+      "cat": "team",
+      "req": { "level": 6, "skills": {} },
+      "desc": "Domina una estadística concreta. Todos tus Pokémon ganan bonos con ella.",
+      "feature_base": {
+        "name": "Estadística Favorita",
+        "effect": "Elige una estadística al obtener esta clase (HP, Ataque, Defensa, At. Esp., Def. Esp. o Velocidad). Todos los Pokémon de tu equipo ganan +1 a esa estadística base."
+      }
+    },
+
+    "As de Tipo": {
+      "cat": "team",
+      "req": { "level": 6, "skills": { "Educación Pokémon": 4 } },
+      "desc": "Especialista en un tipo. Tus Pokémon de ese tipo ganan bonos.",
+      "feature_base": {
+        "name": "Tipo Favorito",
+        "effect": "Elige un tipo al obtener esta clase. Todos tus Pokémon de ese tipo ganan +2 al daño con movimientos de ese tipo (además del STAB). Además, tus Pokémon de ese tipo ganan +1 Combat Stage permanente a una estadística a tu elección al entrar en combate."
+      }
+    },
+
+    "Chef": {
+      "cat": "prof",
+      "req": { "level": 3, "skills": { "Intuición": 3 } },
+      "desc": "Cocina para curar y potenciar. Preparas alimentos especiales.",
+      "feature_base": {
+        "name": "Cocina",
+        "effect": "Puedes preparar comida para Pokémon. Con 30 minutos de trabajo, puedes preparar un plato que cura 30 PG y elimina un estado persistente a un Pokémon. También puedes preparar Poffins que suben 1 Combat Stage a una estadística durante una escena."
+      }
+    },
+
+    "Cronista": {
+      "cat": "prof",
+      "req": { "level": 3, "skills": { "Educación General": 4 } },
+      "desc": "Estudia leyendas y ruinas. Encuentras pistas donde otros ven ruinas.",
+      "feature_base": {
+        "name": "Investigación",
+        "effect": "Cuando investigas un lugar (ruinas, bibliotecas, archivos), el DJ debe revelarte una pista adicional que otros no verían. Además, +2 a todas tus tiradas de Educación General y Percepción en contextos arqueológicos."
+      }
+    },
+
+    "Fashionista": {
+      "cat": "prof",
+      "req": { "level": 3, "skills": { "Encanto": 4 } },
+      "desc": "Viste y asesora Pokémon. Mejora la apariencia y presencia.",
+      "feature_base": {
+        "name": "Estilo",
+        "effect": "Puedes 'vestir' a un Pokémon con accesorios. Un Pokémon vestido por ti gana +1 Combat Stage de Encanto efectivo en concursos y +1 a tiradas sociales contra Pokémon y entrenadores que valoren la apariencia."
+      }
+    },
+
+    "Investigador": {
+      "cat": "prof",
+      "req": { "level": 3, "skills": { "Educación Pokémon": 4, "Educación en Tecnología": 3 } },
+      "desc": "Investiga especies y medicina. Analizas Pokémon a fondo.",
+      "feature_base": {
+        "name": "Análisis",
+        "effect": "Como acción estándar, puedes analizar un Pokémon enemigo. El DJ te revela una de sus estadísticas exactas, una habilidad, o un movimiento conocido. Una vez por combate por enemigo."
+      }
+    },
+
+    "Superviviente": {
+      "cat": "prof",
+      "req": { "level": 3, "skills": { "Supervivencia": 4 } },
+      "desc": "Sobrevive en cualquier terreno. Encuentras comida y refugio donde no hay.",
+      "feature_base": {
+        "name": "Supervivencia",
+        "effect": "Siempre encuentras comida y refugio para ti y tu equipo en cualquier entorno natural con 1 hora de búsqueda. Además, tú y tus Pokémon no sufren penalizadores por clima extremo."
+      }
+    },
+
+    "Atleta": {
+      "cat": "fighter",
+      "req": { "level": 3, "skills": { "Atletismo": 4 } },
+      "desc": "Atleta físico de combate. Corre, salta y golpea más fuerte.",
+      "feature_base": {
+        "name": "Cuerpo Atlético",
+        "effect": "Tu Movimiento aumenta en +2. Además, ganas +1 al daño de ataques físicos de tipo Lucha o Normal."
+      }
+    },
+
+    "Bailarín": {
+      "cat": "fighter",
+      "req": { "level": 3, "skills": { "Acrobacias": 3, "Encanto": 3 } },
+      "desc": "Combate con gracia y evasión. Te mueves como el agua.",
+      "feature_base": {
+        "name": "Danza",
+        "effect": "Cuando te mueves al menos 2 casillas antes de atacar, ganas +1 Combat Stage de Evasión hasta el final de tu próximo turno. Además, tus movimientos de tipo Hada o Psíquico ganan +1 al daño."
+      }
+    },
+
+    "Artista Marcial": {
+      "cat": "fighter",
+      "req": { "level": 3, "skills": { "Combate": 4, "Concentración": 3 } },
+      "desc": "Artes marciales avanzadas. Golpes con precisión y potencia.",
+      "feature_base": {
+        "name": "Golpe Marcial",
+        "effect": "Tus golpes desarmados ganan +2 al daño. Además, cuando aciertas con un movimiento de tipo Lucha, ganas +1 Combat Stage de Velocidad hasta el final del combate."
+      }
+    },
+
+    "Pícaro": {
+      "cat": "fighter",
+      "req": { "level": 3, "skills": { "Sigilo": 4 } },
+      "desc": "Sigilo y golpes críticos. Apareces donde no te esperan.",
+      "feature_base": {
+        "name": "Ataque Furtivo",
+        "effect": "Cuando atacas a un enemigo que no te ha visto o que está flanqueado, tu movimiento acierta con crítico en 18-20 en vez de 20. Además, +2 al daño contra enemigos desprevenidos."
+      }
+    },
+
+    "Ninja": {
+      "cat": "super",
+      "req": { "level": 6, "skills": { "Sigilo": 4, "Acrobacias": 3 } },
+      "desc": "Sombra letal. Te mueves sin ser visto y golpeas sin ser oído.",
+      "feature_base": {
+        "name": "Sombra",
+        "effect": "Como acción rápida, puedes volverte invisible hasta el final de tu próximo turno. Mientras estás invisible, tus ataques contra enemigos que no puedan detectarte aciertan automáticamente con crítico."
+      }
+    },
+
+    "Sabio": {
+      "cat": "super",
+      "req": { "level": 6, "skills": { "Educación en Ocultismo": 3, "Educación General": 3 } },
+      "desc": "Sabiduría antigua. Conoces secretos olvidados.",
+      "feature_base": {
+        "name": "Conocimiento Antiguo",
+        "effect": "Una vez por escena, puedes hacer una tirada de Educación General o Educación en Ocultismo para 'recordar' información útil sobre cualquier situación. El DJ te da una pista real sobre el enemigo, el lugar o el objeto que estáis investigando."
+      }
+    },
+
+    "Telépata": {
+      "cat": "super",
+      "req": { "level": 6, "skills": { "Concentración": 4, "Intuición": 3 } },
+      "desc": "Lee y comunica mentes. Escuchas lo que no se dice.",
+      "feature_base": {
+        "name": "Telepatía",
+        "effect": "Puedes comunicarte telepáticamente con cualquier criatura que veas a menos de 10 metros. Además, puedes leer los pensamientos superficiales de un objetivo con una tirada de Intuición vs su Concentración. Una vez por escena por objetivo."
+      }
+    },
+
+    "Canalizador": {
+      "cat": "super",
+      "req": { "level": 6, "skills": { "Educación en Ocultismo": 4, "Concentración": 3 } },
+      "desc": "Canaliza espíritus. Hablas con los muertos.",
+      "feature_base": {
+        "name": "Canalización",
+        "effect": "Puedes comunicarte con espíritus de la zona. Una vez por escena, puedes invocar brevemente un espíritu para preguntarle una cosa (el DJ responde con la verdad que el espíritu conozca). Además, tus movimientos de tipo Fantasma ganan +1 al daño."
+      }
+    },
+
+    "Maníaca de Hexes": {
+      "cat": "super",
+      "req": { "level": 6, "skills": { "Educación en Ocultismo": 4 } },
+      "desc": "Maldiciones y hexes. Castigas a quien te ofende.",
+      "feature_base": {
+        "name": "Maleficio",
+        "effect": "Como acción estándar, puedes maldecir a un enemigo adyacente. El enemigo sufre −2 a todas las tiradas hasta el final del combate o hasta que te debilite. Además, tus movimientos de tipo Siniestro o Fantasma ganan +1 al daño."
       }
     }
   }
