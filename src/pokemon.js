@@ -48,7 +48,7 @@ const Pokemon = {
             <div style="font-size:12px;color:var(--dim)">Nv. ${p.level}</div>
           </div>
         </div>
-        <div class="pc-types">${base.t.map(t => `<span class="tag b">${t}</span>`).join('')}</div>
+        <div class="pc-types">${base.t.map(t => `<span class="tag" data-type="${t}">${t}</span>`).join('')}</div>
         <div class="hpbar ${cls}"><i style="width:${pct}%"></i></div>
         <div class="pc-stats">
           <span>PG ${pgNow}/${pgMax}</span>
