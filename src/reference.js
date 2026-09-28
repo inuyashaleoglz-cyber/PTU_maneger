@@ -1,6 +1,7 @@
 /* ============================================================
    reference.js · Tipos, estados, glosario + Pokédex, Movimientos,
-   Habilidades + sección Aprende a jugar
+   Habilidades + Aprende a jugar
+   Búsqueda tolerante a acentos + filtro por tipo robusto.
    ============================================================ */
 'use strict';
 
@@ -64,10 +65,8 @@ const Reference = {
         personas que capturan, entrenan y pelean junto a criaturas llamadas Pokémon.</p>
         <p>Cuando algo es incierto — por ejemplo, "¿logro escalar el árbol antes de que llegue el Pokémon?" — se
         <b>tiran dados</b> para decidir. El azar mete emoción y la historia avanza.</p>
-        <div class="call info">
-          <span class="lbl">En una frase</span>
-          Es un juego de contar historias con dados. Tú y tus amigos son los protagonistas.
-        </div>`
+        <div class="call info"><span class="lbl">En una frase</span>
+          Es un juego de contar historias con dados. Tú y tus amigos son los protagonistas.</div>`
     },
     {
       id: 'narrador',
@@ -82,10 +81,8 @@ const Reference = {
           <li>Improvisa la historia según lo que eligen los jugadores.</li>
         </ul>
         <p>No es un enemigo: está de tu lado. Su trabajo es que la historia sea divertida.</p>
-        <div class="call info">
-          <span class="lbl">Truco</span>
-          Si tienes dudas, pregúntale al Narrador. Para eso está.
-        </div>`
+        <div class="call info"><span class="lbl">Truco</span>
+          Si tienes dudas, pregúntale al Narrador. Para eso está.</div>`
     },
     {
       id: 'dos-personajes',
@@ -98,11 +95,9 @@ const Reference = {
           <li><b>Tu Pokémon</b> — tu compañero. Tiene sus propios movimientos y estadísticas.</li>
         </ul>
         <p>En un combate, cada uno tiene su turno. Es como si jugaras dos turnos distintos, coordinados entre sí.</p>
-        <div class="call">
-          <span class="lbl">Ejemplo</span>
+        <div class="call"><span class="lbl">Ejemplo</span>
           En tu turno de entrenador puedes lanzar una Poké Ball, usar una Poción o atacar con tu arma.
-          En tu turno de Pokémon puedes moverte y usar un movimiento como Lanzallamas o Placaje.
-        </div>`
+          En tu turno de Pokémon puedes moverte y usar un movimiento como Lanzallamas o Placaje.</div>`
     },
     {
       id: 'dados',
@@ -110,22 +105,16 @@ const Reference = {
       summary: 'Hay tres tiradas clave que usarás todo el tiempo.',
       body: `
         <p>La app tira los dados por ti. Solo necesitas entender cuándo se tira cada cosa:</p>
-
         <h4>a) Destreza</h4>
         <p>Cuando intentas algo difícil (trepar, engañar, recordar algo…). Tiras tantos <code>d6</code>
         como tu rango. Si tienes 4 dados, tiras 4d6 y sumas los resultados.</p>
-
         <h4>b) Ataque</h4>
         <p>Cuando intentas golpear a alguien. Tiras <code>1d20 + precisión</code> y buscas superar la defensa del enemigo.</p>
-
         <h4>c) Captura</h4>
         <p>Cuando lanzas una Poké Ball. Tiras <code>1d100</code> menos el nivel del Pokémon. Si sale menos que la tasa, capturas.</p>
-
-        <div class="call warn">
-          <span class="lbl">Error común</span>
+        <div class="call warn"><span class="lbl">Error común</span>
           El valor de tu estadística <b>Ataque no se suma a la tirada para acertar</b>.
-          Solo se suma al daño, después de acertar.
-        </div>`
+          Solo se suma al daño, después de acertar.</div>`
     },
     {
       id: 'combate',
@@ -134,14 +123,12 @@ const Reference = {
       body: `
         <p>Cuando empieza un combate, se calculan las <b>iniciativas</b>: la Velocidad de cada participante.
         Actúan de mayor a menor.</p>
-
         <h4>En tu turno puedes hacer tres cosas</h4>
         <ul style="padding-left:20px">
           <li><b>Acción estándar</b> — Atacar, usar un objeto, lanzar una Poké Ball.</li>
           <li><b>Acción de movimiento</b> — Desplazarte por el escenario.</li>
           <li><b>Acción rápida</b> — Algo ligero, como una orden o un gesto.</li>
         </ul>
-
         <h4>Cómo se calcula el daño</h4>
         <ol style="padding-left:20px">
           <li>Buscas la <b>DB</b> (Base de Daño) del movimiento.</li>
@@ -151,7 +138,6 @@ const Reference = {
           <li>Multiplicas según el tipo (si es muy eficaz o poco eficaz).</li>
           <li>Restas el daño de los PG (Puntos de Golpe) del enemigo.</li>
         </ol>
-
         <p>No necesitas memorizarlo: la app tiene una <b>calculadora</b> que hace las cuentas por ti.</p>`
     },
     {
@@ -168,10 +154,8 @@ const Reference = {
           <li>Su equipo (Poké Balls, Pociones, dinero…).</li>
         </ul>
         <p>Esta app genera la ficha por ti con un asistente. Solo eliges opciones.</p>
-        <div class="call">
-          <span class="lbl">Consejo</span>
-          Antes de crear la tuya, mira los <b>ejemplos</b> desde el Inicio. Así ves cómo se ve una ficha completa.
-        </div>`
+        <div class="call"><span class="lbl">Consejo</span>
+          Antes de crear la tuya, mira los <b>ejemplos</b> desde el Inicio.</div>`
     },
     {
       id: 'app',
@@ -179,7 +163,6 @@ const Reference = {
       summary: 'Las secciones que vas a usar más.',
       body: `
         <p>La app tiene tres usos:</p>
-
         <h4>Consultar</h4>
         <ul style="padding-left:20px">
           <li><b>Pokédex</b> — Busca cualquier Pokémon y mira sus stats, tipos, habilidades y movimientos.</li>
@@ -187,7 +170,6 @@ const Reference = {
           <li><b>Habilidades</b> — Qué hace cada habilidad especial.</li>
           <li><b>Clases</b> — Caminos de especialización.</li>
         </ul>
-
         <h4>Jugar</h4>
         <ul style="padding-left:20px">
           <li><b>Crear entrenador</b> — El asistente te hace tu ficha paso a paso.</li>
@@ -195,16 +177,24 @@ const Reference = {
           <li><b>Calculadoras</b> — Daño, captura, tabla de referencia.</li>
           <li><b>Dados</b> — Tira cualquier dado cuando lo necesites.</li>
         </ul>
-
         <h4>Compartir con tu grupo</h4>
         <ul style="padding-left:20px">
           <li><b>Compartir ficha</b> — Genera un código que pegas en el chat.</li>
           <li><b>Vista del Narrador</b> — Para el Narrador: guarda las fichas de todos.</li>
         </ul>
-
         <p>Todo funciona sin internet. Todo se guarda en tu navegador. No hay cuentas ni servidores.</p>`
     }
   ],
+
+  // -------------------- UTILIDAD --------------------
+  /** Normaliza texto para búsqueda: sin acentos, minúsculas. */
+  _norm(s) {
+    return String(s || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
+  },
 
   renderLearn() {
     const cont = document.getElementById('aprenderContent');
@@ -259,12 +249,12 @@ const Reference = {
   renderGlossary() {
     const body = document.getElementById('glosarioBody');
     if (!body) return;
-    const search = (document.getElementById('glossSearch')?.value || '').toLowerCase();
+    const q = this._norm(document.getElementById('glossSearch')?.value || '');
     const entries = Object.entries(Data.glossary || {}).filter(([k, v]) => {
       if (k.startsWith('_')) return false;
-      if (!search) return true;
+      if (!q) return true;
       const desc = typeof v === 'string' ? v : (v.desc || '');
-      return k.toLowerCase().includes(search) || desc.toLowerCase().includes(search);
+      return this._norm(k).includes(q) || this._norm(desc).includes(q);
     });
     body.innerHTML = entries.map(([k, v]) => {
       const desc = typeof v === 'string' ? v : (v.desc || '');
@@ -277,6 +267,9 @@ const Reference = {
     }
   },
 
+  /* ============================================================
+     POKÉDEX
+     ============================================================ */
   renderPokedex() {
     const list = document.getElementById('dex-list');
     const detail = document.getElementById('dex-detail');
@@ -296,17 +289,23 @@ const Reference = {
 
   _renderDexList() {
     const list = document.getElementById('dex-list');
-    const search = (document.getElementById('dex-search').value || '').toLowerCase();
+    const q = this._norm(document.getElementById('dex-search').value);
     const tipo = document.getElementById('dex-type').value;
+
     const keys = Data.pokemonKeys().filter(k => {
       const p = Data.pokemon(k);
       if (!p || k.startsWith('_')) return false;
-      if (search && !(p.es || k).toLowerCase().includes(search)) return false;
+      if (q) {
+        const nombre = this._norm(p.es || k);
+        const nombreEn = this._norm(k);
+        if (!nombre.includes(q) && !nombreEn.includes(q)) return false;
+      }
       if (tipo && !p.t.includes(tipo)) return false;
       return true;
     });
+
     if (!keys.length) {
-      list.innerHTML = '<div class="call info">Ningún Pokémon coincide con los filtros.</div>';
+      list.innerHTML = '<div class="call info">Ningún Pokémon coincide con los filtros. Prueba sin acentos o con otro término.</div>';
       return;
     }
     list.innerHTML = `
@@ -403,6 +402,9 @@ const Reference = {
     });
   },
 
+  /* ============================================================
+     MOVIMIENTOS
+     ============================================================ */
   renderMoves() {
     const tbody = document.getElementById('mov-tbody');
     if (!tbody) return;
@@ -422,21 +424,36 @@ const Reference = {
   _renderMovesList() {
     const tbody = document.getElementById('mov-tbody');
     const counter = document.getElementById('mov-count');
-    const search = (document.getElementById('mov-search').value || '').toLowerCase();
+    const q = this._norm(document.getElementById('mov-search').value);
     const tipo = document.getElementById('mov-type').value;
     const cls = document.getElementById('mov-class').value;
+
     const movs = Object.entries(Data.moves || {})
       .filter(([k, m]) => {
         if (k.startsWith('_') || !m || !m.type) return false;
-        if (search && !k.toLowerCase().includes(search) && !(m.en || '').toLowerCase().includes(search)) return false;
+
+        // Búsqueda por nombre (ES o EN) o por efecto
+        if (q) {
+          const nombreEs = this._norm(k);
+          const nombreEn = this._norm(m.en || '');
+          const efectoTxt = this._norm(m.effect || '');
+          const tipoTxt = this._norm(m.type || '');
+          if (!nombreEs.includes(q) && !nombreEn.includes(q) &&
+              !efectoTxt.includes(q) && !tipoTxt.includes(q)) return false;
+        }
+
+        // Filtro de tipo
         if (tipo && m.type !== tipo) return false;
+
+        // Filtro de clase
         if (cls && m.class !== cls) return false;
         return true;
       })
       .sort(([a], [b]) => a.localeCompare(b));
+
     counter.textContent = `${movs.length} movimientos encontrados`;
     if (!movs.length) {
-      tbody.innerHTML = '<tr><td colspan="7" style="color:var(--dim);text-align:center;padding:20px">Sin resultados.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" style="color:var(--dim);text-align:center;padding:20px">Sin resultados. Prueba sin acentos o con otro término.</td></tr>';
       return;
     }
     const claseName = { Physical: 'Físico', Special: 'Especial', Status: 'Estado' };
@@ -452,6 +469,9 @@ const Reference = {
       </tr>`).join('');
   },
 
+  /* ============================================================
+     HABILIDADES
+     ============================================================ */
   renderAbilities() {
     const list = document.getElementById('ab-list');
     if (!list) return;
@@ -472,18 +492,25 @@ const Reference = {
 
   _renderAbilitiesList() {
     const list = document.getElementById('ab-list');
-    const search = (document.getElementById('ab-search').value || '').toLowerCase();
+    const q = this._norm(document.getElementById('ab-search').value);
     const tipo = document.getElementById('ab-tipo').value;
+
     const abilities = Object.entries(Data.abilities || {})
       .filter(([k, a]) => {
         if (k.startsWith('_') || !a) return false;
-        if (search && !k.toLowerCase().includes(search) && !(a.desc || '').toLowerCase().includes(search)) return false;
+        if (q) {
+          const n = this._norm(k);
+          const d = this._norm(a.desc || '');
+          const f = this._norm(a.full || '');
+          if (!n.includes(q) && !d.includes(q) && !f.includes(q)) return false;
+        }
         if (tipo && a.tipo !== tipo) return false;
         return true;
       })
       .sort(([a], [b]) => a.localeCompare(b));
+
     if (!abilities.length) {
-      list.innerHTML = '<div class="call info">Sin resultados.</div>';
+      list.innerHTML = '<div class="call info">Sin resultados. Prueba sin acentos o con otro término.</div>';
       return;
     }
     list.innerHTML = `
