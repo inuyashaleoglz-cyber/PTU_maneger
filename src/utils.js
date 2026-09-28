@@ -69,7 +69,6 @@ const Utils = {
   validateTrainer(t) {
     if (!this.isObj(t)) return { ok: false, error: 'El entrenador no es un objeto válido.' };
 
-    // Campos de texto
     const strings = ['name', 'concept', 'story', 'adept', 'novice', 'clase', 'training'];
     for (const k of strings) {
       if (t[k] !== undefined && !this.isStr(t[k])) {
@@ -77,14 +76,12 @@ const Utils = {
       }
     }
 
-    // Nivel
     if (t.level !== undefined) {
       if (!this.isIntInRange(t.level, 1, 50)) {
         return { ok: false, error: 'El nivel del entrenador debe estar entre 1 y 50.' };
       }
     }
 
-    // Array de patéticas
     if (t.weak !== undefined && !this.isArr(t.weak)) {
       return { ok: false, error: 'Las destrezas patéticas deben ser una lista.' };
     }
@@ -98,7 +95,6 @@ const Utils = {
       return { ok: false, error: 'Cada ventaja debe ser texto.' };
     }
 
-    // Stats
     if (t.stats !== undefined) {
       if (!this.isObj(t.stats)) return { ok: false, error: 'Las estadísticas deben ser un objeto.' };
       for (const k of ['hp','atk','def','spa','spd','spe']) {
@@ -184,7 +180,6 @@ const Utils = {
       return { ok: false, error: 'El inventario debe ser un objeto.' };
     }
 
-    // Limitar tamaño de strings para evitar abuso
     const LIMIT = 5000;
     const cleanStr = s => this.isStr(s) ? s.slice(0, LIMIT) : '';
 
@@ -209,7 +204,7 @@ const Utils = {
     }
 
     const cleanPokemons = pokemons.map(p => ({
-      id: uid(),
+      id: this.uid(),
       species: this.isStr(p.species) ? p.species.slice(0, 60) : 'Bulbasaur',
       nickname: this.isStr(p.nickname) ? p.nickname.slice(0, 60) : '',
       level: this.isIntInRange(p.level, 1, 100) ? p.level : 5,
