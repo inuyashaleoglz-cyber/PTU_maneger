@@ -1,7 +1,6 @@
 /* ============================================================
    pokemon.js · Lista y detalle de Pokémon
-   Fix: querySelector con '+' inválido → getElementById.
-   Fix: escape de campos de texto importados.
+   Añade: aviso y acción de evolución al subir de nivel.
    ============================================================ */
 'use strict';
 
@@ -44,11 +43,16 @@ const Pokemon = {
     const cls = pct < 25 ? 'crit' : pct < 60 ? 'low' : '';
     const active = p.id === State.activePokemonId;
 
+    // Aviso de evolución disponible
+    const canEvolve = this._canEvolve(p);
+
     return `
       <div class="pokemon-card ${active ? 'active' : ''}" data-pkid="${esc(p.id)}">
         <div class="pc-head">
           <div>
-            <div class="pc-name">${esc(p.nickname || base.es || p.species)}${active ? ' <span class="tag g">activo</span>' : ''}</div>
+            <div class="pc-name">${esc(p.nickname || base.es || p.species)}${active ? ' <span class="tag g">activo</span>' : ''}
+              ${canEvolve ? '<span class="tag y" title="Este Pokémon puede evolucionar">✨ evoluciona</span>' : ''}
+            </div>
             <div style="font-size:12px;color:var(--dim)">Nv. ${esc(p.level)}</div>
           </div>
         </div>
@@ -62,6 +66,14 @@ const Pokemon = {
           ${p.heridas ? `<span style="color:var(--r)">Heridas: ${esc(p.heridas)}</span>` : ''}
         </div>
       </div>`;
+  },
+
+  /** Devuelve true si el Pokémon cumple los requisitos de evolución. */
+  _canEvolve(p) {
+    const base = Data.pokemon(p.species);
+    if (!base || !base.evo || !base.evo.next) return false;
+    if (typeof base.evo.at !== 'number') return false;
+    return p.level >= base.evo.at;
   },
 
   add() {
@@ -105,6 +117,21 @@ const Pokemon = {
     const pgNow = p.hpCurrent === null ? pgMax : p.hpCurrent;
     const isActive = p.id === State.activePokemonId;
 
+    // Aviso de evolución
+    const canEvolve = this._canEvolve(p);
+    const nextName = base.evo?.next;
+    const nextBase = nextName ? Data.pokemon(nextName) : null;
+    const evoBlock = canEvolve && nextName ? `
+      <div class="call warn" style="margin-top:12px">
+        <span class="lbl">✨ Evolución disponible</span>
+        <b>${esc(base.es || p.species)}</b> ya puede evolucionar a <b>${esc(nextBase?.es || nextName)}</b>.
+        ${nextBase ? `Sus estadísticas base cambiarán: HP ${base.hp}→${nextBase.hp}, Atq ${base.atk}→${nextBase.atk}, Def ${base.def}→${nextBase.def}, SpA ${base.spa}→${nextBase.spa}, SpD ${base.spd}→${nextBase.spd}, Vel ${base.spe}→${nextBase.spe}.` : ''}
+        <div style="margin-top:10px">
+          <button class="btn sm" id="pk-evolve">Evolucionar a ${esc(nextBase?.es || nextName)}</button>
+          <button class="btn ghost sm" id="pk-evolve-later">Más tarde</button>
+        </div>
+      </div>` : '';
+
     el.innerHTML = `
       <div class="card">
         <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px">
@@ -114,6 +141,8 @@ const Pokemon = {
             <button class="btn r sm" id="pk-del">Eliminar</button>
           </div>
         </div>
+
+        ${evoBlock}
 
         <div class="row wide">
           <div class="field"><label>Apodo (opcional)</label>
@@ -179,6 +208,7 @@ const Pokemon = {
         <div class="field"><textarea id="pd-notes" rows="3" placeholder="Opcional.">${esc(p.notes || '')}</textarea></div>
       </div>`;
 
+    // Naturalezas
     const nat = el.querySelector('#pd-nat');
     const NATURES = ['— sin definir —','Adorable','Distraído','Orgulloso','Decidido','Paciente',
       'Desesperado','Solitario','Firme','Travieso','Valiente','Severo','Osado','Pícaro','Relajado',
@@ -188,10 +218,18 @@ const Pokemon = {
     NATURES.forEach((n, i) => nat.appendChild(new Option(n, i)));
     nat.value = p.nature;
 
+    // Listeners
     el.querySelector('#pk-back').addEventListener('click', () => this.showList());
     el.querySelector('#pk-del').addEventListener('click', () => this.remove(p.id));
     el.querySelector('#pk-activate')?.addEventListener('click', () => {
       this.setActive(p.id); this.showDetail(p.id);
+    });
+
+    // Evolución
+    el.querySelector('#pk-evolve')?.addEventListener('click', () => this._evolve(p, nextName));
+    el.querySelector('#pk-evolve-later')?.addEventListener('click', () => {
+      const block = el.querySelector('.call.warn');
+      if (block) block.style.display = 'none';
     });
 
     el.querySelector('#pd-nick').addEventListener('input', e => { p.nickname = e.target.value; persist(); UI.updateChip(); });
@@ -199,14 +237,16 @@ const Pokemon = {
     el.querySelector('#pd-lvl').addEventListener('input', e => {
       const v = Math.max(1, parseInt(e.target.value) || 1);
       p.level = v; persist();
-      // Solo actualizamos los derivados, no reconstruimos el DOM
       this._refreshDerived(p);
+      // Si al subir de nivel puede evolucionar, refrescar
+      if (this._canEvolve(p)) this.showDetail(p.id);
     });
     el.querySelector('#pd-nat').addEventListener('change', e => { p.nature = parseInt(e.target.value); persist(); this.showDetail(p.id); });
     el.querySelector('#pd-notes').addEventListener('input', e => { p.notes = e.target.value; persist(); });
     el.querySelector('#pd-her').addEventListener('input', e => { p.heridas = Math.max(0, parseInt(e.target.value) || 0); persist(); });
     el.querySelector('#pd-exp').addEventListener('input', e => { p.exp = Math.max(0, parseInt(e.target.value) || 0); persist(); });
 
+    // Puntos
     const pts = [...el.querySelectorAll('[data-pk2]')];
     const tot = el.querySelector('#pd-ptot');
     const upd = () => {
@@ -219,20 +259,18 @@ const Pokemon = {
       });
       tot.textContent = `${used} / ${max}`;
       tot.style.color = used === max ? 'var(--g)' : 'var(--r)';
-      // Refrescar derivados sin reconstruir
       this._refreshDerived(p);
       persist();
     };
     pts.forEach(i => i.addEventListener('input', upd));
     upd();
 
+    // PG
     const hpIn = el.querySelector('#pd-hp');
     hpIn.addEventListener('change', () => {
       const v = Math.max(0, Math.min(pgMax, parseInt(hpIn.value) || 0));
       p.hpCurrent = v; persist();
     });
-
-    // ✅ SELECTORES CORREGIDOS: por ID, no por querySelector con '+'
     el.querySelector('#pd-full').addEventListener('click', () => { p.hpCurrent = null; persist(); this.showDetail(p.id); });
     el.querySelector('#pd-hp-menos10').addEventListener('click', () => {
       p.hpCurrent = Math.max(0, (p.hpCurrent ?? pgMax) - 10); persist(); this.showDetail(p.id);
@@ -245,7 +283,35 @@ const Pokemon = {
     this._renderMovesSelector(p, base);
   },
 
-  /** Refresca solo las partes derivadas sin reconstruir todo el DOM (no pierde foco). */
+  /** Aplica la evolución al Pokémon. */
+  _evolve(p, nextName) {
+    if (!nextName) return;
+    const next = Data.pokemon(nextName);
+    if (!next) { alert('Especie de evolución no encontrada: ' + nextName); return; }
+    if (!confirm(`¿Evolucionar a ${next.es || nextName}? La especie cambiará pero se mantienen nivel, puntos, heridas y notas.`)) return;
+
+    p.species = nextName;
+    // Intentar mantener movimientos que sigan siendo válidos
+    const validMoves = (next.moves?.level || [])
+      .filter(m => m.lvl <= p.level)
+      .map(m => m.name);
+    const currentMoves = (p.moves || '').split('\n').filter(Boolean);
+    const keptMoves = currentMoves.filter(m => validMoves.includes(m));
+    p.moves = keptMoves.join('\n');
+    // Resetear habilidad si ya no es válida
+    const validAbilities = [
+      ...(next.abilities?.basic || []),
+      ...(next.abilities?.advanced || []),
+      next.abilities?.high
+    ].filter(Boolean);
+    if (p.ability && !validAbilities.includes(p.ability)) {
+      p.ability = next.abilities?.basic?.[0] || '';
+    }
+    persist();
+    UI.updateChip();
+    this.showDetail(p.id);
+  },
+
   _refreshDerived(p) {
     const el = document.getElementById('pokemonDetailView');
     if (!el) return;
@@ -255,14 +321,12 @@ const Pokemon = {
     const stats = this._stats(p);
     const pgMax = p.level + stats.hp * 3 + 10;
 
-    // Actualizar las 6 stat cards
     const statValues = el.querySelectorAll('.stats .stat span');
     const keys = ['hp','atk','def','spa','spd','spe'];
     if (statValues.length >= 6) {
       keys.forEach((k, i) => { if (statValues[i]) statValues[i].textContent = stats[k]; });
     }
 
-    // Actualizar contador de puntos
     const max = p.level + 10;
     let used = 0;
     el.querySelectorAll('[data-pk2]').forEach(inp => {
@@ -274,7 +338,6 @@ const Pokemon = {
       tot.style.color = used === max ? 'var(--g)' : 'var(--r)';
     }
 
-    // Actualizar label de PG
     const hpLabel = el.querySelector('#pd-hp')?.closest('.field')?.querySelector('label');
     if (hpLabel) hpLabel.textContent = `PG actuales (máx. ${pgMax})`;
   },
@@ -283,7 +346,6 @@ const Pokemon = {
     const sel = document.getElementById('pd-hab');
     const info = document.getElementById('pd-hab-info');
     if (!sel) return;
-    const esc = Utils.escapeHtml;
     sel.innerHTML = '';
     sel.appendChild(new Option('— sin elegir —', ''));
 
@@ -322,7 +384,6 @@ const Pokemon = {
   _renderMovesSelector(p, base) {
     const box = document.getElementById('pd-movs-selector');
     if (!box) return;
-    const esc = Utils.escapeHtml;
 
     const current = (p.moves || '').split('\n').map(l => l.trim()).filter(Boolean);
     const learned = (base.moves?.level || [])
@@ -330,7 +391,7 @@ const Pokemon = {
       .sort((a, b) => a.lvl - b.lvl);
 
     if (!learned.length) {
-      box.innerHTML = '<p style="color:var(--dim);font-size:13px">Este Pokémon no tiene movimientos disponibles al nivel ' + esc(p.level) + '.</p>';
+      box.innerHTML = '<p style="color:var(--dim);font-size:13px">Este Pokémon no tiene movimientos disponibles al nivel ' + p.level + '.</p>';
       return;
     }
 
@@ -346,11 +407,11 @@ const Pokemon = {
           const acTxt = mv ? `AC ${mv.ac ?? '—'}` : '';
           const tipo = mv ? mv.type : (m.t || '');
           const clase = mv ? mv.class : '';
-          return `<label title="${esc(mv?.effect || '')}">
-            <input type="checkbox" data-move="${esc(m.name)}" ${isChecked ? 'checked' : ''}>
+          return `<label title="${mv?.effect || ''}">
+            <input type="checkbox" data-move="${m.name}" ${isChecked ? 'checked' : ''}>
             <span>
-              <b>${esc(m.name)}</b>
-              <br><small style="color:var(--dim)">Nv.${esc(m.lvl)} · ${esc(dbTxt)} · ${esc(acTxt)} · ${esc(tipo)}${clase ? ' · ' + esc(clase) : ''}</small>
+              <b>${m.name}</b>
+              <br><small style="color:var(--dim)">Nv.${m.lvl} · ${dbTxt} · ${acTxt} · ${tipo}${clase ? ' · ' + clase : ''}</small>
             </span>
           </label>`;
         }).join('')}
