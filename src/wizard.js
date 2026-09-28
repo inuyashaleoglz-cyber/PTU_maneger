@@ -1,6 +1,8 @@
 /* ============================================================
    wizard.js · Asistente de creación del entrenador
-   Incluye: "Elige por mí" en cada paso + banco de conceptos
+   Incluye: "Elige por mí" + banco de conceptos
+   Bugs arreglados: reparto de 15 puntos, auto-marcado de movimientos,
+   naturaleza fija, respeto del nivel, escape HTML.
    ============================================================ */
 'use strict';
 
@@ -46,6 +48,9 @@ const Wizard = {
     'Entrenador que colecciona historias de cada Pokémon que ve'
   ],
 
+  // Naturaleza por defecto: "Compuesto" (neutral). Va al índice 31 del array.
+  DEFAULT_NATURE: 31,
+
   init() {
     this.panels = [...document.querySelectorAll('.panel')];
     this.buttons = [...document.querySelectorAll('.sbtn')];
@@ -55,7 +60,6 @@ const Wizard = {
     this.prevBtn = document.getElementById('wprev');
     this.nextBtn = document.getElementById('wnext');
 
-    // Selects de destrezas
     const selA = document.getElementById('w-adept');
     const selN = document.getElementById('w-novice');
     this.SKILLS.forEach(s => {
@@ -63,7 +67,6 @@ const Wizard = {
       selN.appendChild(new Option(s, s));
     });
 
-    // Checks de Patéticas y Ventajas
     const wWeak = document.getElementById('w-weak');
     const wEdges = document.getElementById('w-edges');
     this.SKILLS.forEach(s => {
@@ -71,23 +74,19 @@ const Wizard = {
       wEdges.appendChild(this._check(s));
     });
 
-    // Especies
     const selEsp = document.getElementById('w-esp');
     Data.pokemonKeys().forEach(k => {
       const pk = Data.pokemon(k);
       selEsp.appendChild(new Option(pk?.es || k, k));
     });
 
-    // Naturalezas
     this._fillNatures();
 
-    // Clases
     const selClase = document.getElementById('w-clase');
     Object.keys(Data.classes.classes || {}).forEach(k => {
       selClase.appendChild(new Option(k, k));
     });
 
-    // Botones de navegación
     this.buttons.forEach((b, i) => b.addEventListener('click', () => this.goTo(i)));
     this.prevBtn.addEventListener('click', () => this.goTo(Math.max(0, this.step - 1)));
     this.nextBtn.addEventListener('click', () => {
@@ -95,7 +94,6 @@ const Wizard = {
       this.goTo(this.step + 1);
     });
 
-    // Bindings
     this._bindInputs();
     this._bindPoints();
     this._bindItems();
@@ -110,12 +108,12 @@ const Wizard = {
     const ideasBox = document.getElementById('ideasConcepto');
     const ideasList = document.getElementById('ideasConceptoList');
     if (btnIdea && ideasBox && ideasList) {
-      ideasList.innerHTML = this.CONCEPTS.map(c =>
-        `<button type="button" class="idea-btn" data-concept="${c.replace(/"/g, '&quot;')}">${c}</button>`
+      ideasList.innerHTML = this.CONCEPTS.map((c, i) =>
+        `<button type="button" class="idea-btn" data-idx="${i}">${this._escapeHtml(c)}</button>`
       ).join('');
       ideasList.querySelectorAll('.idea-btn').forEach(b => {
         b.addEventListener('click', () => {
-          const txt = b.dataset.concept;
+          const txt = this.CONCEPTS[parseInt(b.dataset.idx)];
           document.getElementById('w-concepto').value = txt;
           State.trainer.concept = txt;
           persist();
@@ -126,6 +124,15 @@ const Wizard = {
     }
 
     this.goTo(0);
+  },
+
+  _escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   },
 
   _check(skill) {
@@ -180,7 +187,6 @@ const Wizard = {
       el.addEventListener('input', () => { fn(el.value); persist(); this._refresh(); });
     });
 
-    // Habilidad del Pokémon — select
     const habSel = document.getElementById('w-hab');
     if (habSel) {
       habSel.addEventListener('change', () => {
@@ -189,13 +195,11 @@ const Wizard = {
       });
     }
 
-    // Stats del entrenador
     ['w-hp','w-atk','w-def','w-spa','w-spd','w-spe'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', () => { this._updateTrainerStats(); persist(); });
     });
 
-    // Patéticas
     document.getElementById('w-weak').addEventListener('change', e => {
       const checked = [...document.querySelectorAll('#w-weak input:checked')];
       if (checked.length > 3) { e.target.checked = false; return; }
@@ -204,7 +208,6 @@ const Wizard = {
       persist();
     });
 
-    // Ventajas
     document.getElementById('w-edges').addEventListener('change', e => {
       const checked = [...document.querySelectorAll('#w-edges input:checked')];
       if (checked.length > 4) { e.target.checked = false; return; }
@@ -213,7 +216,6 @@ const Wizard = {
       persist();
     });
 
-    // Especie / nivel / naturaleza del Pokémon
     document.getElementById('w-esp').addEventListener('change', e => {
       State.pokemons[0].species = e.target.value;
       State.pokemons[0].moves = '';
@@ -235,7 +237,7 @@ const Wizard = {
   },
 
   /* ============================================================
-     "ELIGE POR MÍ" · Rellena cada paso con valores sensatos
+     "ELIGE POR MÍ"
      ============================================================ */
   _autoFill(step) {
     switch (step) {
@@ -311,7 +313,6 @@ const Wizard = {
 
   _autoStats() {
     const t = State.trainer;
-    // 10 puntos: Salud +4, Defensa +3, Velocidad +3
     const dist = { hp: 4, atk: 0, def: 3, spa: 0, spd: 0, spe: 3 };
     Object.entries(dist).forEach(([k, v]) => {
       document.getElementById('w-' + k).value = v;
@@ -328,56 +329,90 @@ const Wizard = {
 
   _autoPokemon() {
     const p = State.pokemons[0];
-    // Especie razonable por defecto
-    if (!p.species || p.species === 'Bulbasaur') p.species = 'Bulbasaur';
-    p.level = 5;
-    // Naturaleza aleatoria pero agradable
-    const randomNat = 1 + Math.floor(Math.random() * 30); // 1-30 (excluye el 0 y las neutrales)
-    p.nature = randomNat;
-    document.getElementById('w-esp').value = p.species;
-    document.getElementById('w-nivel-pk').value = p.level;
+
+    // Especie: mantener la actual o poner Bulbasaur
+    if (!p.species) p.species = 'Bulbasaur';
+
+    // Nivel: NO resetear si el usuario lo cambió
+    const lvlInput = document.getElementById('w-nivel-pk');
+    const currentLvl = parseInt(lvlInput.value) || 0;
+    if (!currentLvl || currentLvl < 1) {
+      p.level = 5;
+      lvlInput.value = 5;
+    } else {
+      p.level = currentLvl;
+    }
+
+    // Naturaleza: usar valor fijo y sensato (Compuesto, neutral)
+    p.nature = this.DEFAULT_NATURE;
     document.getElementById('w-nat').value = p.nature;
 
-    // Reparto de puntos (15 para nivel 5)
+    document.getElementById('w-esp').value = p.species;
+
+    // Reparto: 15 puntos exactos (5 + 4 + 3 + 2 + 1 + 0)
     const base = Data.pokemon(p.species);
     if (base) {
-      const total = 15;
-      const stats = ['hp','atk','def','spa','spd','spe'];
-      const sorted = stats.slice().sort((a, b) => base[b] - base[a]);
+      const statKeys = ['hp','atk','def','spa','spd','spe'];
+      // Ordenar por base descendente
+      const sorted = statKeys.slice().sort((a, b) => base[b] - base[a]);
+      // Pesos: top stats reciben más puntos, 0 al más débil
+      const weights = [5, 4, 3, 2, 1, 0];
       const dist = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
-      // Top 2 reciben más
-      dist[sorted[0]] = 5;
-      dist[sorted[1]] = 4;
-      let remaining = total - 9;
-      for (const s of sorted.slice(2)) {
-        if (remaining <= 0) break;
-        dist[s] = 1;
-        remaining--;
-      }
-      // Salud siempre al menos +2
+      sorted.forEach((stat, i) => { dist[stat] = weights[i]; });
+
+      // Garantizar hp >= 2
       if (dist.hp < 2) {
         const diff = 2 - dist.hp;
         dist.hp = 2;
-        // Restar del stat que más tenga
+        let removed = 0;
         for (const s of sorted) {
-          if (s !== 'hp' && dist[s] >= diff) { dist[s] -= diff; break; }
+          if (s === 'hp' || removed >= diff) continue;
+          const take = Math.min(dist[s], diff - removed);
+          dist[s] -= take;
+          removed += take;
         }
       }
+
+      // Verificación final: exactamente 15
+      let total = Object.values(dist).reduce((a, b) => a + b, 0);
+      // Si por alguna razón no suma 15, ajustar al stat principal
+      if (total !== 15) {
+        dist[sorted[0]] += (15 - total);
+      }
+
       p.points = dist;
       document.querySelectorAll('#w-ppoints input').forEach(inp => {
         inp.value = dist[inp.dataset.pk] || 0;
       });
     }
 
+    // Auto-marcar los primeros 4 movimientos disponibles
+    if (base && base.moves?.level) {
+      const learned = base.moves.level
+        .filter(m => m.lvl <= p.level)
+        .sort((a, b) => a.lvl - b.lvl);
+      const selected = learned.slice(0, Math.min(4, learned.length)).map(m => m.name);
+      p.moves = selected.join('\n');
+    }
+
+    // Auto-seleccionar la primera habilidad básica
+    if (base && base.abilities?.basic?.length) {
+      p.ability = base.abilities.basic[0];
+    }
+
     this._refreshPokemonSelectors();
     this._refresh();
 
+    const naturalezaNombre = document.getElementById('w-nat').options[p.nature]?.text || '—';
+    const movsList = (p.moves || '').split('\n').filter(Boolean);
+
     this._showExplanation(5,
       '<b>Especie:</b> ' + (base?.es || p.species) + '. Un clásico con tres etapas evolutivas, fácil de llevar.<br>' +
-      '<b>Nivel 5:</b> el estándar para empezar.<br>' +
-      '<b>Naturaleza:</b> elegida al azar, pero puedes cambiarla.<br>' +
-      '<b>Puntos:</b> repartidos hacia sus dos mejores estadísticas base para aprovechar su potencial.<br>' +
-      '<b>Habilidad y movimientos:</b> ya marcados los más útiles para empezar. Puedes ajustar lo que quieras.'
+      '<b>Nivel ' + p.level + ':</b> el estándar para empezar.<br>' +
+      '<b>Naturaleza:</b> ' + naturalezaNombre + '. Puedes cambiarla.<br>' +
+      '<b>Puntos:</b> repartidos hacia sus mejores estadísticas base.<br>' +
+      '<b>Habilidad:</b> la primera básica de la especie.<br>' +
+      '<b>Movimientos marcados:</b> ' + (movsList.length ? movsList.join(', ') : 'ninguno disponible a este nivel') + '.'
     );
   },
 
@@ -407,14 +442,14 @@ const Wizard = {
   },
 
   /* ============================================================
-     SELECTORES DE HABILIDAD Y MOVIMIENTOS DEL POKÉMON
+     SELECTORES DE HABILIDAD Y MOVIMIENTOS
      ============================================================ */
   _refreshPokemonSelectors() {
     const pk = State.pokemons[0];
     const base = Data.pokemon(pk.species);
     if (!base) return;
 
-    // ---- Habilidad ----
+    // Habilidad
     const habSel = document.getElementById('w-hab');
     if (habSel) {
       const prev = pk.ability || '';
@@ -448,7 +483,7 @@ const Wizard = {
       }
     }
 
-    // ---- Movimientos ----
+    // Movimientos
     const movsBox = document.getElementById('w-movs-selector');
     if (movsBox) {
       const current = (pk.moves || '').split('\n').map(l => l.trim()).filter(Boolean);
@@ -495,9 +530,6 @@ const Wizard = {
     }
   },
 
-  /* ============================================================
-     PUNTOS, ITEMS, STATS
-     ============================================================ */
   _bindPoints() {
     document.querySelectorAll('#w-ppoints input').forEach(inp => {
       inp.addEventListener('input', () => {
@@ -672,7 +704,7 @@ const Wizard = {
           <thead><tr><th>Tipo</th><th class="num">Salud</th><th class="num">Atq</th>
             <th class="num">Def</th><th class="num">AtE</th><th class="num">DeE</th><th class="num">Vel</th></tr></thead>
           <tbody><tr>
-            <td>${base.t.join(' / ')}</td>
+            <td>${base.t.map(ty => `<span class="tag" data-type="${ty}" style="font-size:10px;padding:1px 6px">${ty}</span>`).join(' ')}</td>
             <td class="num">${base.hp}</td><td class="num">${base.atk}</td>
             <td class="num">${base.def}</td><td class="num">${base.spa}</td>
             <td class="num">${base.spd}</td><td class="num">${base.spe}</td>
