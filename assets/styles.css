@@ -1264,3 +1264,38 @@ details .bd{ padding:14px 16px; font-size:13.5px; color:var(--ink2); line-height
   a { color: #000; text-decoration: none; }
   a::after { content: ""; }
 }
+/* ------------------------------------------------------------
+   Fix: los checkboxes de chk-grid no deben ocupar todo el ancho
+   ------------------------------------------------------------ */
+.chk-grid input[type="checkbox"],
+.chk-grid input[type="radio"] {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 20px;
+  height: 18px;
+  padding: 0 !important;
+  margin: 0;
+  flex-shrink: 0;
+  border: 1px solid var(--line2);
+  border-radius: 4px;
+  background: var(--surface);
+  cursor: pointer;
+  accent-color: var(--g);
+}
+
+.chk-grid input[type="checkbox"]:checked,
+.chk-grid input[type="radio"]:checked {
+  background: var(--g);
+  border-color: var(--g);
+}
+
+.chk-grid label > span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3;
+  font-size: 12.5px;
+}
