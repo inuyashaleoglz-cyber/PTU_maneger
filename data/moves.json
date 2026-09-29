@@ -1,7 +1,8 @@
 {
   "_nota": "Movimientos de PTU 1.05. Clave en español, campo 'en' con el nombre original en inglés.",
 
-  "movimientos": {"Orden de Ataque": { "en": "Attack Order", "type": "Bug", "freq": "EOT", "ac": 2, "db": 9, "class": "Physical", "range": "6, 1 Target", "effect": "Es un Golpe Crítico con 18+.", "contest": { "type": "Smart", "effect": "Incentives" } },
+  "movimientos": {
+    "Orden de Ataque": { "en": "Attack Order", "type": "Bug", "freq": "EOT", "ac": 2, "db": 9, "class": "Physical", "range": "6, 1 Target", "effect": "Es un Golpe Crítico con 18+.", "contest": { "type": "Smart", "effect": "Incentives" } },
     "Picadura": { "en": "Bug Bite", "type": "Bug", "freq": "At-Will", "ac": 2, "db": 6, "class": "Physical", "range": "Melee, 1 Target", "effect": "Si el objetivo tiene un Digestion Buff o ha cambiado uno esta Escena, el usuario puede ganar sus efectos.", "contest": { "type": "Tough", "effect": "Attention Grabber" } },
     "Zumbido": { "en": "Bug Buzz", "type": "Bug", "freq": "Scene x2", "ac": 2, "db": 9, "class": "Special", "range": "Cone 2 or Close Blast 2, Sonic, Smite", "effect": "Baja la Defensa Especial de todos los objetivos con 19+.", "contest": { "type": "Cute", "effect": "Incentives" } },
     "Orden de Defensa": { "en": "Defend Order", "type": "Bug", "freq": "EOT", "ac": null, "db": 0, "class": "Status", "range": "Self", "effect": "Sube la Defensa y Defensa Especial del usuario en 1 CS cada una.", "contest": { "type": "Smart", "effect": "Get Ready!" } },
@@ -56,6 +57,6 @@
     "Mofa": { "en": "Taunt", "type": "Dark", "freq": "EOT", "ac": 3, "db": 0, "class": "Status", "range": "6, 1 Target, Social", "effect": "Enfurece (Enraged) al objetivo.", "contest": { "type": "Smart", "effect": "Inversed Appeal" } },
     "Ladrón": { "en": "Thief", "type": "Dark", "freq": "At-Will", "ac": 2, "db": 6, "class": "Physical", "range": "Melee, 1 Target", "effect": "Roba el objeto equipado del objetivo si el usuario no tiene uno.", "contest": { "type": "Tough", "effect": "Attention Grabber" } },
     "Inversión": { "en": "Topsy-Turvy", "type": "Dark", "freq": "EOT", "ac": 4, "db": 0, "class": "Status", "range": "6, 1 Target", "effect": "Invierte las Etapas de Combate del objetivo.", "contest": { "type": "Smart", "effect": "Unsettling" } },
-    "Tormento": { "en": "Torment", "type": "Dark", "freq": "Scene x2", "ac": 2, "db": 0, "class": "Status", "range": "10, 1 Target, Social", "effect": "El objetivo queda Suprimido (Suppressed).", "contest": { "type": "Tough", "effect": "Inversed Appeal" } },
+    "Tormento": { "en": "Torment", "type": "Dark", "freq": "Scene x2", "ac": 2, "db": 0, "class": "Status", "range": "10, 1 Target, Social", "effect": "El objetivo queda Suprimido (Suppressed).", "contest": { "type": "Tough", "effect": "Inversed Appeal" } }
   }
 }
